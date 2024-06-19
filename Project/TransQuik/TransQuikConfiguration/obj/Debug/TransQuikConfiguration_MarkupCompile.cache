@@ -1,0 +1,20 @@
+﻿TransQuikConfiguration
+
+
+winexe
+C#
+.cs
+D:\Practice WPF\Project\TransQuik\TransQuikConfiguration\obj\Debug\
+TransQuikConfiguration
+none
+false
+DEBUG;TRACE
+D:\Practice WPF\Project\TransQuik\TransQuikConfiguration\App.xaml
+6-1660392462
+
+16-1688263317
+45-426086602
+MainWindow.xaml;Pages\ApplicationConfiguration.xaml;Pages\DatabaseConfiguration.xaml;Pages\PrinterConfiguration.xaml;Pages\SecondaryMonitors.xaml;Pages\SyncConfiguration.xaml;
+
+False
+

@@ -1,0 +1,118 @@
+2024-06-04 08:51:35.536 +07:00 [INF] Transaction 1 (DINE IN-1)
+2024-06-04 08:51:39.693 +07:00 [INF] Cart for Order ID: 1 Payment Process, Selecting.....
+2024-06-04 08:54:54.082 +07:00 [INF] Transaction 2 (DINE IN-1)
+2024-06-04 08:54:58.145 +07:00 [INF] Cart for Order ID: 2 Payment Process, Selecting.....
+2024-06-04 08:54:59.869 +07:00 [INF] Cart for Order ID: 2 Payment Process, Selecting.....
+2024-06-04 10:29:14.498 +07:00 [INF] Transaction 3 (DINE IN-1)
+2024-06-04 10:29:51.775 +07:00 [INF] Cart for Order ID: 3 Payment Process, Selecting.....
+2024-06-04 10:29:52.608 +07:00 [INF] Cart for Order ID: 3 Cash transaction Successfully return value is 0
+2024-06-04 10:31:26.077 +07:00 [INF] Transaction 4 (DINE IN-1)
+2024-06-04 11:03:28.694 +07:00 [INF] Transaction 5 (DINE IN-1)
+2024-06-04 11:04:05.671 +07:00 [INF] Transaction 6 (DINE IN-1)
+2024-06-04 11:04:18.813 +07:00 [INF] Cart for Order ID: 6 Payment Process, Selecting.....
+2024-06-04 11:04:22.303 +07:00 [INF] Cart for Order ID: 6 Cash transaction Successfully return value is 6100
+2024-06-04 11:04:38.859 +07:00 [INF] Transaction 7 (DINE IN-1)
+2024-06-04 11:04:42.865 +07:00 [INF] Cart has been held for Order ID: 7 at 04/06/2024 11.04.38
+2024-06-04 11:04:50.574 +07:00 [INF] Cart for Order ID: 7 at 04/06/2024 11.04.38 has been updated.
+2024-06-04 11:07:12.399 +07:00 [INF] Transaction 8 (DINE IN-1)
+2024-06-04 11:08:55.607 +07:00 [INF] Transaction 9 (DINE IN-1)
+2024-06-04 11:10:49.838 +07:00 [INF] Transaction 10 (DINE IN-1)
+2024-06-04 11:12:06.367 +07:00 [INF] Transaction 11 (DINE IN-1)
+2024-06-04 11:14:33.483 +07:00 [INF] Transaction 12 (DINE IN-1)
+2024-06-04 11:15:14.356 +07:00 [INF] Transaction 13 (DINE IN-1)
+2024-06-04 11:15:34.534 +07:00 [INF] Cart for Order ID: 13 Payment Process, Selecting.....
+2024-06-04 11:15:35.220 +07:00 [INF] Cart for Order ID: 13 Cash transaction Successfully return value is 0
+2024-06-04 11:15:36.587 +07:00 [INF] Transaction 14 (DINE IN-1)
+2024-06-04 11:19:05.586 +07:00 [INF] Transaction 15 (DINE IN-1)
+2024-06-04 11:25:17.212 +07:00 [INF] Transaction 16 (DINE IN-1)
+2024-06-04 11:26:05.770 +07:00 [INF] Cart for Order ID: 16 Payment Process, Selecting.....
+2024-06-04 11:26:06.698 +07:00 [INF] Cart for Order ID: 16 Cash transaction Successfully return value is 0
+2024-06-04 11:26:08.545 +07:00 [INF] Transaction 17 (DINE IN-1)
+2024-06-04 11:35:33.382 +07:00 [INF] Transaction 18 (DINE IN-1)
+2024-06-04 11:35:58.664 +07:00 [INF] Transaction 19 (DINE IN-1)
+2024-06-04 11:50:46.950 +07:00 [INF] Transaction 20 (DINE IN-1)
+2024-06-04 12:00:41.163 +07:00 [INF] Transaction 21 (DINE IN-1)
+2024-06-04 12:10:02.758 +07:00 [INF] Transaction 22 (DINE IN-1)
+2024-06-04 12:10:17.365 +07:00 [INF] Cart for Order ID: 22 Payment Process, Selecting.....
+2024-06-04 12:15:17.566 +07:00 [INF] Transaction 23 (DINE IN-1)
+2024-06-04 12:17:55.855 +07:00 [INF] Transaction 24 (DINE IN-1)
+2024-06-04 12:23:48.312 +07:00 [INF] Transaction 25 (DINE IN-1)
+2024-06-04 12:25:37.029 +07:00 [INF] Transaction 26 (DINE IN-1)
+2024-06-04 12:26:18.574 +07:00 [INF] Transaction 27 (DINE IN-1)
+2024-06-04 12:30:42.747 +07:00 [INF] Transaction 28 (DINE IN-1)
+2024-06-04 13:38:58.784 +07:00 [INF] Transaction 29 (DINE IN-1)
+2024-06-04 13:40:32.140 +07:00 [INF] Transaction 30 (DINE IN-1)
+2024-06-04 13:44:37.173 +07:00 [INF] Transaction 31 (DINE IN-1)
+2024-06-04 13:44:57.245 +07:00 [INF] Transaction 32 (DINE IN-1)
+2024-06-04 13:47:11.810 +07:00 [INF] Transaction 33 (DINE IN-1)
+2024-06-04 13:49:45.020 +07:00 [INF] Transaction 34 (DINE IN-1)
+2024-06-04 13:51:10.764 +07:00 [INF] Transaction 35 (DINE IN-1)
+2024-06-04 13:53:31.878 +07:00 [INF] Transaction 36 (DINE IN-1)
+2024-06-04 13:54:41.646 +07:00 [INF] Transaction 37 (DINE IN-1)
+2024-06-04 13:55:53.309 +07:00 [INF] Transaction 38 (DINE IN-1)
+2024-06-04 14:13:13.010 +07:00 [INF] Transaction 39 (DINE IN-1)
+2024-06-04 14:15:21.917 +07:00 [INF] Transaction 40 (DINE IN-1)
+2024-06-04 14:18:05.836 +07:00 [INF] Transaction 41 (DINE IN-1)
+2024-06-04 14:19:52.558 +07:00 [INF] Transaction 42 (DINE IN-1)
+2024-06-04 14:22:31.931 +07:00 [INF] Transaction 43 (DINE IN-1)
+2024-06-04 14:22:57.758 +07:00 [INF] Transaction 44 (DINE IN-1)
+2024-06-04 14:23:18.327 +07:00 [INF] Transaction 45 (DINE IN-1)
+2024-06-04 14:26:19.930 +07:00 [INF] Transaction 46 (DINE IN-1)
+2024-06-04 14:28:52.123 +07:00 [INF] Transaction 47 (DINE IN-1)
+2024-06-04 14:34:35.131 +07:00 [INF] Transaction 48 (DINE IN-1)
+2024-06-04 14:34:51.666 +07:00 [INF] Transaction 49 (DINE IN-1)
+2024-06-04 14:37:37.978 +07:00 [INF] Transaction 50 (GRAB PICKUP-11)
+2024-06-04 14:38:29.186 +07:00 [INF] Transaction 51 (DINE IN-1)
+2024-06-04 14:41:00.080 +07:00 [INF] Transaction 52 (DINE IN-1)
+2024-06-04 14:42:25.379 +07:00 [INF] Transaction 53 (DINE IN-1)
+2024-06-04 14:42:46.298 +07:00 [INF] Transaction 54 (DINE IN-1)
+2024-06-04 14:46:55.990 +07:00 [INF] Transaction 55 (DINE IN-1)
+2024-06-04 14:47:33.984 +07:00 [INF] Transaction 56 (DINE IN-1)
+2024-06-04 14:47:54.545 +07:00 [INF] Transaction 57 (DINE IN-1)
+2024-06-04 14:54:59.064 +07:00 [INF] Transaction 58 (DINE IN-1)
+2024-06-04 14:56:47.680 +07:00 [INF] Transaction 59 (DINE IN-1)
+2024-06-04 14:57:25.608 +07:00 [INF] Transaction 60 (GRAB PICKUP-11)
+2024-06-04 14:59:49.519 +07:00 [INF] Transaction 61 (DINE IN-1)
+2024-06-04 15:00:17.074 +07:00 [INF] Transaction 62 (GRAB PICKUP-11)
+2024-06-04 15:08:45.395 +07:00 [INF] Transaction 63 (DINE IN-1)
+2024-06-04 15:10:31.112 +07:00 [INF] Transaction 64 (DINE IN-1)
+2024-06-04 15:10:47.703 +07:00 [INF] Transaction 65 (DINE IN-1)
+2024-06-04 15:11:57.052 +07:00 [INF] Transaction 66 (Catering-6)
+2024-06-04 15:14:14.618 +07:00 [INF] Transaction 67 (DINE IN-1)
+2024-06-04 15:14:59.666 +07:00 [INF] Transaction 68 (DINE IN-1)
+2024-06-04 15:26:23.244 +07:00 [INF] Transaction 69 (DINE IN-1)
+2024-06-04 15:27:01.587 +07:00 [INF] Transaction 70 (GRAB PICKUP-11)
+2024-06-04 15:28:20.050 +07:00 [INF] Transaction 71 (DINE IN-1)
+2024-06-04 15:29:52.985 +07:00 [INF] Transaction 72 (DINE IN-1)
+2024-06-04 15:35:11.225 +07:00 [INF] Transaction 73 (DINE IN-1)
+2024-06-04 15:35:48.246 +07:00 [INF] Transaction 74 (DINE IN-1)
+2024-06-04 15:36:14.515 +07:00 [INF] Transaction 75 (DINE IN-1)
+2024-06-04 15:41:45.311 +07:00 [INF] Transaction 76 (DINE IN-1)
+2024-06-04 15:42:20.630 +07:00 [INF] Transaction 77 (DINE IN-1)
+2024-06-04 15:47:03.294 +07:00 [INF] Transaction 78 (DINE IN-1)
+2024-06-04 15:51:23.007 +07:00 [INF] Transaction 79 (DINE IN-1)
+2024-06-04 15:52:07.966 +07:00 [INF] Transaction 80 (GRAB PICKUP-11)
+2024-06-04 15:58:24.110 +07:00 [INF] Transaction 81 (DINE IN-1)
+2024-06-04 16:03:40.126 +07:00 [INF] Transaction 82 (DINE IN-1)
+2024-06-04 16:03:46.841 +07:00 [INF] Cart for Order ID: 82 Payment Process, Selecting.....
+2024-06-04 16:15:52.726 +07:00 [INF] Transaction 83 (DINE IN-1)
+2024-06-04 16:17:22.789 +07:00 [INF] Transaction 84 (DINE IN-1)
+2024-06-04 16:17:40.189 +07:00 [INF] Cart for Order ID: 84 Payment Process, Selecting.....
+2024-06-04 16:17:40.728 +07:00 [INF] Cart for Order ID: 84 Cash transaction Successfully return value is 0
+2024-06-04 16:17:42.225 +07:00 [INF] Transaction 85 (DINE IN-1)
+2024-06-04 16:19:46.084 +07:00 [INF] Transaction 86 (DINE IN-1)
+2024-06-04 16:23:39.291 +07:00 [INF] Transaction 87 (DINE IN-1)
+2024-06-04 16:25:45.190 +07:00 [INF] Transaction 88 (GRAB PICKUP-11)
+2024-06-04 16:25:49.578 +07:00 [INF] Cart has been held for Order ID: 88 at 04/06/2024 16.25.45
+2024-06-04 16:25:50.641 +07:00 [INF] Transaction 89 (DINE IN-1)
+2024-06-04 16:26:59.730 +07:00 [INF] Transaction 90 (DINE IN-1)
+2024-06-04 16:30:38.855 +07:00 [INF] Transaction 91 (DINE IN-1)
+2024-06-04 16:30:57.754 +07:00 [INF] Transaction 92 (DINE IN-1)
+2024-06-04 16:54:22.382 +07:00 [INF] Transaction 1 (DINE IN-1)
+2024-06-04 16:54:44.651 +07:00 [INF] Cart for Order ID: 1 Payment Process, Selecting.....
+2024-06-04 16:54:46.678 +07:00 [INF] Cart for Order ID: 1 Cash transaction Successfully return value is 0
+2024-06-04 16:54:48.532 +07:00 [INF] Transaction 2 (Catering-6)
+2024-06-04 16:54:55.650 +07:00 [INF] Cart for Order ID: 2 Payment Process, Selecting.....
+2024-06-04 16:54:58.549 +07:00 [INF] Cart for Order ID: 2 Cash transaction Successfully return value is 0
+2024-06-04 17:10:08.742 +07:00 [INF] Transaction 3 (DINE IN-1)
+2024-06-04 17:10:56.371 +07:00 [INF] Transaction 4 (DINE IN-1)

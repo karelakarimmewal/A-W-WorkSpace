@@ -1,0 +1,22 @@
+{
+  "_AppFontSize": "14",
+  "_AppFontFamily": "Arial",
+  "_AppSaleMode": "3",
+  "_AppID": "000",
+  "_AppSecMonitor": "True",
+  "_AppSecMonitorBorder": "0",
+  "_AppSecMonitorUrl": "awesome.mp4",
+  "_AppAllowImage": "True",
+  "_AppStatus": "False",
+  "_ComputerID": "21",
+  "_LocalDbServer": "localhost",
+  "_LocalDbPort": "3308",
+  "_LocalDbUser": "vtecPOS",
+  "_LocalDbPassword": "vtecpwnet",
+  "_LocalDbName": "vtectestaw",
+  "_CloudDbServer": "202.43.164.33",
+  "_CloudDbPort": "0",
+  "_CloudDbUser": "dimas",
+  "_CloudDbPassword": "dimas",
+  "_CloudDbName": "VTEC_ID_HQ"
+}

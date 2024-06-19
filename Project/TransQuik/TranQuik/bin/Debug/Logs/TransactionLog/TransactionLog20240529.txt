@@ -1,0 +1,358 @@
+2024-05-29 08:57:43.326 +07:00 [INF] Transaction 1 (DINE IN-1)
+2024-05-29 08:57:46.056 +07:00 [INF] Cart for Order ID: 1 Payment Process, Selecting.....
+2024-05-29 08:57:48.346 +07:00 [INF] Cart for Order ID: 1 Cash transaction Successfully return value is 7600
+2024-05-29 08:58:42.372 +07:00 [INF] Transaction 2 (DINE IN-1)
+2024-05-29 08:58:43.960 +07:00 [INF] Cart for Order ID: 2 Payment Process, Selecting.....
+2024-05-29 08:58:46.179 +07:00 [INF] Cart for Order ID: 2 Cash transaction Successfully return value is 7750
+2024-05-29 09:00:03.852 +07:00 [INF] Transaction 3 (DINE IN-1)
+2024-05-29 09:00:05.832 +07:00 [INF] Cart for Order ID: 3 Payment Process, Selecting.....
+2024-05-29 09:00:08.497 +07:00 [INF] Cart for Order ID: 3 Cash transaction Successfully return value is 7750
+2024-05-29 09:00:44.384 +07:00 [INF] Transaction 4 (DINE IN-1)
+2024-05-29 09:00:48.572 +07:00 [INF] Cart for Order ID: 4 Payment Process, Selecting.....
+2024-05-29 09:00:50.682 +07:00 [INF] Cart for Order ID: 4 Cash transaction Successfully return value is 7750
+2024-05-29 09:01:10.454 +07:00 [INF] Transaction 5 (DINE IN-1)
+2024-05-29 09:01:11.997 +07:00 [INF] Cart for Order ID: 5 Payment Process, Selecting.....
+2024-05-29 09:01:13.825 +07:00 [INF] Cart for Order ID: 5 Cash transaction Successfully return value is 7750
+2024-05-29 09:01:28.146 +07:00 [INF] Transaction 6 (DINE IN-1)
+2024-05-29 09:01:30.034 +07:00 [INF] Cart for Order ID: 6 Payment Process, Selecting.....
+2024-05-29 09:01:32.040 +07:00 [INF] Cart for Order ID: 6 Cash transaction Successfully return value is 7750
+2024-05-29 09:01:52.898 +07:00 [INF] Transaction 7 (DINE IN-1)
+2024-05-29 09:01:54.627 +07:00 [INF] Cart for Order ID: 7 Payment Process, Selecting.....
+2024-05-29 09:01:56.497 +07:00 [INF] Cart for Order ID: 7 Cash transaction Successfully return value is 7750
+2024-05-29 09:02:50.631 +07:00 [INF] Transaction 8 (DINE IN-1)
+2024-05-29 09:03:01.878 +07:00 [INF] Cart for Order ID: 8 Payment Process, Selecting.....
+2024-05-29 09:03:07.058 +07:00 [INF] Cart for Order ID: 8 Cash transaction Successfully return value is 50300
+2024-05-29 09:05:40.634 +07:00 [INF] Transaction 9 (DINE IN-1)
+2024-05-29 09:05:42.012 +07:00 [INF] Cart for Order ID: 9 Payment Process, Selecting.....
+2024-05-29 09:05:44.081 +07:00 [INF] Cart for Order ID: 9 Cash transaction Successfully return value is 7750
+2024-05-29 09:06:34.553 +07:00 [INF] Transaction 10 (DINE IN-1)
+2024-05-29 09:06:36.099 +07:00 [INF] Cart for Order ID: 10 Payment Process, Selecting.....
+2024-05-29 09:06:37.959 +07:00 [INF] Cart for Order ID: 10 Cash transaction Successfully return value is 7750
+2024-05-29 09:07:35.344 +07:00 [INF] Transaction 11 (DINE IN-1)
+2024-05-29 09:07:37.191 +07:00 [INF] Cart for Order ID: 11 Payment Process, Selecting.....
+2024-05-29 09:07:38.904 +07:00 [INF] Cart for Order ID: 11 Cash transaction Successfully return value is 7750
+2024-05-29 09:08:26.789 +07:00 [INF] Transaction 12 (DINE IN-1)
+2024-05-29 09:08:28.770 +07:00 [INF] Cart for Order ID: 12 Payment Process, Selecting.....
+2024-05-29 09:08:30.976 +07:00 [INF] Cart for Order ID: 12 Cash transaction Successfully return value is 5650
+2024-05-29 09:09:15.038 +07:00 [INF] Transaction 13 (DINE IN-1)
+2024-05-29 09:09:17.894 +07:00 [INF] Cart for Order ID: 13 Payment Process, Selecting.....
+2024-05-29 09:09:20.015 +07:00 [INF] Cart for Order ID: 13 Cash transaction Successfully return value is 64500
+2024-05-29 09:19:46.701 +07:00 [INF] Transaction 14 (DINE IN-1)
+2024-05-29 09:19:53.152 +07:00 [INF] Cart for Order ID: 14 Payment Process, Selecting.....
+2024-05-29 09:19:55.885 +07:00 [INF] Cart for Order ID: 14 Cash transaction Successfully return value is 2900
+2024-05-29 09:34:41.583 +07:00 [INF] Transaction 15 (DINE IN-1)
+2024-05-29 09:34:43.390 +07:00 [INF] Cart for Order ID: 15 Payment Process, Selecting.....
+2024-05-29 09:34:45.937 +07:00 [INF] Cart for Order ID: 15 Cash transaction Successfully return value is 6600
+2024-05-29 09:35:12.714 +07:00 [INF] Transaction 16 (DINE IN-1)
+2024-05-29 09:35:14.148 +07:00 [INF] Cart for Order ID: 16 Payment Process, Selecting.....
+2024-05-29 09:35:17.776 +07:00 [INF] Cart for Order ID: 16 Cash transaction Successfully return value is 7750
+2024-05-29 09:35:59.631 +07:00 [INF] Transaction 17 (DINE IN-1)
+2024-05-29 09:36:01.710 +07:00 [INF] Cart for Order ID: 17 Payment Process, Selecting.....
+2024-05-29 09:36:03.520 +07:00 [INF] Cart for Order ID: 17 Cash transaction Successfully return value is 7750
+2024-05-29 09:36:16.864 +07:00 [INF] Transaction 18 (DINE IN-1)
+2024-05-29 09:36:18.770 +07:00 [INF] Cart for Order ID: 18 Payment Process, Selecting.....
+2024-05-29 09:36:20.608 +07:00 [INF] Cart for Order ID: 18 Cash transaction Successfully return value is 7750
+2024-05-29 09:36:58.503 +07:00 [INF] Transaction 19 (DINE IN-1)
+2024-05-29 09:36:59.977 +07:00 [INF] Cart for Order ID: 19 Payment Process, Selecting.....
+2024-05-29 09:37:02.367 +07:00 [INF] Cart for Order ID: 19 Cash transaction Successfully return value is 7750
+2024-05-29 09:41:37.066 +07:00 [INF] Transaction 20 (DINE IN-1)
+2024-05-29 09:41:40.290 +07:00 [INF] Cart for Order ID: 20 Payment Process, Selecting.....
+2024-05-29 09:41:42.567 +07:00 [INF] Cart for Order ID: 20 Cash transaction Successfully return value is 7750
+2024-05-29 09:59:10.692 +07:00 [INF] Transaction 21 (DINE IN-1)
+2024-05-29 09:59:13.369 +07:00 [INF] Cart for Order ID: 21 Payment Process, Selecting.....
+2024-05-29 10:00:29.561 +07:00 [INF] Transaction 22 (DINE IN-1)
+2024-05-29 10:00:31.135 +07:00 [INF] Cart for Order ID: 22 Payment Process, Selecting.....
+2024-05-29 10:01:15.970 +07:00 [INF] Transaction 23 (DINE IN-1)
+2024-05-29 10:01:17.602 +07:00 [INF] Cart for Order ID: 23 Payment Process, Selecting.....
+2024-05-29 10:02:15.326 +07:00 [INF] Transaction 24 (DINE IN-1)
+2024-05-29 10:02:16.774 +07:00 [INF] Cart for Order ID: 24 Payment Process, Selecting.....
+2024-05-29 10:02:36.814 +07:00 [INF] Transaction 25 (DINE IN-1)
+2024-05-29 10:02:38.564 +07:00 [INF] Cart for Order ID: 25 Payment Process, Selecting.....
+2024-05-29 10:06:27.982 +07:00 [INF] Transaction 26 (DINE IN-1)
+2024-05-29 10:06:29.766 +07:00 [INF] Cart for Order ID: 26 Payment Process, Selecting.....
+2024-05-29 10:07:08.634 +07:00 [INF] Transaction 27 (DINE IN-1)
+2024-05-29 10:07:10.045 +07:00 [INF] Cart for Order ID: 27 Payment Process, Selecting.....
+2024-05-29 10:07:38.042 +07:00 [INF] Transaction 28 (DINE IN-1)
+2024-05-29 10:07:39.741 +07:00 [INF] Cart for Order ID: 28 Payment Process, Selecting.....
+2024-05-29 10:09:26.299 +07:00 [INF] Transaction 29 (DINE IN-1)
+2024-05-29 10:09:27.683 +07:00 [INF] Cart for Order ID: 29 Payment Process, Selecting.....
+2024-05-29 10:10:52.978 +07:00 [INF] Transaction 30 (DINE IN-1)
+2024-05-29 10:10:55.187 +07:00 [INF] Cart for Order ID: 30 Payment Process, Selecting.....
+2024-05-29 10:30:54.263 +07:00 [INF] Transaction 31 (DINE IN-1)
+2024-05-29 10:40:31.649 +07:00 [INF] Transaction 32 (DINE IN-1)
+2024-05-29 10:40:33.366 +07:00 [INF] Cart for Order ID: 32 Payment Process, Selecting.....
+2024-05-29 10:40:35.582 +07:00 [INF] Cart for Order ID: 32 Cash transaction Successfully return value is 16600
+2024-05-29 10:41:14.492 +07:00 [INF] Transaction 33 (DINE IN-1)
+2024-05-29 10:41:16.526 +07:00 [INF] Cart for Order ID: 33 Payment Process, Selecting.....
+2024-05-29 10:41:19.238 +07:00 [INF] Cart for Order ID: 33 Cash transaction Successfully return value is 7600
+2024-05-29 10:42:36.393 +07:00 [INF] Transaction 34 (DINE IN-1)
+2024-05-29 10:42:38.053 +07:00 [INF] Cart for Order ID: 34 Payment Process, Selecting.....
+2024-05-29 10:42:40.468 +07:00 [INF] Cart for Order ID: 34 Cash transaction Successfully return value is 7750
+2024-05-29 10:45:49.869 +07:00 [INF] Transaction 35 (DINE IN-1)
+2024-05-29 10:45:51.829 +07:00 [INF] Cart for Order ID: 35 Payment Process, Selecting.....
+2024-05-29 10:45:53.715 +07:00 [INF] Cart for Order ID: 35 Cash transaction Successfully return value is 7600
+2024-05-29 10:46:49.626 +07:00 [INF] Transaction 36 (DINE IN-1)
+2024-05-29 10:46:50.665 +07:00 [INF] Cart for Order ID: 36 Payment Process, Selecting.....
+2024-05-29 10:46:52.395 +07:00 [INF] Cart for Order ID: 36 Cash transaction Successfully return value is 7750
+2024-05-29 10:47:19.863 +07:00 [INF] Transaction 37 (DINE IN-1)
+2024-05-29 10:47:21.008 +07:00 [INF] Cart for Order ID: 37 Payment Process, Selecting.....
+2024-05-29 10:47:23.948 +07:00 [INF] Cart for Order ID: 37 Cash transaction Successfully return value is 17750
+2024-05-29 10:47:48.486 +07:00 [INF] Transaction 38 (DINE IN-1)
+2024-05-29 10:47:50.655 +07:00 [INF] Cart for Order ID: 38 Payment Process, Selecting.....
+2024-05-29 10:47:54.694 +07:00 [INF] Cart for Order ID: 38 Cash transaction Successfully return value is 67750
+2024-05-29 10:48:10.252 +07:00 [INF] Transaction 39 (To go-2)
+2024-05-29 10:48:11.586 +07:00 [INF] Cart for Order ID: 39 Payment Process, Selecting.....
+2024-05-29 10:48:13.460 +07:00 [INF] Cart for Order ID: 39 Cash transaction Successfully return value is 7750
+2024-05-29 10:48:38.536 +07:00 [INF] Transaction 40 (DINE IN-1)
+2024-05-29 10:48:40.464 +07:00 [INF] Cart for Order ID: 40 Payment Process, Selecting.....
+2024-05-29 10:48:42.443 +07:00 [INF] Cart for Order ID: 40 Cash transaction Successfully return value is 7750
+2024-05-29 10:49:40.477 +07:00 [INF] Transaction 41 (DINE IN-1)
+2024-05-29 10:49:46.168 +07:00 [INF] Cart for Order ID: 41 Payment Process, Selecting.....
+2024-05-29 10:50:19.212 +07:00 [INF] Cart for Order ID: 41 Cash transaction Successfully return value is 9250
+2024-05-29 10:52:14.663 +07:00 [INF] Transaction 42 (DINE IN-1)
+2024-05-29 10:52:17.211 +07:00 [INF] Cart for Order ID: 42 Payment Process, Selecting.....
+2024-05-29 10:52:19.593 +07:00 [INF] Cart for Order ID: 42 Cash transaction Successfully return value is 7750
+2024-05-29 10:52:38.254 +07:00 [INF] Transaction 43 (DINE IN-1)
+2024-05-29 10:52:39.557 +07:00 [INF] Cart for Order ID: 43 Payment Process, Selecting.....
+2024-05-29 10:52:41.425 +07:00 [INF] Cart for Order ID: 43 Cash transaction Successfully return value is 7750
+2024-05-29 10:53:01.678 +07:00 [INF] Transaction 44 (DINE IN-1)
+2024-05-29 10:53:02.880 +07:00 [INF] Cart for Order ID: 44 Payment Process, Selecting.....
+2024-05-29 10:53:04.897 +07:00 [INF] Cart for Order ID: 44 Cash transaction Successfully return value is 7750
+2024-05-29 10:53:28.294 +07:00 [INF] Transaction 45 (DINE IN-1)
+2024-05-29 10:53:29.767 +07:00 [INF] Cart for Order ID: 45 Payment Process, Selecting.....
+2024-05-29 10:53:31.995 +07:00 [INF] Cart for Order ID: 45 Cash transaction Successfully return value is 7750
+2024-05-29 10:54:41.696 +07:00 [INF] Transaction 46 (DINE IN-1)
+2024-05-29 10:54:43.220 +07:00 [INF] Cart for Order ID: 46 Payment Process, Selecting.....
+2024-05-29 10:54:45.098 +07:00 [INF] Cart for Order ID: 46 Cash transaction Successfully return value is 7750
+2024-05-29 10:55:10.832 +07:00 [INF] Transaction 47 (DINE IN-1)
+2024-05-29 10:55:12.095 +07:00 [INF] Cart for Order ID: 47 Payment Process, Selecting.....
+2024-05-29 10:55:14.050 +07:00 [INF] Cart for Order ID: 47 Cash transaction Successfully return value is 6750
+2024-05-29 10:56:17.376 +07:00 [INF] Transaction 48 (DINE IN-1)
+2024-05-29 10:56:19.565 +07:00 [INF] Cart for Order ID: 48 Payment Process, Selecting.....
+2024-05-29 10:56:21.433 +07:00 [INF] Cart for Order ID: 48 Cash transaction Successfully return value is 7750
+2024-05-29 11:03:18.006 +07:00 [INF] Transaction 49 (DINE IN-1)
+2024-05-29 11:07:31.462 +07:00 [INF] Transaction 50 (DINE IN-1)
+2024-05-29 11:07:33.227 +07:00 [INF] Cart for Order ID: 50 Payment Process, Selecting.....
+2024-05-29 11:07:34.935 +07:00 [INF] Cart for Order ID: 50 Cash transaction Successfully return value is 7600
+2024-05-29 11:31:05.618 +07:00 [INF] Transaction 51 (DINE IN-1)
+2024-05-29 11:31:07.071 +07:00 [INF] Cart for Order ID: 51 Payment Process, Selecting.....
+2024-05-29 11:31:08.696 +07:00 [INF] Cart for Order ID: 51. Insufficient funds. Please enter more money to proceed.
+2024-05-29 11:31:12.321 +07:00 [INF] Cart for Order ID: 51 Cash transaction Successfully return value is 7600
+2024-05-29 11:33:35.298 +07:00 [INF] Transaction 52 (DINE IN-1)
+2024-05-29 11:33:37.080 +07:00 [INF] Cart for Order ID: 52 Payment Process, Selecting.....
+2024-05-29 11:33:39.112 +07:00 [INF] Cart for Order ID: 52 Cash transaction Successfully return value is 7750
+2024-05-29 11:34:46.807 +07:00 [INF] Transaction 53 (DINE IN-1)
+2024-05-29 11:34:48.067 +07:00 [INF] Cart for Order ID: 53 Payment Process, Selecting.....
+2024-05-29 11:34:50.382 +07:00 [INF] Cart for Order ID: 53 Cash transaction Successfully return value is 7750
+2024-05-29 11:36:15.006 +07:00 [INF] Transaction 54 (DINE IN-1)
+2024-05-29 11:36:17.506 +07:00 [INF] Cart for Order ID: 54 Payment Process, Selecting.....
+2024-05-29 11:36:20.327 +07:00 [INF] Cart for Order ID: 54 Cash transaction Successfully return value is 7750
+2024-05-29 11:37:36.188 +07:00 [INF] Transaction 55 (DINE IN-1)
+2024-05-29 11:37:37.355 +07:00 [INF] Cart for Order ID: 55 Payment Process, Selecting.....
+2024-05-29 11:37:39.966 +07:00 [INF] Cart for Order ID: 55 Cash transaction Successfully return value is 7750
+2024-05-29 11:37:55.712 +07:00 [INF] Transaction 56 (DINE IN-1)
+2024-05-29 11:37:57.483 +07:00 [INF] Cart for Order ID: 56 Payment Process, Selecting.....
+2024-05-29 11:37:59.470 +07:00 [INF] Cart for Order ID: 56 Cash transaction Successfully return value is 7750
+2024-05-29 11:38:23.029 +07:00 [INF] Transaction 57 (DINE IN-1)
+2024-05-29 11:38:25.124 +07:00 [INF] Cart for Order ID: 57 Payment Process, Selecting.....
+2024-05-29 11:38:26.926 +07:00 [INF] Cart for Order ID: 57 Cash transaction Successfully return value is 7750
+2024-05-29 11:38:44.088 +07:00 [INF] Transaction 58 (DINE IN-1)
+2024-05-29 11:38:46.078 +07:00 [INF] Cart for Order ID: 58 Payment Process, Selecting.....
+2024-05-29 11:38:48.014 +07:00 [INF] Cart for Order ID: 58 Cash transaction Successfully return value is 7750
+2024-05-29 11:39:00.917 +07:00 [INF] Transaction 59 (DINE IN-1)
+2024-05-29 11:39:02.539 +07:00 [INF] Cart for Order ID: 59 Payment Process, Selecting.....
+2024-05-29 11:39:06.045 +07:00 [INF] Cart for Order ID: 59 Cash transaction Successfully return value is 7750
+2024-05-29 11:39:19.894 +07:00 [INF] Transaction 60 (DINE IN-1)
+2024-05-29 11:39:21.491 +07:00 [INF] Cart for Order ID: 60 Payment Process, Selecting.....
+2024-05-29 11:39:23.101 +07:00 [INF] Cart for Order ID: 60 Cash transaction Successfully return value is 7750
+2024-05-29 11:39:38.081 +07:00 [INF] Transaction 61 (DINE IN-1)
+2024-05-29 11:39:41.021 +07:00 [INF] Cart for Order ID: 61 Payment Process, Selecting.....
+2024-05-29 11:39:43.366 +07:00 [INF] Cart for Order ID: 61 Cash transaction Successfully return value is 7750
+2024-05-29 11:39:57.099 +07:00 [INF] Transaction 62 (DINE IN-1)
+2024-05-29 11:39:58.528 +07:00 [INF] Cart for Order ID: 62 Payment Process, Selecting.....
+2024-05-29 11:40:00.639 +07:00 [INF] Cart for Order ID: 62 Cash transaction Successfully return value is 7750
+2024-05-29 11:40:17.006 +07:00 [INF] Transaction 63 (DINE IN-1)
+2024-05-29 11:40:18.122 +07:00 [INF] Cart for Order ID: 63 Payment Process, Selecting.....
+2024-05-29 11:40:20.597 +07:00 [INF] Cart for Order ID: 63 Cash transaction Successfully return value is 9850
+2024-05-29 11:40:35.306 +07:00 [INF] Transaction 64 (DINE IN-1)
+2024-05-29 11:40:36.666 +07:00 [INF] Cart for Order ID: 64 Payment Process, Selecting.....
+2024-05-29 11:40:38.918 +07:00 [INF] Cart for Order ID: 64 Cash transaction Successfully return value is 7750
+2024-05-29 11:40:52.720 +07:00 [INF] Transaction 65 (DINE IN-1)
+2024-05-29 11:40:53.787 +07:00 [INF] Cart for Order ID: 65 Payment Process, Selecting.....
+2024-05-29 11:40:55.845 +07:00 [INF] Cart for Order ID: 65 Cash transaction Successfully return value is 7750
+2024-05-29 11:41:25.078 +07:00 [INF] Transaction 66 (DINE IN-1)
+2024-05-29 11:41:26.269 +07:00 [INF] Cart for Order ID: 66 Payment Process, Selecting.....
+2024-05-29 11:41:28.605 +07:00 [INF] Cart for Order ID: 66 Cash transaction Successfully return value is 7750
+2024-05-29 11:42:03.381 +07:00 [INF] Transaction 67 (DINE IN-1)
+2024-05-29 11:42:04.555 +07:00 [INF] Cart for Order ID: 67 Payment Process, Selecting.....
+2024-05-29 11:42:06.395 +07:00 [INF] Cart for Order ID: 67 Cash transaction Successfully return value is 7750
+2024-05-29 11:42:42.573 +07:00 [INF] Transaction 68 (DINE IN-1)
+2024-05-29 11:42:45.498 +07:00 [INF] Cart for Order ID: 68 Payment Process, Selecting.....
+2024-05-29 11:42:47.229 +07:00 [INF] Cart for Order ID: 68 Cash transaction Successfully return value is 8850
+2024-05-29 11:43:40.358 +07:00 [INF] Transaction 69 (DINE IN-1)
+2024-05-29 11:43:55.038 +07:00 [INF] Transaction 70 (DINE IN-1)
+2024-05-29 11:43:56.249 +07:00 [INF] Cart for Order ID: 70 Payment Process, Selecting.....
+2024-05-29 11:43:58.020 +07:00 [INF] Cart for Order ID: 70 Cash transaction Successfully return value is 7750
+2024-05-29 11:44:20.526 +07:00 [INF] Transaction 71 (DINE IN-1)
+2024-05-29 11:44:22.107 +07:00 [INF] Cart for Order ID: 71 Payment Process, Selecting.....
+2024-05-29 11:44:24.173 +07:00 [INF] Cart for Order ID: 71 Cash transaction Successfully return value is 7600
+2024-05-29 11:45:18.506 +07:00 [INF] Transaction 72 (DINE IN-1)
+2024-05-29 11:45:25.911 +07:00 [INF] Cart for Order ID: 72 Payment Process, Selecting.....
+2024-05-29 11:45:34.863 +07:00 [INF] Cart for Order ID: 72 Cash transaction Successfully return value is 164500
+2024-05-29 11:48:49.256 +07:00 [INF] Transaction 73 (DINE IN-1)
+2024-05-29 11:48:50.432 +07:00 [INF] Cart for Order ID: 73 Payment Process, Selecting.....
+2024-05-29 11:48:52.595 +07:00 [INF] Cart for Order ID: 73 Cash transaction Successfully return value is 7750
+2024-05-29 11:49:49.283 +07:00 [INF] Transaction 74 (DINE IN-1)
+2024-05-29 11:49:50.591 +07:00 [INF] Cart for Order ID: 74 Payment Process, Selecting.....
+2024-05-29 11:49:52.491 +07:00 [INF] Cart for Order ID: 74 Cash transaction Successfully return value is 7750
+2024-05-29 11:50:20.460 +07:00 [INF] Transaction 75 (DINE IN-1)
+2024-05-29 11:50:22.240 +07:00 [INF] Cart for Order ID: 75 Payment Process, Selecting.....
+2024-05-29 11:50:24.483 +07:00 [INF] Cart for Order ID: 75 Cash transaction Successfully return value is 7750
+2024-05-29 11:50:41.283 +07:00 [INF] Transaction 76 (DINE IN-1)
+2024-05-29 11:50:43.442 +07:00 [INF] Cart for Order ID: 76 Payment Process, Selecting.....
+2024-05-29 11:50:45.794 +07:00 [INF] Cart for Order ID: 76 Cash transaction Successfully return value is 7750
+2024-05-29 11:51:59.951 +07:00 [INF] Transaction 77 (DINE IN-1)
+2024-05-29 11:52:02.096 +07:00 [INF] Cart for Order ID: 77 Payment Process, Selecting.....
+2024-05-29 11:52:04.394 +07:00 [INF] Cart for Order ID: 77 Cash transaction Successfully return value is 5650
+2024-05-29 11:55:28.133 +07:00 [INF] Transaction 78 (DINE IN-1)
+2024-05-29 11:55:29.639 +07:00 [INF] Cart for Order ID: 78 Payment Process, Selecting.....
+2024-05-29 11:55:32.026 +07:00 [INF] Cart for Order ID: 78 Cash transaction Successfully return value is 7600
+2024-05-29 11:55:56.317 +07:00 [INF] Transaction 79 (DINE IN-1)
+2024-05-29 11:55:58.207 +07:00 [INF] Cart for Order ID: 79 Payment Process, Selecting.....
+2024-05-29 11:56:00.160 +07:00 [INF] Cart for Order ID: 79 Cash transaction Successfully return value is 7750
+2024-05-29 11:56:17.017 +07:00 [INF] Transaction 80 (DINE IN-1)
+2024-05-29 11:56:18.854 +07:00 [INF] Cart for Order ID: 80 Payment Process, Selecting.....
+2024-05-29 11:56:20.824 +07:00 [INF] Cart for Order ID: 80 Cash transaction Successfully return value is 7750
+2024-05-29 11:56:34.435 +07:00 [INF] Transaction 81 (DINE IN-1)
+2024-05-29 11:56:36.597 +07:00 [INF] Cart for Order ID: 81 Payment Process, Selecting.....
+2024-05-29 11:56:38.385 +07:00 [INF] Cart for Order ID: 81 Cash transaction Successfully return value is 7750
+2024-05-29 11:57:32.398 +07:00 [INF] Transaction 82 (DINE IN-1)
+2024-05-29 11:57:33.480 +07:00 [INF] Cart for Order ID: 82 Payment Process, Selecting.....
+2024-05-29 11:57:35.552 +07:00 [INF] Cart for Order ID: 82 Cash transaction Successfully return value is 7750
+2024-05-29 11:58:17.173 +07:00 [INF] Transaction 83 (DINE IN-1)
+2024-05-29 11:58:18.390 +07:00 [INF] Cart for Order ID: 83 Payment Process, Selecting.....
+2024-05-29 11:58:20.257 +07:00 [INF] Cart for Order ID: 83 Cash transaction Successfully return value is 7750
+2024-05-29 11:59:00.370 +07:00 [INF] Transaction 84 (DINE IN-1)
+2024-05-29 11:59:01.643 +07:00 [INF] Cart for Order ID: 84 Payment Process, Selecting.....
+2024-05-29 11:59:03.464 +07:00 [INF] Cart for Order ID: 84 Cash transaction Successfully return value is 7750
+2024-05-29 11:59:51.921 +07:00 [INF] Transaction 85 (DINE IN-1)
+2024-05-29 11:59:56.772 +07:00 [INF] Cart for Order ID: 85 Payment Process, Selecting.....
+2024-05-29 11:59:58.881 +07:00 [INF] Cart for Order ID: 85 Cash transaction Successfully return value is 7600
+2024-05-29 12:00:33.397 +07:00 [INF] Transaction 86 (DINE IN-1)
+2024-05-29 12:00:34.939 +07:00 [INF] Cart for Order ID: 86 Payment Process, Selecting.....
+2024-05-29 12:00:37.112 +07:00 [INF] Cart for Order ID: 86 Cash transaction Successfully return value is 6750
+2024-05-29 12:02:23.886 +07:00 [INF] Transaction 87 (DINE IN-1)
+2024-05-29 12:02:25.332 +07:00 [INF] Cart for Order ID: 87 Payment Process, Selecting.....
+2024-05-29 12:02:27.846 +07:00 [INF] Cart for Order ID: 87 Cash transaction Successfully return value is 7750
+2024-05-29 12:03:58.675 +07:00 [INF] Transaction 88 (To go-2)
+2024-05-29 12:04:02.350 +07:00 [INF] Cart for Order ID: 88 Payment Process, Selecting.....
+2024-05-29 12:04:05.338 +07:00 [INF] Cart for Order ID: 88 Cash transaction Successfully return value is 9850
+2024-05-29 12:05:47.047 +07:00 [INF] Transaction 89 (Catering-6)
+2024-05-29 12:06:10.341 +07:00 [INF] Transaction 90 (DINE IN-1)
+2024-05-29 12:06:45.851 +07:00 [INF] Cart for Order ID: 90 Payment Process, Selecting.....
+2024-05-29 12:06:51.437 +07:00 [INF] Cart for Order ID: 90 Cash transaction Successfully return value is 97600
+2024-05-29 13:19:54.009 +07:00 [INF] Transaction 91 (ToGo Pty-8)
+2024-05-29 13:20:27.570 +07:00 [INF] Transaction 92 (DINE IN-1)
+2024-05-29 13:20:48.639 +07:00 [INF] Cart for Order ID: 92 Payment Process, Selecting.....
+2024-05-29 13:37:36.909 +07:00 [INF] Transaction 93 (DINE IN-1)
+2024-05-29 13:38:18.316 +07:00 [INF] Transaction 94 (DINE IN-1)
+2024-05-29 13:45:20.753 +07:00 [INF] Transaction 95 (DINE IN-1)
+2024-05-29 13:46:02.115 +07:00 [INF] Transaction 96 (DINE IN-1)
+2024-05-29 13:51:37.825 +07:00 [INF] Transaction 97 (DINE IN-1)
+2024-05-29 13:52:10.136 +07:00 [INF] Transaction 98 (DINE IN-1)
+2024-05-29 13:52:16.636 +07:00 [INF] Cart for Order ID: 98 Payment Process, Selecting.....
+2024-05-29 13:52:19.313 +07:00 [INF] Cart for Order ID: 98 Cash transaction Successfully return value is 6450
+2024-05-29 13:54:26.646 +07:00 [INF] Transaction 99 (DINE IN-1)
+2024-05-29 13:54:28.023 +07:00 [INF] Cart for Order ID: 99 Payment Process, Selecting.....
+2024-05-29 13:54:30.336 +07:00 [INF] Cart for Order ID: 99 Cash transaction Successfully return value is 7600
+2024-05-29 14:00:24.749 +07:00 [INF] Transaction 100 (DINE IN-1)
+2024-05-29 14:00:26.733 +07:00 [INF] Cart for Order ID: 100 Payment Process, Selecting.....
+2024-05-29 14:00:28.697 +07:00 [INF] Cart for Order ID: 100 Cash transaction Successfully return value is 7600
+2024-05-29 14:02:00.906 +07:00 [INF] Transaction 101 (DINE IN-1)
+2024-05-29 14:02:03.621 +07:00 [INF] Cart for Order ID: 101 Payment Process, Selecting.....
+2024-05-29 14:02:06.264 +07:00 [INF] Cart for Order ID: 101 Cash transaction Successfully return value is 6600
+2024-05-29 14:02:31.211 +07:00 [INF] Transaction 102 (DINE IN-1)
+2024-05-29 14:02:33.228 +07:00 [INF] Cart for Order ID: 102 Payment Process, Selecting.....
+2024-05-29 14:02:35.310 +07:00 [INF] Cart for Order ID: 102 Cash transaction Successfully return value is 7600
+2024-05-29 14:04:57.341 +07:00 [INF] Transaction 103 (DINE IN-1)
+2024-05-29 14:05:03.485 +07:00 [INF] Cart for Order ID: 103 Payment Process, Selecting.....
+2024-05-29 14:05:05.197 +07:00 [INF] Cart for Order ID: 103 Cash transaction Successfully return value is 7600
+2024-05-29 14:05:38.811 +07:00 [INF] Transaction 104 (DINE IN-1)
+2024-05-29 14:05:40.609 +07:00 [INF] Cart for Order ID: 104 Payment Process, Selecting.....
+2024-05-29 14:05:42.071 +07:00 [INF] Cart for Order ID: 104 Cash transaction Successfully return value is 7600
+2024-05-29 14:05:47.761 +07:00 [INF] Transaction 105 (To go-2)
+2024-05-29 14:05:49.033 +07:00 [INF] Cart for Order ID: 105 Payment Process, Selecting.....
+2024-05-29 14:05:50.968 +07:00 [INF] Cart for Order ID: 105 Cash transaction Successfully return value is 9850
+2024-05-29 14:06:15.945 +07:00 [INF] Transaction 106 (DINE IN-1)
+2024-05-29 14:06:20.576 +07:00 [INF] Cart for Order ID: 106 Payment Process, Selecting.....
+2024-05-29 14:06:23.301 +07:00 [INF] Cart for Order ID: 106 Cash transaction Successfully return value is 30600
+2024-05-29 14:06:31.509 +07:00 [INF] Transaction 107 (DINE IN-1)
+2024-05-29 14:06:40.860 +07:00 [INF] Cart for Order ID: 107 Payment Process, Selecting.....
+2024-05-29 14:06:43.966 +07:00 [INF] Cart for Order ID: 107 Cash transaction Successfully return value is 6450
+2024-05-29 14:06:46.741 +07:00 [INF] Transaction 108 (Home Delivery-3)
+2024-05-29 14:06:48.400 +07:00 [INF] Cart for Order ID: 108 Payment Process, Selecting.....
+2024-05-29 14:06:50.454 +07:00 [INF] Cart for Order ID: 108 Cash transaction Successfully return value is 7600
+2024-05-29 14:09:22.033 +07:00 [INF] Transaction 109 (DINE IN-1)
+2024-05-29 14:09:25.933 +07:00 [INF] Cart for Order ID: 109 Payment Process, Selecting.....
+2024-05-29 14:09:28.005 +07:00 [INF] Cart for Order ID: 109 Cash transaction Successfully return value is 24450
+2024-05-29 14:09:31.724 +07:00 [INF] Transaction 110 (To go-2)
+2024-05-29 14:09:33.271 +07:00 [INF] Cart for Order ID: 110 Payment Process, Selecting.....
+2024-05-29 14:09:35.733 +07:00 [INF] Cart for Order ID: 110 Cash transaction Successfully return value is 9050
+2024-05-29 14:10:30.422 +07:00 [INF] Transaction 111 (DINE IN-1)
+2024-05-29 14:10:33.296 +07:00 [INF] Cart for Order ID: 111 Payment Process, Selecting.....
+2024-05-29 14:10:36.667 +07:00 [INF] Cart for Order ID: 111 Cash transaction Successfully return value is 7750
+2024-05-29 14:10:39.748 +07:00 [INF] Transaction 112 (DINE IN-1)
+2024-05-29 14:10:44.913 +07:00 [INF] Cart for Order ID: 112 Payment Process, Selecting.....
+2024-05-29 14:10:47.238 +07:00 [INF] Cart for Order ID: 112 Cash transaction Successfully return value is 1250
+2024-05-29 14:17:04.924 +07:00 [INF] Transaction 113 (DINE IN-1)
+2024-05-29 14:17:07.205 +07:00 [INF] Cart for Order ID: 113 Payment Process, Selecting.....
+2024-05-29 14:17:08.763 +07:00 [INF] Cart for Order ID: 113 Cash transaction Successfully return value is 7600
+2024-05-29 14:17:15.113 +07:00 [INF] Transaction 114 (DINE IN-1)
+2024-05-29 14:17:16.669 +07:00 [INF] Cart for Order ID: 114 Payment Process, Selecting.....
+2024-05-29 14:19:42.688 +07:00 [INF] Transaction 115 (DINE IN-1)
+2024-05-29 14:20:07.531 +07:00 [INF] Cart for Order ID: 115 Payment Process, Selecting.....
+2024-05-29 14:20:09.884 +07:00 [INF] Cart for Order ID: 115 Cash transaction Successfully return value is 7750
+2024-05-29 14:22:42.929 +07:00 [INF] Transaction 116 (GrabSPU-14)
+2024-05-29 14:22:44.719 +07:00 [INF] Cart for Order ID: 116 Payment Process, Selecting.....
+2024-05-29 14:22:47.192 +07:00 [INF] Cart for Order ID: 116 Cash transaction Successfully return value is 1550
+2024-05-29 14:23:07.158 +07:00 [INF] Transaction 117 (DINE IN-1)
+2024-05-29 14:23:08.993 +07:00 [INF] Cart has been held for Order ID: 117 at 29/05/2024 14.23.07
+2024-05-29 14:23:44.003 +07:00 [INF] Transaction 118 (DINE IN-1)
+2024-05-29 14:23:46.923 +07:00 [INF] Cart for Order ID: 118 Payment Process, Selecting.....
+2024-05-29 14:23:47.899 +07:00 [INF] Cart for Order ID: 118 Cash transaction Successfully return value is 0
+2024-05-29 15:45:23.692 +07:00 [INF] Transaction 119 (DINE IN-1)
+2024-05-29 16:40:46.640 +07:00 [INF] Transaction 120 (DINE IN-1)
+2024-05-29 16:41:09.254 +07:00 [INF] Transaction 121 (DINE IN-1)
+2024-05-29 16:41:34.277 +07:00 [INF] Transaction 122 (DINE IN-1)
+2024-05-29 16:42:12.728 +07:00 [INF] Transaction 123 (DINE IN-1)
+2024-05-29 16:42:41.725 +07:00 [INF] Transaction 124 (DINE IN-1)
+2024-05-29 16:43:00.734 +07:00 [INF] Transaction 125 (DINE IN-1)
+2024-05-29 16:43:37.420 +07:00 [INF] Transaction 126 (DINE IN-1)
+2024-05-29 16:44:12.276 +07:00 [INF] Transaction 127 (DINE IN-1)
+2024-05-29 16:44:51.873 +07:00 [INF] Transaction 128 (DINE IN-1)
+2024-05-29 16:46:08.760 +07:00 [INF] Transaction 129 (DINE IN-1)
+2024-05-29 16:53:00.007 +07:00 [INF] Transaction 130 (DINE IN-1)
+2024-05-29 16:53:34.175 +07:00 [INF] Transaction 131 (DINE IN-1)
+2024-05-29 16:55:14.086 +07:00 [INF] Transaction 132 (To go-2)
+2024-05-29 16:55:49.668 +07:00 [INF] Transaction 133 (DINE IN-1)
+2024-05-29 16:57:01.320 +07:00 [INF] Transaction 134 (DINE IN-1)
+2024-05-29 16:58:10.378 +07:00 [INF] Transaction 135 (DINE IN-1)
+2024-05-29 17:00:23.602 +07:00 [INF] Transaction 136 (DINE IN-1)
+2024-05-29 17:03:45.272 +07:00 [INF] Transaction 137 (DINE IN-1)
+2024-05-29 17:06:01.222 +07:00 [INF] Transaction 138 (DINE IN-1)
+2024-05-29 17:06:24.998 +07:00 [INF] Transaction 139 (DINE IN-1)
+2024-05-29 17:08:49.343 +07:00 [INF] Transaction 140 (DINE IN-1)
+2024-05-29 17:09:37.743 +07:00 [INF] Transaction 141 (DINE IN-1)
+2024-05-29 17:10:56.135 +07:00 [INF] Transaction 142 (DINE IN-1)
+2024-05-29 17:11:40.725 +07:00 [INF] Transaction 143 (DINE IN-1)
+2024-05-29 17:12:56.005 +07:00 [INF] Transaction 144 (DINE IN-1)
+2024-05-29 17:14:08.217 +07:00 [INF] Transaction 145 (DINE IN-1)
+2024-05-29 17:14:58.682 +07:00 [INF] Transaction 146 (DINE IN-1)
+2024-05-29 17:17:06.002 +07:00 [INF] Transaction 147 (DINE IN-1)
+2024-05-29 17:18:33.301 +07:00 [INF] Transaction 148 (DINE IN-1)
+2024-05-29 17:20:45.764 +07:00 [INF] Transaction 149 (DINE IN-1)
+2024-05-29 17:21:19.554 +07:00 [INF] Transaction 150 (DINE IN-1)
+2024-05-29 17:23:09.121 +07:00 [INF] Transaction 151 (DINE IN-1)
+2024-05-29 17:24:41.167 +07:00 [INF] Transaction 152 (DINE IN-1)
+2024-05-29 17:26:32.120 +07:00 [INF] Transaction 153 (DINE IN-1)
+2024-05-29 17:26:52.289 +07:00 [INF] Transaction 154 (DINE IN-1)

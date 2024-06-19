@@ -1,0 +1,22 @@
+﻿<Window x:Class="TransQuik_Sync_App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TransQuik_Sync_App"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        Height="200" 
+        Width="300"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        Background="{x:Null}"
+        >
+    <Border Background="WhiteSmoke" CornerRadius="5">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="Sync" Width="200" Height="40" FontFamily="arial" FontSize="14" FontWeight="SemiBold" Foreground="GhostWhite" Background="LightSeaGreen" Click="SyncButton_Click"/>
+            <ProgressBar x:Name="ProgressBarx" HorizontalAlignment="Center" Height="15" Margin="0,90,0,0" VerticalAlignment="Top" Width="200" BorderThickness="1" BorderBrush="DimGray" />
+        </Grid>
+    </Border>
+</Window>

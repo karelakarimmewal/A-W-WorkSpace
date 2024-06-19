@@ -1,0 +1,7 @@
+BusinessAddress=INI ADALAH LOAD FROM DB
+BusinessPhone=FILL HERE
+FooterText1=Share your feedback
+FooterText2=awrestaurants.co.id/feedback
+FooterText3=MUI Halal Cert 00160057540211
+FooterText4=Untuk mendapatkan e-Coupon dan promo
+FooterText5=Follow instagram @awrestoranid

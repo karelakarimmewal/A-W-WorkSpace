@@ -1,0 +1,236 @@
+2024-05-27 09:57:41.583 +07:00 [INF] Application Started
+2024-05-27 09:57:43.011 +07:00 [INF] Initializing VLC player with library directory: C:\Program Files (x86)\VideoLAN\VLC
+2024-05-27 09:57:43.111 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome.mp4
+2024-05-27 09:57:43.123 +07:00 [INF] Buffering: 0.
+2024-05-27 09:57:43.305 +07:00 [INF] Video is now playing.
+2024-05-27 09:57:43.306 +07:00 [INF] Buffering: 0.
+2024-05-27 09:57:43.306 +07:00 [INF] Buffering: 25.
+2024-05-27 09:57:43.307 +07:00 [INF] Buffering: 50.
+2024-05-27 09:57:43.308 +07:00 [INF] Buffering: 75.
+2024-05-27 09:57:43.308 +07:00 [INF] Buffering: 100.
+2024-05-27 09:57:43.309 +07:00 [INF] Buffering: 100.
+2024-05-27 09:58:46.984 +07:00 [INF] Application Started
+2024-05-27 09:58:48.117 +07:00 [INF] Initializing VLC player with library directory: C:\Program Files (x86)\VideoLAN\VLC
+2024-05-27 09:58:48.165 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome2.mp4
+2024-05-27 09:58:48.173 +07:00 [INF] Buffering: 0.
+2024-05-27 09:58:48.223 +07:00 [INF] Video is now playing.
+2024-05-27 09:58:48.224 +07:00 [INF] Buffering: 0.
+2024-05-27 09:58:48.225 +07:00 [INF] Buffering: 25.
+2024-05-27 09:58:48.226 +07:00 [INF] Buffering: 50.
+2024-05-27 09:58:48.226 +07:00 [INF] Buffering: 75.
+2024-05-27 09:58:48.227 +07:00 [INF] Buffering: 100.
+2024-05-27 09:58:48.228 +07:00 [INF] Buffering: 100.
+2024-05-27 09:59:02.165 +07:00 [INF] Application Started
+2024-05-27 09:59:02.790 +07:00 [INF] Initializing VLC player with library directory: C:\Program Files (x86)\VideoLAN\VLC
+2024-05-27 09:59:02.826 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome2.mp4
+2024-05-27 09:59:02.830 +07:00 [INF] Buffering: 0.
+2024-05-27 09:59:02.862 +07:00 [INF] Video is now playing.
+2024-05-27 09:59:02.863 +07:00 [INF] Buffering: 0.
+2024-05-27 09:59:02.863 +07:00 [INF] Buffering: 25.
+2024-05-27 09:59:02.863 +07:00 [INF] Buffering: 50.
+2024-05-27 09:59:02.864 +07:00 [INF] Buffering: 75.
+2024-05-27 09:59:02.864 +07:00 [INF] Buffering: 100.
+2024-05-27 09:59:02.864 +07:00 [INF] Buffering: 100.
+2024-05-27 09:59:06.532 +07:00 [INF] Application Stopped
+2024-05-27 09:59:13.027 +07:00 [INF] Application Started
+2024-05-27 09:59:13.654 +07:00 [INF] Initializing VLC player with library directory: C:\Program Files (x86)\VideoLAN\VLC
+2024-05-27 09:59:13.688 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome2.mp4
+2024-05-27 09:59:13.692 +07:00 [INF] Buffering: 0.
+2024-05-27 09:59:13.730 +07:00 [INF] Video is now playing.
+2024-05-27 09:59:13.731 +07:00 [INF] Buffering: 0.
+2024-05-27 09:59:13.731 +07:00 [INF] Buffering: 25.
+2024-05-27 09:59:13.732 +07:00 [INF] Buffering: 50.
+2024-05-27 09:59:13.732 +07:00 [INF] Buffering: 75.
+2024-05-27 09:59:13.732 +07:00 [INF] Buffering: 100.
+2024-05-27 09:59:13.733 +07:00 [INF] Buffering: 100.
+2024-05-27 09:59:18.101 +07:00 [INF] Application Stopped
+2024-05-27 10:01:07.863 +07:00 [INF] Application Started
+2024-05-27 10:01:08.970 +07:00 [INF] Initializing VLC player with library directory: C:\Program Files (x86)\VideoLAN\VLC
+2024-05-27 10:01:09.026 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome2.mp4
+2024-05-27 10:01:09.041 +07:00 [INF] Buffering: 0.
+2024-05-27 10:01:09.116 +07:00 [INF] Video is now playing.
+2024-05-27 10:01:09.116 +07:00 [INF] Buffering: 0.
+2024-05-27 10:01:09.117 +07:00 [INF] Buffering: 25.
+2024-05-27 10:01:09.118 +07:00 [INF] Buffering: 50.
+2024-05-27 10:01:09.119 +07:00 [INF] Buffering: 75.
+2024-05-27 10:01:09.120 +07:00 [INF] Buffering: 100.
+2024-05-27 10:01:09.120 +07:00 [INF] Buffering: 100.
+2024-05-27 10:01:12.930 +07:00 [INF] Application Stopped
+2024-05-27 10:01:28.758 +07:00 [INF] Application Started
+2024-05-27 10:01:29.805 +07:00 [INF] Initializing VLC player with library directory: C:\Program Files (x86)\VideoLAN\VLC
+2024-05-27 10:01:29.880 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome.mp4
+2024-05-27 10:01:29.889 +07:00 [INF] Buffering: 0.
+2024-05-27 10:01:29.950 +07:00 [INF] Video is now playing.
+2024-05-27 10:01:29.950 +07:00 [INF] Buffering: 0.
+2024-05-27 10:01:29.951 +07:00 [INF] Buffering: 25.
+2024-05-27 10:01:29.952 +07:00 [INF] Buffering: 50.
+2024-05-27 10:01:29.952 +07:00 [INF] Buffering: 75.
+2024-05-27 10:01:29.953 +07:00 [INF] Buffering: 100.
+2024-05-27 10:01:29.954 +07:00 [INF] Buffering: 100.
+2024-05-27 10:02:06.574 +07:00 [INF] Application Started
+2024-05-27 10:02:07.854 +07:00 [INF] Initializing VLC player with library directory: C:\Program Files (x86)\VideoLAN\VLC
+2024-05-27 10:02:08.005 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome.mp4
+2024-05-27 10:02:08.034 +07:00 [INF] Buffering: 0.
+2024-05-27 10:02:08.227 +07:00 [INF] Video is now playing.
+2024-05-27 10:02:08.228 +07:00 [INF] Buffering: 0.
+2024-05-27 10:02:08.229 +07:00 [INF] Buffering: 25.
+2024-05-27 10:02:08.230 +07:00 [INF] Buffering: 50.
+2024-05-27 10:02:08.231 +07:00 [INF] Buffering: 75.
+2024-05-27 10:02:08.231 +07:00 [INF] Buffering: 100.
+2024-05-27 10:02:08.232 +07:00 [INF] Buffering: 100.
+2024-05-27 10:03:55.905 +07:00 [INF] Application Started
+2024-05-27 10:03:57.194 +07:00 [INF] Initializing VLC player with library directory: C:\Program Files (x86)\VideoLAN\VLC
+2024-05-27 10:03:57.291 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome.mp4
+2024-05-27 10:03:57.303 +07:00 [INF] Buffering: 0.
+2024-05-27 10:03:57.468 +07:00 [INF] Video is now playing.
+2024-05-27 10:03:57.469 +07:00 [INF] Buffering: 0.
+2024-05-27 10:03:57.469 +07:00 [INF] Buffering: 25.
+2024-05-27 10:03:57.469 +07:00 [INF] Buffering: 50.
+2024-05-27 10:03:57.470 +07:00 [INF] Buffering: 75.
+2024-05-27 10:03:57.471 +07:00 [INF] Buffering: 100.
+2024-05-27 10:03:57.472 +07:00 [INF] Buffering: 100.
+2024-05-27 10:04:10.961 +07:00 [INF] Application Started
+2024-05-27 10:04:12.032 +07:00 [INF] Initializing VLC player with library directory: C:\Program Files (x86)\VideoLAN\VLC
+2024-05-27 10:04:12.085 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome.mp4
+2024-05-27 10:04:12.097 +07:00 [INF] Buffering: 0.
+2024-05-27 10:04:12.156 +07:00 [INF] Video is now playing.
+2024-05-27 10:04:12.157 +07:00 [INF] Buffering: 0.
+2024-05-27 10:04:12.158 +07:00 [INF] Buffering: 25.
+2024-05-27 10:04:12.159 +07:00 [INF] Buffering: 50.
+2024-05-27 10:04:12.159 +07:00 [INF] Buffering: 75.
+2024-05-27 10:04:12.160 +07:00 [INF] Buffering: 100.
+2024-05-27 10:04:12.160 +07:00 [INF] Buffering: 100.
+2024-05-27 10:07:08.519 +07:00 [INF] Application Started
+2024-05-27 10:07:10.567 +07:00 [INF] Initializing VLC player with library directory: C:\Program Files (x86)\VideoLAN\VLC
+2024-05-27 10:07:10.778 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome.mp4
+2024-05-27 10:07:10.788 +07:00 [INF] Buffering: 0.
+2024-05-27 10:07:11.064 +07:00 [INF] Video is now playing.
+2024-05-27 10:07:11.064 +07:00 [INF] Buffering: 0.
+2024-05-27 10:07:11.065 +07:00 [INF] Buffering: 25.
+2024-05-27 10:07:11.065 +07:00 [INF] Buffering: 50.
+2024-05-27 10:07:11.066 +07:00 [INF] Buffering: 75.
+2024-05-27 10:07:11.067 +07:00 [INF] Buffering: 100.
+2024-05-27 10:07:11.068 +07:00 [INF] Buffering: 100.
+2024-05-27 10:07:26.762 +07:00 [INF] Video ended, restarting...
+2024-05-27 10:09:30.251 +07:00 [INF] Application Started
+2024-05-27 10:09:32.775 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome.mp4
+2024-05-27 10:09:32.913 +07:00 [INF] Video is now playing.
+2024-05-27 10:24:51.792 +07:00 [INF] Application Started
+2024-05-27 10:24:54.627 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome.mp4
+2024-05-27 10:24:54.894 +07:00 [INF] Video is now playing.
+2024-05-27 10:29:01.991 +07:00 [INF] Application Started
+2024-05-27 10:29:04.014 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome.mp4
+2024-05-27 10:29:04.327 +07:00 [INF] Video is now playing.
+2024-05-27 10:29:54.470 +07:00 [INF] Application Started
+2024-05-27 10:29:56.039 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome.mp4
+2024-05-27 10:29:56.341 +07:00 [INF] Video is now playing.
+2024-05-27 10:30:18.055 +07:00 [INF] Application Started
+2024-05-27 10:30:20.213 +07:00 [INF] Playing video: D:\Practice WPF\Project\TransQuik\TranQuik\bin\Debug\Video\awesome.mp4
+2024-05-27 10:30:20.540 +07:00 [INF] Video is now playing.
+2024-05-27 10:30:59.306 +07:00 [INF] Application Started
+2024-05-27 10:35:09.101 +07:00 [INF] Application Started
+2024-05-27 10:35:34.177 +07:00 [INF] Application Stopped
+2024-05-27 10:49:13.952 +07:00 [INF] Application Started
+2024-05-27 11:04:50.883 +07:00 [INF] Application Started
+2024-05-27 11:11:54.800 +07:00 [INF] Application Started
+2024-05-27 11:12:04.359 +07:00 [INF] Application Stopped
+2024-05-27 11:13:30.343 +07:00 [INF] Application Started
+2024-05-27 11:14:34.672 +07:00 [INF] Application Started
+2024-05-27 11:15:10.713 +07:00 [INF] Application Started
+2024-05-27 11:16:42.701 +07:00 [INF] Application Started
+2024-05-27 11:18:31.231 +07:00 [INF] Application Started
+2024-05-27 11:20:24.155 +07:00 [INF] Application Started
+2024-05-27 11:40:04.245 +07:00 [INF] Application Started
+2024-05-27 11:44:23.967 +07:00 [INF] Application Started
+2024-05-27 11:53:09.005 +07:00 [INF] Application Started
+2024-05-27 11:53:36.586 +07:00 [INF] Application Started
+2024-05-27 11:54:20.581 +07:00 [INF] Application Started
+2024-05-27 11:56:24.841 +07:00 [INF] Application Started
+2024-05-27 11:58:45.445 +07:00 [INF] Application Started
+2024-05-27 11:59:35.016 +07:00 [INF] Application Started
+2024-05-27 11:59:59.175 +07:00 [INF] Application Started
+2024-05-27 12:01:16.616 +07:00 [INF] Application Started
+2024-05-27 12:18:11.559 +07:00 [INF] Application Started
+2024-05-27 12:18:18.782 +07:00 [INF] Application Stopped
+2024-05-27 12:18:32.231 +07:00 [INF] Application Started
+2024-05-27 12:19:59.290 +07:00 [INF] Application Started
+2024-05-27 12:29:52.115 +07:00 [INF] Application Started
+2024-05-27 12:31:57.799 +07:00 [INF] Application Started
+2024-05-27 14:32:41.182 +07:00 [INF] Application Started
+2024-05-27 14:33:08.000 +07:00 [INF] Application Started
+2024-05-27 14:33:14.077 +07:00 [INF] Application Stopped
+2024-05-27 14:33:25.843 +07:00 [INF] Application Started
+2024-05-27 14:33:31.059 +07:00 [INF] Application Stopped
+2024-05-27 14:33:44.458 +07:00 [INF] Application Started
+2024-05-27 14:33:48.683 +07:00 [INF] Application Stopped
+2024-05-27 14:33:58.276 +07:00 [INF] Application Started
+2024-05-27 14:34:09.096 +07:00 [INF] Application Started
+2024-05-27 14:34:13.171 +07:00 [INF] Application Stopped
+2024-05-27 14:38:09.501 +07:00 [INF] Application Started
+2024-05-27 14:38:16.348 +07:00 [INF] Application Stopped
+2024-05-27 14:39:01.743 +07:00 [INF] Application Started
+2024-05-27 14:39:13.243 +07:00 [INF] Application Started
+2024-05-27 14:41:29.169 +07:00 [INF] Application Started
+2024-05-27 14:41:42.715 +07:00 [INF] Application Stopped
+2024-05-27 14:42:59.131 +07:00 [INF] Application Started
+2024-05-27 14:43:58.637 +07:00 [INF] Application Started
+2024-05-27 14:52:02.013 +07:00 [INF] Application Started
+2024-05-27 14:57:28.910 +07:00 [INF] Application Started
+2024-05-27 14:57:50.082 +07:00 [INF] Application Started
+2024-05-27 14:57:53.830 +07:00 [INF] Application Stopped
+2024-05-27 15:42:42.250 +07:00 [INF] Application Started
+2024-05-27 15:44:20.184 +07:00 [INF] Application Started
+2024-05-27 15:44:29.018 +07:00 [INF] Application Stopped
+2024-05-27 15:46:13.419 +07:00 [INF] Application Started
+2024-05-27 15:48:13.612 +07:00 [INF] Application Started
+2024-05-27 15:48:26.105 +07:00 [INF] Application Stopped
+2024-05-27 15:49:03.390 +07:00 [INF] Application Started
+2024-05-27 15:49:11.105 +07:00 [INF] Application Stopped
+2024-05-27 15:49:41.227 +07:00 [INF] Application Started
+2024-05-27 15:50:08.125 +07:00 [INF] Application Started
+2024-05-27 15:50:23.791 +07:00 [INF] Application Started
+2024-05-27 15:50:54.476 +07:00 [INF] Application Started
+2024-05-27 15:52:17.725 +07:00 [INF] Application Started
+2024-05-27 15:54:06.265 +07:00 [INF] Application Started
+2024-05-27 15:54:12.033 +07:00 [INF] Application Stopped
+2024-05-27 15:54:25.501 +07:00 [INF] Application Started
+2024-05-27 16:07:32.486 +07:00 [INF] Application Started
+2024-05-27 16:07:42.116 +07:00 [INF] Application Stopped
+2024-05-27 16:08:57.947 +07:00 [INF] Application Started
+2024-05-27 16:09:16.475 +07:00 [INF] Application Stopped
+2024-05-27 16:09:40.522 +07:00 [INF] Application Started
+2024-05-27 16:10:12.019 +07:00 [INF] Application Started
+2024-05-27 16:10:16.651 +07:00 [INF] Application Stopped
+2024-05-27 16:11:05.876 +07:00 [INF] Application Started
+2024-05-27 16:12:50.797 +07:00 [INF] Application Started
+2024-05-27 16:13:19.828 +07:00 [INF] Application Started
+2024-05-27 16:13:53.656 +07:00 [INF] Application Started
+2024-05-27 16:14:16.523 +07:00 [INF] Application Started
+2024-05-27 16:14:36.132 +07:00 [INF] Application Started
+2024-05-27 16:15:24.886 +07:00 [INF] Application Started
+2024-05-27 16:16:42.596 +07:00 [INF] Application Started
+2024-05-27 16:16:50.841 +07:00 [INF] Application Stopped
+2024-05-27 16:17:21.880 +07:00 [INF] Application Started
+2024-05-27 16:19:02.230 +07:00 [INF] Application Started
+2024-05-27 16:19:06.433 +07:00 [INF] Application Stopped
+2024-05-27 16:19:30.689 +07:00 [INF] Application Started
+2024-05-27 16:19:34.628 +07:00 [INF] Application Stopped
+2024-05-27 16:28:23.492 +07:00 [INF] Application Started
+2024-05-27 16:28:39.264 +07:00 [INF] Application Started
+2024-05-27 16:28:42.607 +07:00 [INF] Application Stopped
+2024-05-27 16:29:19.285 +07:00 [INF] Application Started
+2024-05-27 16:29:23.110 +07:00 [INF] Application Stopped
+2024-05-27 16:29:36.380 +07:00 [INF] Application Started
+2024-05-27 16:29:41.335 +07:00 [INF] Application Stopped
+2024-05-27 16:38:24.983 +07:00 [INF] Application Started
+2024-05-27 16:40:04.537 +07:00 [INF] Application Started
+2024-05-27 16:40:26.467 +07:00 [INF] Application Started
+2024-05-27 16:41:02.445 +07:00 [INF] Application Started
+2024-05-27 16:42:09.701 +07:00 [INF] Application Started
+2024-05-27 16:42:39.284 +07:00 [INF] Application Started
+2024-05-27 16:45:21.928 +07:00 [INF] Application Started
+2024-05-27 16:45:48.355 +07:00 [INF] Application Started
+2024-05-27 16:47:37.618 +07:00 [INF] Application Started
+2024-05-27 16:47:43.499 +07:00 [INF] Application Stopped
+2024-05-27 16:51:58.137 +07:00 [INF] Application Started
+2024-05-27 16:52:03.937 +07:00 [INF] Application Stopped
