@@ -17,7 +17,7 @@
         >
     <Border Background="{StaticResource TertiaryBackgroundColor}">
         <!--CONTENT START-->
-        <Grid Margin="5,0">
+        <Grid Margin="8,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="45"/>
                 <RowDefinition/>
@@ -750,7 +750,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button  x:Name="OpenAnyDesk" Margin="5,7,5,10" HorizontalAlignment="Left" 
+                    <Button  x:Name="OpenAnyDesk" Margin="5,7,0,10" HorizontalAlignment="Left" 
                             Background="{StaticResource ErrorColor}" Effect="{StaticResource DropShadowEffect}" Style="{StaticResource ButtonStyle}" 
                             BorderThickness="0" Click="OpenAnyDesk_Click">
                         <StackPanel Orientation="Horizontal" Background="Transparent" HorizontalAlignment="Left" Width="140">
@@ -759,7 +759,7 @@
                        FontWeight="SemiBold" FontFamily="Arial" Foreground="{StaticResource PrimaryBackgroundColor}"/>
                         </StackPanel>
                     </Button>
-                    <Button Grid.Column="1" x:Name="SessionName" Margin="5,7,5,10" HorizontalAlignment="Right" 
+                    <Button Grid.Column="1" x:Name="SessionName" Margin="5,7,0,10" HorizontalAlignment="Right" 
                             Background="{StaticResource FontColor}" Effect="{StaticResource DropShadowEffect}" Style="{StaticResource ButtonStyle}" 
                             BorderThickness="0" >
                         <StackPanel Orientation="Horizontal" Background="Transparent" HorizontalAlignment="Left" Width="auto">

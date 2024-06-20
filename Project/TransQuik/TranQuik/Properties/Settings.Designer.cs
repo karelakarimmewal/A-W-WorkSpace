@@ -429,5 +429,29 @@ namespace TranQuik.Properties {
                 this["_AnyDeskPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string _ShopName {
+            get {
+                return ((string)(this["_ShopName"]));
+            }
+            set {
+                this["_ShopName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string _ShopCode {
+            get {
+                return ((string)(this["_ShopCode"]));
+            }
+            set {
+                this["_ShopCode"] = value;
+            }
+        }
     }
 }

@@ -490,14 +490,14 @@ namespace TranQuik
             }
         }
 
-        private void NewCustomer()
+        private async void NewCustomer()
         {
             if (!mainWindow.isNew)
             {
                 return;
             }
             Customer customer = new Customer(DateTime.Now);
-            mainWindow.OrderID = customer.CustomerId;
+            mainWindow.OrderID = await customer.LoadLastCustomerData();
             mainWindow.CustomerTime = customer.Time;
         }
 

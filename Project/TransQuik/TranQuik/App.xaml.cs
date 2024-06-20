@@ -3,9 +3,13 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using TranQuik.Configuration;
+using TranQuik.Controller;
+using TranQuik.Model;
+using TranQuik.Pages;
 
 namespace TranQuik
 {
@@ -28,12 +32,10 @@ namespace TranQuik
 
             if (!isFirstInstance)
             {
-                // Show a message box indicating that another instance is already running
                 MessageBox.Show("Another instance of the application is already running. Please wait or close the existing instance.",
                     "Application Already Running",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
-
                 // Terminate this instance
                 Environment.Exit(0);
             }
@@ -60,6 +62,24 @@ namespace TranQuik
             EventManager.RegisterClassHandler(typeof(UIElement), UIElement.TouchDownEvent, new EventHandler<TouchEventArgs>(MyEventHandler));
         }
 
+        private async Task PerformCleanupAsync()
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(CurrentSessions.StaffID.ToString()))
+                {
+                    SyncMethod syncMethod = new SyncMethod();
+                    await syncMethod.CreateNewSessionInLocalDatabaseAsync(TranQuik.Properties.Settings.Default._ComputerID, TranQuik.Properties.Settings.Default._AppID, 2);
+                }                
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately
+                MessageBox.Show($"An error occurred during cleanup: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
         private void Scheduler()
         {
             // Define the path to the job file
@@ -75,6 +95,7 @@ namespace TranQuik
             // Release the mutex on exit
             singleInstanceMutex?.Close();
             base.OnExit(e);
+            _ = PerformCleanupAsync();
         }
     }
 }

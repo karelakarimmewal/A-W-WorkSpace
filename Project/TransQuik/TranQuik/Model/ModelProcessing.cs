@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -1117,7 +1118,6 @@ namespace TranQuik.Model
                             bitmapImage.StreamSource = stream;
                             bitmapImage.EndInit();
                         }
-
                         mainWindow.UpdateQRCodeImage(imageData, transactionQrUrl);
                         // Start timer to check transaction status periodically
                         GetTransactionStatus(transactionOrderId, PayTypeId, PayTypeName);
@@ -1310,12 +1310,16 @@ namespace TranQuik.Model
             // Define the delay between each status check attempt
             int delayMilliseconds = 1000; // 1 second
 
+            string Message = "Waiting For QRIS Payment";
+            NotificationPopup notificationPopup = new NotificationPopup(Message, false, null, false, true);
+            notificationPopup.Show();
+
             bool isDone = false;
             while (!isDone) // Continue indefinitely
             {
                 try
                 {
-                    if (PayTypeId != isPaymentChange)
+                    if (notificationPopup.IsConfirmed)
                     {
                         isDone = true;
                         mainWindow.QrisDone("Cancel", PayTypeId, PayTypeName);
@@ -1352,8 +1356,9 @@ namespace TranQuik.Model
                                     // Light green background for Settlement status
                                     backgroundBrush = Brushes.LightGreen;
                                     transactionStatus = "Settlement";
+                                    OrderTransactionFunction(2, string.Empty, mainWindow.total.Text, PayTypeId);
+                                    notificationPopup.Close();
                                     mainWindow.QrisDone(transactionStatus, PayTypeId, PayTypeName);
-                                    
                                     isDone = true;
                                     break;
                                 case "pending":
@@ -1365,6 +1370,8 @@ namespace TranQuik.Model
                                     // Light red background for Cancel status
                                     backgroundBrush = Brushes.LightSalmon;
                                     transactionStatus = "Cancel";
+                                    OrderTransactionFunction(91, string.Empty, mainWindow.total.Text, PayTypeId);
+                                    notificationPopup.Close();
                                     mainWindow.QrisDone(transactionStatus, PayTypeId, PayTypeName);
                                     isDone = true;
                                     break;
@@ -1372,6 +1379,8 @@ namespace TranQuik.Model
                                     // Light gray background for Expire status
                                     backgroundBrush = Brushes.LightGray;
                                     transactionStatus = "Expire";
+                                    OrderTransactionFunction(91, string.Empty, mainWindow.total.Text, PayTypeId);
+                                    notificationPopup.Close();
                                     mainWindow.QrisDone(transactionStatus, PayTypeId, PayTypeName);
                                     isDone = true;
                                     break;
@@ -1394,7 +1403,7 @@ namespace TranQuik.Model
             }
         }
 
-        public async void OrderTransactionFunction()
+        public async void OrderTransactionFunction(int transactionStatus = 2, string payRemark = "" , string TotalPays = "", string PayTypeID = "0")
         {
             OrderTransaction orderTransaction = new OrderTransaction();
 
@@ -1443,7 +1452,7 @@ namespace TranQuik.Model
                 }
             }
 
-            string PayText = mainWindow.displayText.Text.Replace(".", "");
+            string PayText = TotalPays == "" ? mainWindow.displayText.Text.Replace(".", "") : TotalPays.Replace(".", "");
 
             decimal TotalPay = decimal.TryParse(PayText, out TotalPay) ? TotalPay : 0;
                         
@@ -1452,8 +1461,6 @@ namespace TranQuik.Model
             decimal CurrencyExchangeRatio = 1;
 
             decimal TotalChange = TotalPay - totalPrice;
-
-            string payRemark = string.Empty;
 
             string CurrencyCode = "Rp";
 
@@ -1589,6 +1596,7 @@ namespace TranQuik.Model
             orderPayDetail.TransactionID = generatedTransactionID;
             orderPayDetail.ComputerID = ComputerID;
             orderPayDetail.TranKey = key;
+            orderPayDetail.PayTypeID = int.Parse(PayTypeID);
             orderPayDetail.PayAmount = TotalPay;
             orderPayDetail.CashChange = TotalChange;
             orderPayDetail.CashChangeMainCurrency = TotalChange;

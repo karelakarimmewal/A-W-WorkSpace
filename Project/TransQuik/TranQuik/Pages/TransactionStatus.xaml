@@ -23,7 +23,7 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="{StaticResource FontColor}" Margin="10" Height="100">
-                <TextBlock x:Name="transactionStatus" FontSize="34" TextWrapping="Wrap" Foreground="{StaticResource SuccessColor}" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="arial" FontStyle="Oblique" FontWeight="SemiBold"/>
+                <TextBlock x:Name="transactionStatus" FontSize="18" Text="Transaction Successfully" TextWrapping="Wrap" Foreground="{StaticResource SuccessColor}" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="arial" FontStyle="Oblique" FontWeight="SemiBold"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Button x:Name="Close" Grid.Column="1"  Content="{materialIcons:MaterialIconExt Kind=DoneAll}" Background="{StaticResource SuccessColor}" Foreground="{StaticResource FontColor}" Grid.Row="0"  Click="doneButton"/>

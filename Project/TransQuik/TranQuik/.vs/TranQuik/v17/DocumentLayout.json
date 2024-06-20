@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\pages\\paymenttypewindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:pages\\paymenttypewindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\pages\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:pages\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\pages\\paymenttypewindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:pages\\paymenttypewindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\pages\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,38 +27,39 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "MainWindow.xaml",
-              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\MainWindow.xaml",
-              "RelativeToolTip": "MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-06-19T09:59:11.333Z",
+              "Title": "PaymentTypeWindow.xaml.cs",
+              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\PaymentTypeWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Pages\\PaymentTypeWindow.xaml.cs",
+              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\PaymentTypeWindow.xaml.cs",
+              "RelativeToolTip": "Pages\\PaymentTypeWindow.xaml.cs",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAAAG8AAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-20T10:32:09.155Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "LoginPage.xaml",
-              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\LoginPage.xaml",
-              "RelativeDocumentMoniker": "Pages\\LoginPage.xaml",
-              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\LoginPage.xaml",
-              "RelativeToolTip": "Pages\\LoginPage.xaml",
+              "Title": "PaymentTypeWindow.xaml",
+              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\PaymentTypeWindow.xaml",
+              "RelativeDocumentMoniker": "Pages\\PaymentTypeWindow.xaml",
+              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\PaymentTypeWindow.xaml",
+              "RelativeToolTip": "Pages\\PaymentTypeWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-06-19T09:54:54.494Z",
+              "WhenOpened": "2024-06-20T10:32:07.651Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "LoginPage.xaml.cs",
+              "Title": "Pages\\LoginPage.xaml.cs",
               "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\LoginPage.xaml.cs",
               "RelativeDocumentMoniker": "Pages\\LoginPage.xaml.cs",
               "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\LoginPage.xaml.cs",
               "RelativeToolTip": "Pages\\LoginPage.xaml.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAJAAAAAAAAAAAAAuwLYAAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-19T09:54:53.435Z",
+              "WhenOpened": "2024-06-20T10:16:59.574Z",
               "EditorCaption": ""
             }
           ]

@@ -160,7 +160,7 @@ namespace TranQuik.Configuration
 
                 // Save the loaded settings back to file to ensure consistency
 
-                SaveAppSettings();
+                //SaveAppSettings();
             }
             catch (Exception ex)
             {
@@ -193,6 +193,8 @@ namespace TranQuik.Configuration
                 { "_AppFontFamily", "Arial" },
                 { "_AppSaleMode", "3" },
                 { "_AppID", "00" },
+                { "_ShopCode", "000" },
+                { "_ShopName", "000" },
                 { "_AppSecMonitor", "False" },
                 { "_AppSecMonitorBorder", "1" },
                 { "_AppSecMonitorUrl", "" },
@@ -238,6 +240,8 @@ namespace TranQuik.Configuration
             AppSettings.AppFontFamily = GetSettingString(appSettings, "_AppFontFamily", AppSettings.AppFontFamily);
             AppSettings.AppSaleMode = GetSettingInt(appSettings, "_AppSaleMode", AppSettings.AppSaleMode);
             AppSettings.AppID = GetSettingString(appSettings, "_AppID", AppSettings.AppID);
+            AppSettings.ShopCode = GetSettingString(appSettings, "_ShopCode", AppSettings.ShopCode);
+            AppSettings.ShopName = GetSettingString(appSettings, "_ShopName", AppSettings.ShopName);
             AppSettings.AppSecMonitor = GetSettingBool(appSettings, "_AppSecMonitor", AppSettings.AppSecMonitor);
             AppSettings.AppSecMonitorBorder = GetSettingInt(appSettings, "_AppSecMonitorBorder", AppSettings.AppSecMonitorBorder);
             AppSettings.AppSecMonitorUrl = GetSettingString(appSettings, "_AppSecMonitorUrl", AppSettings.AppSecMonitorUrl);
@@ -314,7 +318,7 @@ namespace TranQuik.Configuration
             }
             return defaultValue;
         }
-        // Method to save current application settings to AppSettings.json
+        
         public static void SaveAppSettings()
         {
             try
@@ -326,6 +330,8 @@ namespace TranQuik.Configuration
                     { "_AppFontFamily", AppSettings.AppFontFamily },
                     { "_AppSaleMode", AppSettings.AppSaleMode.ToString() },
                     { "_AppID", AppSettings.AppID },
+                    { "_ShopCode", AppSettings.ShopCode },
+                    { "_ShopName", AppSettings.ShopName },
                     { "_AppSecMonitor", AppSettings.AppSecMonitor.ToString() },
                     { "_AppSecMonitorBorder", AppSettings.AppSecMonitorBorder.ToString() },
                     { "_AppSecMonitorUrl", AppSettings.AppSecMonitorUrl },

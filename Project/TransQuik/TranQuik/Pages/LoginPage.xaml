@@ -39,7 +39,14 @@
                             <TextBlock Text="LOGIN" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
-                    <TextBlock Margin="0,5" Text="Use This For Login   00000 / 03024 / 31098" TextWrapping="Wrap" FontFamily="Global Monospace" FontSize="12" FontWeight="ExtraLight" TextAlignment="Center"/>
+                    <StackPanel  Margin="0,5,0,0" Orientation="Horizontal" VerticalAlignment="Bottom">
+                        <Button x:Name="fastLogin" HorizontalAlignment="Left"  Height="20" Width="75" FontSize="14" Effect="{StaticResource DropShadowEffect}" FontFamily="arial" 
+                        Background="{StaticResource PrimaryButtonColor}" FontWeight="SemiBold"
+                        Foreground="{StaticResource PrimaryBackgroundColor}" BorderThickness="0" Click="fastLogin_Click">
+                            <materialIcons:MaterialIcon Kind="ContentDuplicate" Height="14"/>
+                        </Button>
+                        <TextBlock Text="Click for random user" FontFamily="arial" Foreground="{StaticResource FontColor}" FontSize="10" FontWeight="Light" VerticalAlignment="Center" Margin="5,0" />
+                    </StackPanel>
                 </StackPanel>
             </Border>
             <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">

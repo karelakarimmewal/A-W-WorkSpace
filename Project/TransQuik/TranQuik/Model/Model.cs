@@ -1,4 +1,5 @@
 ﻿using Material.Icons;
+using MySql.Data.MySqlClient;
 using Mysqlx.Session;
 using Newtonsoft.Json;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -118,117 +120,139 @@ namespace TranQuik.Model
 
     public class Customer
     {
-        private static int lastCustomerId = 0;
-        private static DateTime lastCreationDate = DateTime.MinValue;
-        private static readonly string directoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-        private static readonly string filePath = Path.Combine(directoryPath, "lcdatas.json");
-        private static readonly byte[] key = Encoding.UTF8.GetBytes("0123456789abcdef0123456789abcdef"); // 32 bytes for AES-256
-        private static readonly byte[] iv = Encoding.UTF8.GetBytes("abcdef9876543210"); // 16 bytes for AES
-
         public int CustomerId { get; private set; }
         public DateTime Time { get; private set; }
 
         public Customer(DateTime time)
         {
-            LoadLastCustomerData();
-
-            //if (lastCreationDate.Date != time.Date)
-            //{
-            //    lastCustomerId = 0;
-            //    lastCreationDate = time.Date;
-            //}
-
-            CustomerId = ++lastCustomerId;
             Time = time;
-
-            SaveLastCustomerData();
         }
 
-        private void SaveLastCustomerData()
+        public async Task<int> LoadLastCustomerData()
         {
-            var data = new { LastCustomerId = lastCustomerId, LastCreationDate = lastCreationDate };
-            string jsonData = JsonConvert.SerializeObject(data);
+            LocalDbConnector dbConnector = new LocalDbConnector();
 
-            // Encrypt the data before writing to file
-            byte[] encryptedData = EncryptStringToBytes_Aes(jsonData, key, iv);
-
-            Directory.CreateDirectory(directoryPath);
-            File.WriteAllBytes(filePath, encryptedData);
-        }
-
-        private void LoadLastCustomerData()
-        {
-            if (File.Exists(filePath))
+            try
             {
-                byte[] encryptedData = File.ReadAllBytes(filePath);
+                string getLastSessionIdQuery = "SELECT MAX(NoCustomer) FROM ordertransaction";
 
-                // Decrypt the data after reading from file
-                string decryptedData = DecryptStringFromBytes_Aes(encryptedData, key, iv);
+                int newCustomerID;
 
-                var data = JsonConvert.DeserializeObject<dynamic>(decryptedData);
-                lastCustomerId = data.LastCustomerId;
-                lastCreationDate = data.LastCreationDate;
-            }
-        }
-
-        private static byte[] EncryptStringToBytes_Aes(string plainText, byte[] key, byte[] iv)
-        {
-            if (plainText == null || plainText.Length <= 0)
-                throw new ArgumentNullException(nameof(plainText));
-            if (key == null || key.Length <= 0)
-                throw new ArgumentNullException(nameof(key));
-            if (iv == null || iv.Length <= 0)
-                throw new ArgumentNullException(nameof(iv));
-
-            using (Aes aesAlg = Aes.Create())
-            {
-                aesAlg.Key = key;
-                aesAlg.IV = iv;
-
-                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-
-                using (MemoryStream msEncrypt = new MemoryStream())
+                using (MySqlConnection connection = dbConnector.GetMySqlConnection())
                 {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    await connection.OpenAsync();
+
+                    using (MySqlCommand getLastSessionIdCommand = new MySqlCommand(getLastSessionIdQuery, connection))
                     {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                        {
-                            swEncrypt.Write(plainText);
-                        }
-                        return msEncrypt.ToArray();
+                        object result = await getLastSessionIdCommand.ExecuteScalarAsync();
+
+                        newCustomerID = result != DBNull.Value ? Convert.ToInt32(result) + 1 : 1;
+
+                        CustomerId = newCustomerID;
                     }
                 }
+
+                return newCustomerID; // Return the generated transaction ID
             }
-        }
-
-        private static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] key, byte[] iv)
-        {
-            if (cipherText == null || cipherText.Length <= 0)
-                throw new ArgumentNullException(nameof(cipherText));
-            if (key == null || key.Length <= 0)
-                throw new ArgumentNullException(nameof(key));
-            if (iv == null || iv.Length <= 0)
-                throw new ArgumentNullException(nameof(iv));
-
-            using (Aes aesAlg = Aes.Create())
+            catch (MySqlException ex)
             {
-                aesAlg.Key = key;
-                aesAlg.IV = iv;
-
-                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-                using (MemoryStream msDecrypt = new MemoryStream(cipherText))
-                {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
-                        {
-                            return srDecrypt.ReadToEnd();
-                        }
-                    }
-                }
+                // Handle MySQL exceptions
+                Console.WriteLine("MySQL Error: " + ex.Message);
+                throw; // Rethrow the exception for higher-level handling
+            }
+            catch (Exception ex)
+            {
+                // Handle any other exceptions
+                Console.WriteLine("Error: " + ex.Message);
+                throw; // Rethrow the exception for higher-level handling
             }
         }
+
+        //private void SaveLastCustomerData()
+        //{
+        //    var data = new { LastCustomerId = lastCustomerId, LastCreationDate = lastCreationDate };
+        //    string jsonData = JsonConvert.SerializeObject(data);
+
+        //    // Encrypt the data before writing to file
+        //    byte[] encryptedData = EncryptStringToBytes_Aes(jsonData, key, iv);
+
+        //    Directory.CreateDirectory(directoryPath);
+        //    File.WriteAllBytes(filePath, encryptedData);
+        //}
+
+        //private void LoadLastCustomerData()
+        //{
+        //    if (File.Exists(filePath))
+        //    {
+        //        byte[] encryptedData = File.ReadAllBytes(filePath);
+
+        //        // Decrypt the data after reading from file
+        //        string decryptedData = DecryptStringFromBytes_Aes(encryptedData, key, iv);
+
+        //        var data = JsonConvert.DeserializeObject<dynamic>(decryptedData);
+        //        lastCustomerId = data.LastCustomerId;
+        //        lastCreationDate = data.LastCreationDate;
+        //    }
+        //}
+
+        //private static byte[] EncryptStringToBytes_Aes(string plainText, byte[] key, byte[] iv)
+        //{
+        //    if (plainText == null || plainText.Length <= 0)
+        //        throw new ArgumentNullException(nameof(plainText));
+        //    if (key == null || key.Length <= 0)
+        //        throw new ArgumentNullException(nameof(key));
+        //    if (iv == null || iv.Length <= 0)
+        //        throw new ArgumentNullException(nameof(iv));
+
+        //    using (Aes aesAlg = Aes.Create())
+        //    {
+        //        aesAlg.Key = key;
+        //        aesAlg.IV = iv;
+
+        //        ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+
+        //        using (MemoryStream msEncrypt = new MemoryStream())
+        //        {
+        //            using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+        //            {
+        //                using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+        //                {
+        //                    swEncrypt.Write(plainText);
+        //                }
+        //                return msEncrypt.ToArray();
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] key, byte[] iv)
+        //{
+        //    if (cipherText == null || cipherText.Length <= 0)
+        //        throw new ArgumentNullException(nameof(cipherText));
+        //    if (key == null || key.Length <= 0)
+        //        throw new ArgumentNullException(nameof(key));
+        //    if (iv == null || iv.Length <= 0)
+        //        throw new ArgumentNullException(nameof(iv));
+
+        //    using (Aes aesAlg = Aes.Create())
+        //    {
+        //        aesAlg.Key = key;
+        //        aesAlg.IV = iv;
+
+        //        ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+        //        using (MemoryStream msDecrypt = new MemoryStream(cipherText))
+        //        {
+        //            using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+        //            {
+        //                using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+        //                {
+        //                    return srDecrypt.ReadToEnd();
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
     }
 
     public class Product

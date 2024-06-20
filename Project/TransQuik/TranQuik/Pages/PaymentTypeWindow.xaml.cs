@@ -87,11 +87,11 @@ namespace TranQuik.Pages
             }
             else
             {
-                // Display an error message if the file is not found
-                MessageBox.Show($"On-Screen Keyboard (OSK) not found at the specified path. {oskPath}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                string Message = "On ScreeKeyboard Not Found !!!";
+                NotificationPopup notificationPopup = new NotificationPopup(Message, false);
+                notificationPopup.ShowDialog();
             }
         }
-
 
         private void CancelButton(object sender, RoutedEventArgs e)
         {
@@ -100,14 +100,28 @@ namespace TranQuik.Pages
 
         private void SubmitButton(object sender, RoutedEventArgs e)
         {
-            if (Properties.Settings.Default._PrinterStatus)
-            {
-                MainWindow.Print(PayTypeID.ToString(), PayTypeName, MainWindow.GenerateReceiptNumber(MainWindow.OrderID.ToString()));
-                TransactionStatus transactionStatus = new TransactionStatus("Success", modelProcessing);
+            string payRemark = !string.IsNullOrEmpty(NIKInput.Text) && !string.IsNullOrEmpty(NameInput.Text)
+                                    ? $"{NIKInput.Text}|{NameInput.Text}"
+                                    : PayRemarkText.Text;
 
+            // Check if payRemark is null or empty
+            if (string.IsNullOrEmpty(payRemark))
+            {
+                string message = "CANT BE PROCEED, NEED PAYREMARK !";
+                NotificationPopup notificationPopup = new NotificationPopup(message, false);
+                notificationPopup.ShowDialog();
+                return; // Exit the method to prevent further processing
             }
 
+            if (Properties.Settings.Default._PrinterStatus)
+            {
+                modelProcessing.OrderTransactionFunction(2, payRemark , TotalPay.Text, PayTypeID.ToString());
+                MainWindow.TransactionDone(PayTypeID.ToString(), PayTypeName);
+                TransactionStatus transactionStatus = new TransactionStatus("Success", modelProcessing);
+                this.Close();
+            }
         }
+
 
         private void MealCardButton_Click(object sender, RoutedEventArgs e)
         {

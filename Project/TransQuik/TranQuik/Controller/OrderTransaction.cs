@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Threading.Tasks;
+using TranQuik.Model;
 
 namespace TranQuik.Controller
 {

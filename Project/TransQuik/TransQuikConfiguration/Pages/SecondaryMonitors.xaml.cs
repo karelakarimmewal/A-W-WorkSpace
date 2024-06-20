@@ -5,6 +5,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using TranQuik.Configuration;
 using Microsoft.Win32;
+using System.Linq;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace TransQuikConfiguration.Pages
 {
@@ -235,15 +238,15 @@ namespace TransQuikConfiguration.Pages
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             // Set initial directory to the combined path
-            string baseDirectory = System.IO.Path.GetDirectoryName(Config.ConfigFilePath);
+            string baseDirectory = Path.GetDirectoryName(Config.ConfigFilePath);
             string relativePath = @"..\Resource\Video\";
-            string combinedPath = System.IO.Path.Combine(baseDirectory, relativePath);
+            string combinedPath = Path.Combine(baseDirectory, relativePath);
 
             // Log the combined path to check if it's correct
             Console.WriteLine($"Combined Path: {combinedPath}");
-           
+
             // Check if the combined path exists
-            if (System.IO.Directory.Exists(combinedPath))
+            if (Directory.Exists(combinedPath))
             {
                 // Set filter for file extension and default file extension
                 openFileDialog.Filter = "MP4 files (*.mp4)|*.mp4|All files (*.*)|*.*";
@@ -260,6 +263,27 @@ namespace TransQuikConfiguration.Pages
                     SecondaryMonitorUrl.Text = filename;
                     monitorPath = filename;
                 }
+                else
+                {
+                    SecondaryMonitorUrl.Text = combinedPath;
+                    monitorPath = combinedPath;
+                }
+                if (Directory.Exists(Path.Combine(monitorPath, "Downloaded")))
+                {
+                    string[] files = Directory.GetFiles(Path.Combine(monitorPath, "Downloaded"));
+                    encodeButton.IsEnabled = files.Length < 1 ? false : true;
+                    encodeButton.Visibility = files.Length < 1 ? Visibility.Collapsed : Visibility.Visible ;
+                    if (files.Length < 1)
+                    {
+                        previewButton.Width = 360;
+                        previewButton.Margin = new Thickness(0, 0, 0, 0);
+                    }
+                    else
+                    {
+                        previewButton.Width = 180;
+                        previewButton.Margin = new Thickness(5, 0, 0, 0);
+                    }
+                }
             }
             else
             {
@@ -274,6 +298,150 @@ namespace TransQuikConfiguration.Pages
             AppSettings.AppSecMonitorBorder = monitorBorderStyle;
             AppSettings.AppSecMonitorLoop = monitorLoop;
             AppSettings.AppSecMonitorUrl = Path.GetFileName(monitorPath);
+        }
+
+        private async void encodeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Check if the directory exists, if not, try to extract the directory part from the path
+                if (!Directory.Exists(monitorPath))
+                {
+                    // Check if the specified path is a file
+                    if (File.Exists(monitorPath))
+                    {
+                        // Extract the directory part from the file path
+                        monitorPath = Path.GetDirectoryName(monitorPath);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Path does not exist or is invalid: {monitorPath}");
+                        return;
+                    }
+                }
+
+                string downloadPath = Path.Combine(monitorPath, "Downloaded");
+
+                if (!Directory.Exists(downloadPath))
+                {
+                    Directory.CreateDirectory(downloadPath);
+                }
+
+                // Create "Original" folder inside the monitorPath
+                string originalPath = Path.Combine(monitorPath, "Original");
+                if (!Directory.Exists(originalPath))
+                {
+                    Directory.CreateDirectory(originalPath);
+                }
+
+                // Get all files in the "Original" folder
+                string[] originalFiles = Directory.GetFiles(originalPath);
+
+                // Determine the next available number in the sequence
+                int nextNumber = 1;
+                if (originalFiles.Length > 0)
+                {
+                    var numberedFiles = originalFiles
+                        .Select(file => new { FileName = Path.GetFileNameWithoutExtension(file), FilePath = file })
+                        .Where(x => int.TryParse(x.FileName, out _))
+                        .OrderByDescending(x => int.Parse(x.FileName))
+                        .FirstOrDefault();
+
+                    if (numberedFiles != null)
+                    {
+                        nextNumber = int.Parse(numberedFiles.FileName) + 1;
+                    }
+                }
+
+                // Get all files in the "Downloaded" directory
+                string[] files = Directory.GetFiles(downloadPath);
+
+                // Move each file to the "Original" folder and rename them with sequential numbers
+                foreach (string filePath in files)
+                {
+                    string fileName = Path.GetFileName(filePath);
+                    string destinationFilePath = Path.Combine(originalPath, $"{nextNumber++}.mp4");
+
+                    // Ensure that the destination file name is unique
+                    while (File.Exists(destinationFilePath))
+                    {
+                        destinationFilePath = Path.Combine(originalPath, $"{nextNumber++}_{fileName}");
+                    }
+
+                    // Move the file to the "Original" folder
+                    File.Move(filePath, destinationFilePath);
+                }
+
+                // Refresh the list of original files after moving new files
+                originalFiles = Directory.GetFiles(originalPath);
+
+                // Set the progress bar maximum value
+                EncoderProcess.Maximum = originalFiles.Length;
+                EncoderProcess.Value = 0;
+
+
+                string handBrakeCLIPath = @"D:\HandBrake\HandBrakeCLI.exe";
+
+                if (!File.Exists(handBrakeCLIPath))
+                {
+                    MessageBox.Show("HandBrakeCLI executable not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Process each file using HandBrakeCLI in a background thread
+                await Task.Run(() =>
+                {
+                    // Delete all files (excluding directories) in monitorPath
+                    foreach (string filePath in Directory.GetFiles(monitorPath))
+                    {
+                        File.Delete(filePath);
+                    }
+                    
+                    int progressBarValue = 0;
+
+                    foreach (string filePath in originalFiles)
+                    {
+                        string outputFilePath = Path.Combine(monitorPath, Path.GetFileName(filePath));
+
+                        // Run HandBrakeCLI command
+                        ProcessStartInfo startInfo = new ProcessStartInfo
+                        {
+                            FileName = handBrakeCLIPath,
+                            Arguments = $"-i \"{filePath}\" -o \"{outputFilePath}\" -e mpeg4 -q 30 -r 40 -B 64 -X 1280 -O",
+                            UseShellExecute = false,
+                            CreateNoWindow = true
+                        };
+
+                        using (Process process = Process.Start(startInfo))
+                        {
+                            process.WaitForExit();
+
+                            if (process.ExitCode != 0)
+                            {
+                                string error = process.StandardError.ReadToEnd();
+                                MessageBox.Show($"HandBrakeCLI error: {error}");
+                            }
+                        }
+
+                        // Update the progress bar for each processed file
+                        Dispatcher.Invoke(() =>
+                        {
+                            Console.WriteLine($"This is progress {progressBarValue}");
+                            progressBarValue++;
+                            EncoderProcess.Value = progressBarValue;
+                        });
+
+                        // Optionally, you can introduce a delay to see the progress bar updating
+                        // Task.Delay(100).Wait(); // Milliseconds
+                    }
+                });
+
+                MessageBox.Show("Encoding completed successfully, video will much smoother now !!!.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="TranQuik.exe" version="1.0.0.3" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="TranQuik.exe" version="1.0.0.3" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="amd64" type="win32" />
   <description asmv2:iconFile="Img\TranQuik (1).ico" asmv2:publisher="TranQuik" co.v1:suiteName="TranQuik" asmv2:product="TranQuik Pos System" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="TranQuik" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="TranQuik" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
     <commandLine file="TranQuik.exe" parameters="" />
   </entryPoint>
   <co.v1:useManifestForTrust xmlns="urn:schemas-microsoft-com:asm.v1" />
@@ -740,14 +740,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TranQuik.exe" size="1120712">
-      <assemblyIdentity name="TranQuik" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TranQuik.exe" size="1123272">
+      <assemblyIdentity name="TranQuik" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>xCozGXdFVh0OBJC94zZJLZOWwQwoiQ2RucI78/sBy/U=</dsig:DigestValue>
+        <dsig:DigestValue>ZYpG+Hboahs+fuwOfdOLXMD19nq5vKGdmohtoGKRQqA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -856,13 +856,13 @@
       <dsig:DigestValue>d23Bnt0mSYAKk701t0th0Lga6EDtxlnP/vUE7ii11YE=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="TranQuik.exe.config" size="9615">
+  <file name="TranQuik.exe.config" size="9868">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>0SnR6oriHIgWrF5fFCkIGIcoQh3GaTc65LiYzrlE4ao=</dsig:DigestValue>
+      <dsig:DigestValue>7INOpXPkFd6g79TDEsatOwYlsYFObMcWeztCY613jl4=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

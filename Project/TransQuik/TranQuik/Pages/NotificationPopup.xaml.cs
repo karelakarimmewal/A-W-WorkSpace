@@ -11,8 +11,9 @@ namespace TranQuik.Pages
         private MainWindow mainWindow;
 
         private bool IsUpdate = false;
+        private bool IsQrisCanceled = false;
 
-        public NotificationPopup(string Text, bool isShow, MainWindow mainWindow = null, bool isUpdate = false)
+        public NotificationPopup(string Text, bool isShow, MainWindow mainWindow = null, bool isUpdate = false, bool isQrisCanceled = false)
         {
             InitializeComponent();
 
@@ -21,12 +22,22 @@ namespace TranQuik.Pages
             this.mainWindow = mainWindow;
 
             IsUpdate = isUpdate;
+
+            IsQrisCanceled = isQrisCanceled;
             
             if (!isShow)
             {
                 CancelButton.Visibility = Visibility.Collapsed;
                 Grid.SetColumnSpan(YesButton, 2); // Set YesButton to span two columns if CancelButton is hidden
+
+                if (isQrisCanceled)
+                {
+                    yesButtonText.Text = "Cancel QRIS Payment";
+                    yesButtonText.TextWrapping = TextWrapping.Wrap;
+                }
             }
+
+            
         }
 
         private async void YesButton_Click(object sender, RoutedEventArgs e)

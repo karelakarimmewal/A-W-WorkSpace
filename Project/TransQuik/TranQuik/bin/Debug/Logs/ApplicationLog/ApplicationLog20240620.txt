@@ -1,0 +1,62 @@
+2024-06-20 09:16:06.762 +07:00 [INF] Application Started
+2024-06-20 09:31:01.426 +07:00 [INF] Application Started
+2024-06-20 09:32:29.456 +07:00 [INF] Application Started
+2024-06-20 09:32:54.378 +07:00 [INF] Application Stopped
+2024-06-20 09:34:19.097 +07:00 [INF] Application Started
+2024-06-20 09:34:49.905 +07:00 [INF] Application Started
+2024-06-20 09:44:30.234 +07:00 [INF] Application Started
+2024-06-20 09:44:48.955 +07:00 [INF] Application Started
+2024-06-20 09:45:22.383 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 09:46:01.709 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 09:46:25.494 +07:00 [INF] Application Stopped
+2024-06-20 09:54:05.225 +07:00 [INF] Application Started
+2024-06-20 09:54:31.812 +07:00 [INF] Application Stopped
+2024-06-20 10:02:21.957 +07:00 [INF] Application Started
+2024-06-20 10:02:35.093 +07:00 [INF] Application Started
+2024-06-20 10:02:46.425 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 10:08:56.174 +07:00 [INF] Application Started
+2024-06-20 10:10:49.568 +07:00 [INF] Application Started
+2024-06-20 10:11:22.242 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 10:11:55.389 +07:00 [INF] Application Started
+2024-06-20 10:12:12.440 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 10:12:24.143 +07:00 [INF] Application Stopped
+2024-06-20 10:13:26.306 +07:00 [INF] Application Started
+2024-06-20 10:13:42.128 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 10:13:53.104 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 12:15:23.866 +07:00 [INF] Application Started
+2024-06-20 12:15:46.101 +07:00 [INF] Application Stopped
+2024-06-20 12:24:22.368 +07:00 [INF] Application Started
+2024-06-20 15:59:29.162 +07:00 [INF] Application Started
+2024-06-20 15:59:49.956 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 16:00:52.846 +07:00 [INF] Application Started
+2024-06-20 16:01:06.117 +07:00 [INF] Application Started
+2024-06-20 16:02:48.032 +07:00 [INF] Application Started
+2024-06-20 16:03:02.802 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 16:03:28.281 +07:00 [INF] Application Stopped
+2024-06-20 16:05:51.362 +07:00 [INF] Application Started
+2024-06-20 16:06:06.384 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 16:08:40.346 +07:00 [INF] Application Stopped
+2024-06-20 16:09:19.165 +07:00 [INF] Application Started
+2024-06-20 16:10:06.010 +07:00 [INF] Application Started
+2024-06-20 16:10:20.954 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 16:13:17.070 +07:00 [INF] Application Started
+2024-06-20 16:13:31.231 +07:00 [INF] Application Started
+2024-06-20 16:13:49.272 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 16:15:27.276 +07:00 [INF] Application Started
+2024-06-20 16:15:40.647 +07:00 [INF] Application Started
+2024-06-20 16:16:00.233 +07:00 [INF] Application Started
+2024-06-20 16:16:18.544 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 16:28:11.895 +07:00 [INF] Application Started
+2024-06-20 16:29:15.422 +07:00 [INF] Application Started
+2024-06-20 16:31:42.232 +07:00 [INF] Application Started
+2024-06-20 16:39:55.176 +07:00 [INF] Application Started
+2024-06-20 16:40:02.161 +07:00 [INF] Application Started
+2024-06-20 16:40:28.373 +07:00 [INF] Application Started
+2024-06-20 16:40:48.097 +07:00 [INF] Application Stopped
+2024-06-20 16:44:48.070 +07:00 [INF] Application Started
+2024-06-20 17:01:24.178 +07:00 [INF] Application Started
+2024-06-20 17:01:38.700 +07:00 [INF] Pay Type Button Clicked
+2024-06-20 17:03:04.155 +07:00 [INF] Application Started
+2024-06-20 17:09:42.205 +07:00 [INF] Application Started
+2024-06-20 17:22:41.904 +07:00 [INF] Application Started
+2024-06-20 17:22:55.407 +07:00 [INF] Application Stopped

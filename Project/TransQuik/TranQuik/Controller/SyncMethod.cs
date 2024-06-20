@@ -104,7 +104,7 @@ namespace TranQuik.Controller
                     Properties.Settings.Default._LastSync = DateTime.Now;
                     AppSettings.LastSync = Properties.Settings.Default._LastSync;
                     Properties.Settings.Default.Save();
-                    Config.SaveAppSettings();
+                    //Config.SaveAppSettings();
                     await LocalConnection.CloseAsync();
                 }
             }

@@ -1,12 +1,14 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using TranQuik.Configuration;
 using TransQuikConfiguration.Model;
-using MaterialDesignThemes.Wpf;
 using TransQuikConfiguration.Pages;
+
 
 namespace TransQuikConfiguration
 {
@@ -313,9 +315,62 @@ namespace TransQuikConfiguration
             }
         }
 
-        private void defaultButton_Click(object sender, RoutedEventArgs e)
+        private void configPath_Click(object sender, RoutedEventArgs e)
         {
+            // Create an instance of OpenFileDialog
+            var openFileDialog = new System.Windows.Forms.OpenFileDialog
+            {
+                Title = "Select Application Path",
+                ValidateNames = false,
+                CheckFileExists = false,
+                CheckPathExists = true,
+                FileName = "Select Folder"
+            };
 
+            // Set the dialog to pick .exe files only
+            openFileDialog.Filter = "Executable Files (*.exe)|*.exe";
+
+            // Show the dialog and check if the user clicked OK
+            System.Windows.Forms.DialogResult result = openFileDialog.ShowDialog();
+
+            // Show the dialog and check if the user clicked OK
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                // Check if the selected file is TranQuik.exe
+                if (Path.GetFileName(openFileDialog.FileName) != "TranQuik.exe")
+                {
+                    // Notify the user and exit the method
+                    MessageBox.Show("Please select TranQuik.exe", "Invalid File", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                string exeDirectory = Path.GetDirectoryName(openFileDialog.FileName);
+                string configDirectory = Path.Combine(exeDirectory, "Configuration");
+
+                // Combine the directory with the config file path
+                string configFilePath = Path.Combine(configDirectory, Config.ConfigFileName);
+
+                // Set the value of ConfigFilePath
+                Config.ConfigFilePath = configFilePath;
+
+                // Ensure the config directory exists
+                if (!Directory.Exists(configDirectory))
+                {
+                    Directory.CreateDirectory(configDirectory);
+                }
+
+                // Ensure the config file exists
+                if (!File.Exists(Config.ConfigFilePath))
+                {
+                    // Create a new AppSettings.json file with default values
+                    Config.CreateDefaultAppSettingsFile();
+                }
+
+                // Save the last location
+                Properties.Settings.Default._LastLocation = exeDirectory;
+                Properties.Settings.Default.Save();
+            }
         }
+
     }
 }

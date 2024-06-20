@@ -21,7 +21,7 @@
             </Grid.RowDefinitions>
             <Border Background="{StaticResource FontColor}" Effect="{StaticResource DropShadowEffect}" BorderBrush="{StaticResource FontColor}" BorderThickness="5">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="10,0">
-                    <materialIcons:MaterialIcon Kind="Settings" Height="16" Foreground="{StaticResource WarningColor}"/>
+                    <materialIcons:MaterialIcon Kind="Settings" Height="16" Foreground="{StaticResource PrimaryButtonColor}"/>
                     <TextBlock Margin="5,0" VerticalAlignment="Center" Text="TRANQUIK CONFIGURATION" FontSize="14" FontWeight="SemiBold" FontFamily="arial" Foreground="{StaticResource PrimaryBackgroundColor}"/>
                 </StackPanel>
             </Border>
@@ -51,10 +51,10 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="Prev" Grid.Column="0" Click="Prev_Click" Effect="{StaticResource DropShadowEffect}" Foreground="{StaticResource AccentColor}"  Background="{StaticResource WarningColor}" BorderThickness="1" BorderBrush="{StaticResource AccentColor}">
+                    <Button x:Name="Prev" Grid.Column="0" Click="Prev_Click" Effect="{StaticResource DropShadowEffect}" Foreground="{StaticResource PrimaryButtonColor}"  Background="{StaticResource FontColor}" BorderThickness="1" BorderBrush="{StaticResource PrimaryButtonColor}">
                         <materialIcons:MaterialIcon Kind="NavigateBefore" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
-                    <Button x:Name="Next" Grid.Column="1" Click="Next_Click" Effect="{StaticResource DropShadowEffect}" Foreground="{StaticResource AccentColor}" Background="{StaticResource WarningColor}" BorderThickness="1" BorderBrush="{StaticResource AccentColor}">
+                    <Button x:Name="Next" Grid.Column="1" Click="Next_Click" Effect="{StaticResource DropShadowEffect}" Foreground="{StaticResource PrimaryButtonColor}" Background="{StaticResource FontColor}" BorderThickness="1" BorderBrush="{StaticResource PrimaryButtonColor}">
                         <materialIcons:MaterialIcon Kind="NavigateNext" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
                 </Grid>
@@ -77,22 +77,22 @@
                         <TextBlock x:Name="deviceID" Text="22-547-903-21" FontSize="14"  FontWeight="SemiBold" FontFamily="arial" Foreground="LightYellow" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="defaultButton" Width="150" Effect="{StaticResource DropShadowEffect}" Style="{StaticResource ButtonStyle}"  Background="{StaticResource AccentColor}" Foreground="{StaticResource PrimaryBackgroundColor}" BorderThickness="0" Click="defaultButton_Click">
+                        <Button x:Name="configPath" Width="150" Effect="{StaticResource DropShadowEffect}" Style="{StaticResource ButtonStyle}"  Background="{StaticResource AccentColor}" Foreground="{StaticResource PrimaryBackgroundColor}" BorderThickness="0" Click="configPath_Click" >
                             <StackPanel Margin="3">
-                                <materialIcons:MaterialIcon Kind="Settings" Height="26"/>
-                                <TextBlock Text="DEFAULT" FontSize="12" FontWeight="SemiBold" FontFamily="arial"/>
+                                <materialIcons:MaterialIcon Kind="FolderArrowLeft" Height="26"/>
+                                <TextBlock Text="NEW CONFIG PATH" FontSize="10" FontWeight="SemiBold" FontFamily="arial"/>
                             </StackPanel>
                         </Button>
                         <Button x:Name="applyButton" Width="150" Effect="{StaticResource DropShadowEffect}" Style="{StaticResource ButtonStyle}"   Background="{StaticResource PrimaryButtonColor}" Foreground="{StaticResource PrimaryBackgroundColor}" BorderThickness="0" Click="applyButton_Click">
                             <StackPanel Margin="3">
                                 <materialIcons:MaterialIcon Kind="HeadSync" Height="26"/>
-                                <TextBlock Text="APPLY" FontSize="12" FontWeight="SemiBold" FontFamily="arial"/>
+                                <TextBlock Text="APPLY" FontSize="10" FontWeight="SemiBold" FontFamily="arial"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="saveButton" IsEnabled="False" Width="150" Style="{StaticResource ButtonStyle}" Background="{StaticResource SuccessColor}" Foreground="{StaticResource PrimaryBackgroundColor}" BorderThickness="0" Click="saveButton_Click">
+                        <Button x:Name="saveButton" IsEnabled="False" Width="150" Style="{StaticResource ButtonStyle}" Background="{StaticResource PrimaryButtonColor}" Foreground="{StaticResource PrimaryBackgroundColor}" BorderThickness="0" Click="saveButton_Click">
                             <StackPanel Margin="3">
                                 <materialIcons:MaterialIcon Kind="ContentSaveAll"  Height="26"/>
-                                <TextBlock Text="SAVE" FontSize="12" FontWeight="SemiBold" FontFamily="arial"/>
+                                <TextBlock Text="SAVE" FontSize="10" FontWeight="SemiBold" FontFamily="arial"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

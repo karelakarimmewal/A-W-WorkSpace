@@ -178,6 +178,9 @@ namespace TransQuikConfiguration.Pages
                             string shopName = shopReader.GetString(2);
 
                             AppSettings.ShopKey = shopKey;
+                            AppSettings.ShopName = shopName;
+                            AppSettings.ShopCode = shopCode;
+                            
                             comboShopName.Items.Add(shopName);
                             comboShopName.SelectedItem = shopName;
                         }

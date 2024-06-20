@@ -11,6 +11,8 @@ namespace TranQuik.Configuration
         public static string AppFontFamily { get; set; }
         public static int AppSaleMode { get; set; }
         public static string AppID { get; set; }
+        public static string ShopName { get; set; }
+        public static string ShopCode { get; set; }
         public static bool AppSecMonitor { get; set; }
         public static int AppSecMonitorBorder { get; set; }
         public static string AppSecMonitorUrl { get; set; }
@@ -35,6 +37,8 @@ namespace TranQuik.Configuration
                 TransQuikConfiguration.Properties.Settings.Default._AppFontFamily = AppSettings.AppFontFamily;
                 TransQuikConfiguration.Properties.Settings.Default._AppSaleMode = AppSettings.AppSaleMode;
                 TransQuikConfiguration.Properties.Settings.Default._AppID = AppSettings.AppID;
+                TransQuikConfiguration.Properties.Settings.Default._ShopCode = AppSettings.ShopCode;
+                TransQuikConfiguration.Properties.Settings.Default._ShopName = AppSettings.ShopName;
                 TransQuikConfiguration.Properties.Settings.Default._AppSecMonitor = AppSettings.AppSecMonitor;
                 TransQuikConfiguration.Properties.Settings.Default._AppSecMonitorBorder = AppSettings.AppSecMonitorBorder;
                 TransQuikConfiguration.Properties.Settings.Default._AppSecMonitorUrl = AppSettings.AppSecMonitorUrl;

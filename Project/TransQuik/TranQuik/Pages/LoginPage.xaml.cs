@@ -146,7 +146,7 @@ namespace TranQuik.Pages
 
                                 await syncMethod.CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 1, userSessions);
 
-                                mainWindow.SessionNameText.Text = $"ID {userSessions.StaffID.ToString()} {userSessions.StaffLastName}";
+                                mainWindow.SessionNameText.Text = $"ID {userSessions.StaffID.ToString()} {userSessions.StaffFirstName} {userSessions.StaffLastName}";
                                 mainWindow.ShowDialog();
                             }
                             else
@@ -162,6 +162,41 @@ namespace TranQuik.Pages
             {
                 // Handle any exceptions, such as database connection errors
                 Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+        private void fastLogin_Click(object sender, RoutedEventArgs e)
+        {
+            LocalDbConnector localDbConnector = new LocalDbConnector();
+            using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+            {
+                string query = "SELECT StaffCode, StaffPassword FROM staffs ORDER BY RAND() LIMIT 1";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+
+                try
+                {
+                    connection.Open();
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Assuming UsernameTextBox and PasswordBox are your TextBox and PasswordBox controls
+                            UsernameTextBox.Password = reader["StaffCode"].ToString();
+                            PasswordBox.Password = reader["StaffPassword"].ToString();
+                        }
+                        else
+                        {
+                            // Handle the case where no staff record is found (optional)
+                            MessageBox.Show("No staff record found in the database.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle any exceptions that may occur during database operation
+                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }

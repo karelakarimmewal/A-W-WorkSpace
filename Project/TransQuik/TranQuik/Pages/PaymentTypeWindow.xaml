@@ -15,8 +15,8 @@
         Background="{x:Null}"
         AllowsTransparency="True"
         >
-    <Border Background="{StaticResource FontColor}" CornerRadius="10" Width="600">
-        <Grid Margin="20" Height="350" Background="{StaticResource PrimaryBackgroundColor}">
+    <Border Background="{StaticResource FontColor}" CornerRadius="10" Width="800">
+        <Grid Margin="20" Height="500" Background="{StaticResource PrimaryBackgroundColor}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
@@ -28,7 +28,6 @@
             <Button x:Name="KeyboardShow" Grid.Row="0" HorizontalAlignment="Right" Background="{StaticResource PrimaryBackgroundColor}" Margin="2" BorderThickness="0" Click="KeyboardShow_Click">
                 <materialIcons:MaterialIconExt Kind="Keyboard"/>
             </Button>
-
             <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="CARD PROCESS" Foreground="{StaticResource FontColor}" FontSize="20" FontWeight="SemiBold" FontFamily="Arial"/>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -90,38 +89,37 @@
                                 </StackPanel>
                             </Button>
                         </Grid>
-                        <TextBox x:Name="PayRemarkText" Visibility="Visible" Text="PayRemarkText"  Grid.Row="1" Background="Azure" Margin="5,3,5,5" Foreground="{StaticResource FontColor}" FontFamily="arial" Padding="5">
+                        <TextBox x:Name="PayRemarkText" Visibility="Hidden" Text=""  Grid.Row="1" Background="Azure" Margin="5,3,5,5" Foreground="{StaticResource FontColor}" FontFamily="arial" Padding="5">
                         </TextBox>
-                        <Grid Grid.Row="1" x:Name="CardMeal" Visibility="Collapsed" Margin="5,3,5,5">
+                        <Grid Grid.Row="1" x:Name="CardMeal" Visibility="Visible" Margin="5,3,5,5">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="80"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Row="0" Grid.ColumnSpan="2" Height="30" Background="Azure" BorderBrush="DimGray" BorderThickness="1"/>
-                            <Border Grid.Row="1" Grid.ColumnSpan="2" Height="30" Background="Azure" BorderBrush="DimGray" BorderThickness="1"/>
-                            <TextBlock Margin="5,0" VerticalAlignment="Center" HorizontalAlignment="Left" Text="NIK :" FontFamily="arial" FontWeight="SemiBold" Grid.Row="0" Grid.Column="0"/>
-                            <TextBlock Margin="5,0" VerticalAlignment="Center" HorizontalAlignment="Left" Text="NAME :" FontWeight="SemiBold" FontFamily="arial" Grid.Row="1" Grid.Column="0"/>
-                            <TextBox Grid.Row="0" x:Name="NIKInput" Padding="5,0" Grid.Column="1" VerticalAlignment="Center" Background="LightYellow" Margin="5,0"/>
-                            <TextBox Grid.Row="1" x:Name="NameInput" Padding="5,0" Grid.Column="1" VerticalAlignment="Center" Background="LightYellow" Margin="5,0"/>
+                            <Border Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="Azure" BorderBrush="DimGray" BorderThickness="1"/>
+                            <TextBlock Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Left" Text="NIK :" FontFamily="arial" FontWeight="SemiBold" Grid.Row="0" Grid.Column="0"/>
+                            <TextBlock Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Left" Text="NAME :" FontWeight="SemiBold" FontFamily="arial" Grid.Row="1" Grid.Column="0"/>
+                            <TextBox Grid.Row="0" x:Name="NIKInput" Padding="5,0" Grid.Column="1" VerticalAlignment="Center" Background="LightYellow" Margin="10,0"/>
+                            <TextBox Grid.Row="1" x:Name="NameInput" Padding="5,0" Grid.Column="1" VerticalAlignment="Center" Background="LightYellow" Margin="10,0"/>
                         </Grid>
                     </Grid>
                 </Grid>
                 <Grid Grid.Column="1" VerticalAlignment="Center" Margin="2,2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="63"/>
-                        <RowDefinition Height="60"/>
-                        <RowDefinition Height="60"/>
-                        <RowDefinition Height="63"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="100"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="65"/>
-                        <ColumnDefinition Width="65"/>
-                        <ColumnDefinition Width="65"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 

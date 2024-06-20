@@ -1,14 +1,12 @@
 ﻿using Microsoft.CSharp.RuntimeBinder;
 using MySql.Data.MySqlClient;
 using Serilog;
-using SixLabors.ImageSharp.Processing.Processors.Transforms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -121,6 +119,8 @@ namespace TranQuik
 
         public MainWindow()
         {
+            InitializeComponent();
+            Closing += MainWindow_Closing; // Attach event handler
             InitializeSettings();
             InitializeLocalDbConnector();
             InitializeHeldCartManager();
@@ -137,7 +137,30 @@ namespace TranQuik
             ShowSecondaryMonitorIfNeeded();
             UpdateChecker();
             
+            
         }
+
+        private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+                // Prevent the application from closing immediately
+                e.Cancel = true;
+
+                // Call an asynchronous method
+                await syncMethod.CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 2);
+
+                // If the asynchronous operation completes successfully, exit the application
+                Application.Current.Shutdown();
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
 
         private void InitializeSettings()
         {
@@ -898,7 +921,6 @@ namespace TranQuik
                     } else if (payTypeID == 10009)
                     {
                         PaymentTypeWindow paymentTypeWindow = new PaymentTypeWindow(this, total.Text, payTypeID, displayName);
-                        paymentTypeWindow.Topmost = true;
                         paymentTypeWindow.ShowDialog();
                     }
                     //MessageBox.Show($"Waiting For Payment Using: {displayName}\nPayTypeID: {payTypeID}");
@@ -1420,7 +1442,7 @@ namespace TranQuik
         public static string GenerateReceiptNumber(string CustomerID)
         {
             string computerID = (Properties.Settings.Default._ComputerID).ToString();
-            string kodeStore = ReceiptHeader;
+            string kodeStore = Properties.Settings.Default._ShopCode;
             // Get the current date and time
             DateTime now = DateTime.Now;
 
@@ -1436,7 +1458,7 @@ namespace TranQuik
             return receiptNumber;
         }
 
-        private void TransactionDone(string PayTypeID, string PayTypeName)
+        public void TransactionDone(string PayTypeID, string PayTypeName)
         {
             if (heldCarts.ContainsKey(CustomerTime))
             {
@@ -1493,11 +1515,8 @@ namespace TranQuik
             secondaryMonitor.imageLoader.Stretch = Stretch.Fill;
             secondaryMonitor.imageLoader.Source = bitmapImage;
 
-            // Optionally handle image click event to copy URL to clipboard
-            secondaryMonitor.imageLoader.MouseLeftButtonDown += (sender, e) =>
-            {
-                Clipboard.SetText(transactionQrUrl);
-            };
+            Console.WriteLine($"QR CODE : {transactionQrUrl}");
+            Clipboard.SetText(transactionQrUrl);
         }
 
         private void changeSalesMode_Click(object sender, RoutedEventArgs e)

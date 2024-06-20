@@ -4,13 +4,14 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
+using System.Windows;
 using System.Windows.Forms;
 
 namespace TranQuik.Configuration
 {
     public class Config
     {
-        private const string ConfigFileName = "AppSettings.json";
+        public const string ConfigFileName = "AppSettings.json";
         public static string ConfigFilePath { get; set; }
 
         public static string AnyDeskIDs;
@@ -202,16 +203,32 @@ namespace TranQuik.Configuration
             }
             else
             {
-                // The last location doesn't exist, show the dialog to select the directory
-                var dialog = new FolderBrowserDialog();
+                // Create an instance of OpenFileDialog
+                var openFileDialog = new System.Windows.Forms.OpenFileDialog
+                {
+                    Title = "Select Default Folder",
+                    ValidateNames = false,
+                    CheckFileExists = false,
+                    CheckPathExists = true,
+                    FileName = "Select Folder"
+                };
+
+                // Set the dialog to pick .exe files only
+                openFileDialog.Filter = "Executable Files (*.exe)|*.exe";
 
                 // Show the dialog and check if the user clicked OK
-                DialogResult result = dialog.ShowDialog();
+                System.Windows.Forms.DialogResult result = openFileDialog.ShowDialog();
 
-                // If the user clicked OK, set exeDirectory to the selected path
-                if (result == DialogResult.OK)
+                // Show the dialog and check if the user clicked OK
+                if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    string exeDirectory = dialog.SelectedPath;
+                    // Check if the selected file is TranQuik.exe
+                    if (Path.GetFileName(openFileDialog.FileName) != "TranQuik.exe")
+                    {
+                        return;
+                    }
+
+                    string exeDirectory = Path.GetDirectoryName(openFileDialog.FileName);
                     string configDirectory = Path.Combine(exeDirectory, "Configuration");
 
                     // Combine the directory with the config file path
@@ -227,10 +244,10 @@ namespace TranQuik.Configuration
                     }
 
                     // Ensure the config file exists
-                    if (!File.Exists(ConfigFilePath))
+                    if (!File.Exists(Config.ConfigFilePath))
                     {
                         // Create a new AppSettings.json file with default values
-                        CreateDefaultAppSettingsFile();
+                        Config.CreateDefaultAppSettingsFile();
                     }
 
                     // Save the last location
@@ -240,7 +257,7 @@ namespace TranQuik.Configuration
             }
         }
 
-        private static void CreateDefaultAppSettingsFile()
+        public static void CreateDefaultAppSettingsFile()
         {
             Dictionary<string, string> defaultSettings = new Dictionary<string, string>
             {
@@ -250,6 +267,8 @@ namespace TranQuik.Configuration
                 { "_AppFontFamily", "Arial" },
                 { "_AppSaleMode", "3" },
                 { "_AppID", "00" },
+                { "_ShopCode", "000" },
+                { "_ShopName", "000" },
                 { "_AppSecMonitor", "False" },
                 { "_AppSecMonitorBorder", "1" },
                 { "_AppSecMonitorUrl", "" },
@@ -295,6 +314,8 @@ namespace TranQuik.Configuration
             AppSettings.AppFontFamily = GetSettingString(appSettings, "_AppFontFamily", AppSettings.AppFontFamily);
             AppSettings.AppSaleMode = GetSettingInt(appSettings, "_AppSaleMode", AppSettings.AppSaleMode);
             AppSettings.AppID = GetSettingString(appSettings, "_AppID", AppSettings.AppID);
+            AppSettings.ShopCode = GetSettingString(appSettings, "_ShopCode", AppSettings.ShopCode);
+            AppSettings.ShopName = GetSettingString(appSettings, "_ShopName", AppSettings.ShopName);
             AppSettings.AppSecMonitor = GetSettingBool(appSettings, "_AppSecMonitor", AppSettings.AppSecMonitor);
             AppSettings.AppSecMonitorBorder = GetSettingInt(appSettings, "_AppSecMonitorBorder", AppSettings.AppSecMonitorBorder);
             AppSettings.AppSecMonitorUrl = GetSettingString(appSettings, "_AppSecMonitorUrl", AppSettings.AppSecMonitorUrl);
@@ -394,6 +415,8 @@ namespace TranQuik.Configuration
                     { "_AppFontFamily", AppSettings.AppFontFamily },
                     { "_AppSaleMode", AppSettings.AppSaleMode.ToString() },
                     { "_AppID", AppSettings.AppID },
+                    { "_ShopName", AppSettings.ShopName },
+                    { "_ShopCode", AppSettings.ShopCode },
                     { "_AppSecMonitor", AppSettings.AppSecMonitor.ToString() },
                     { "_AppSecMonitorBorder", AppSettings.AppSecMonitorBorder.ToString() },
                     { "_AppSecMonitorUrl", AppSettings.AppSecMonitorUrl },
