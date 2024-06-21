@@ -1,10 +1,12 @@
 ﻿using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
@@ -25,7 +27,7 @@ namespace TranQuik.Model
     {
         // Fields related to database and UI components
         private LocalDbConnector localDbConnector;
-        private MainWindow mainWindow;
+        public MainWindow mainWindow;
         public SecondaryMonitor secondaryMonitor;
         public ProductComponent productComponent;
 
@@ -33,6 +35,7 @@ namespace TranQuik.Model
         public Dictionary<int, Product> cartProducts = new Dictionary<int, Product>();
         private List<Button> productButtons = new List<Button>();
         public List<ProductComponentGroup> componentGroups = new List<ProductComponentGroup>();
+        public Dictionary<int, PaymentDetails> multiplePaymentList = new Dictionary<int, PaymentDetails> ();
 
         // Fields related to product VAT and payment
         public decimal productVATPercent;
@@ -44,7 +47,9 @@ namespace TranQuik.Model
         private bool isReset;
         private int ProdTotalCount;
         private int CartIndex = 0;
+        private int paymentIndex = 0;
         public int idProduct = 0;
+        public decimal multiplePaymentAmount = 0;
 
         public ModelProcessing(MainWindow mainWindow)
         {
@@ -742,6 +747,134 @@ namespace TranQuik.Model
             }
         }
 
+        public void MultiplePaymentProcess(int PayTypeID = 1)
+        {
+            string paymentTotalText;
+
+            if (PayTypeID == 1)
+            {
+                // Remove thousand separators by replacing "." with an empty string
+                paymentTotalText = mainWindow.displayText.Text.Replace(".", "");
+
+                // Convert the cleaned string to a decimal value
+                if (decimal.TryParse(paymentTotalText, out decimal paymentAmount))
+                {
+                    // Increment the payment index
+                    paymentIndex++;
+
+                    // Retrieve the payment type name from the database
+                    string paymentTypeName = GetPaymentTypeNameById(PayTypeID);
+
+                    // Create a PaymentDetails object
+                    PaymentDetails paymentDetail = new PaymentDetails(
+                        paymentTypeID: PayTypeID,
+                        paymentTypeName: paymentTypeName,
+                        paymentAmount: paymentAmount
+                    );
+
+                    // Calculate the total amount
+                    multiplePaymentAmount += paymentAmount;
+
+                    // Insert the PaymentDetails object into the dictionary
+                    multiplePaymentList[paymentIndex] = paymentDetail;
+                }
+                else
+                {
+                    // Handle conversion error
+                    MessageBox.Show("Invalid payment amount format.");
+                }
+            } else if (PayTypeID == 0)
+            {
+            
+            }
+
+            UpdateMultiplePaymentUI();
+            UpdateCartUI();
+        }
+
+        private string GetPaymentTypeNameById(int paymentTypeID)
+        {
+            string paymentTypeName = null;
+            using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+            {
+                string query = "SELECT PayTypeName FROM paytype WHERE PayTypeID = @paymentTypeID AND IsAvailable = 1";
+
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@paymentTypeID", paymentTypeID);
+
+                connection.Open();
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        paymentTypeName = reader["PayTypeName"].ToString();
+                    }
+                }
+            }
+
+            return paymentTypeName ?? "Unknown";
+        }
+
+        public void UpdateMultiplePaymentUI()
+        {
+            multiplePaymentAmount = 0;
+            mainWindow.multiplePaymentDetails.Items.Clear();
+            
+            double rowHeight = 40;
+            var listViewItemStyle = new Style(typeof(ListViewItem));
+            listViewItemStyle.Setters.Add(new Setter(ListViewItem.HeightProperty, rowHeight)); 
+            listViewItemStyle.Setters.Add(new Setter(ListViewItem.BorderBrushProperty, (Brush)Application.Current.FindResource("FontColor"))); 
+            listViewItemStyle.Setters.Add(new Setter(ListViewItem.BorderThicknessProperty, new Thickness(0, 0, 0, 1))); 
+            listViewItemStyle.Setters.Add(new Setter(ListViewItem.HorizontalAlignmentProperty, HorizontalAlignment.Center));
+
+            mainWindow.multiplePaymentDetails.ItemContainerStyle = listViewItemStyle;
+
+            foreach (KeyValuePair<int, PaymentDetails> kvp in multiplePaymentList)
+            {
+                PaymentDetails paymentDetails = kvp.Value;
+
+                // Determine background and foreground colors based on product status
+                Brush rowBackground = paymentDetails.PaymentIsAcitve ? Brushes.Transparent : Brushes.Red;
+                Brush rowForeground = paymentDetails.PaymentIsAcitve ? Brushes.Black : Brushes.White;
+
+                if (paymentDetails.PaymentIsAcitve)
+                {
+                    multiplePaymentAmount += paymentDetails.PaymentAmount;
+                }
+
+                // Add the main product to the ListView
+                mainWindow.multiplePaymentDetails.Items.Add(new
+                {
+                    PaymentTypeName = paymentDetails.PaymentTypeName,
+                    PaymentDetail = paymentDetails.PaymentAmount.ToString("C0"),
+                    PaymentAmount = paymentDetails.PaymentAmount.ToString("#,0"),
+                    Background = rowBackground,
+                    Foreground = rowForeground,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                });
+            }
+
+
+            Style itemContainerStyle = new Style(typeof(ListViewItem));
+            itemContainerStyle.Setters.Add(new Setter(ListViewItem.HeightProperty, rowHeight)); // Set the height of each ListViewItem
+            itemContainerStyle.Setters.Add(new Setter(ListViewItem.BorderBrushProperty, (Brush)Application.Current.FindResource("FontColor"))); // Set border brush
+            itemContainerStyle.Setters.Add(new Setter(ListViewItem.BorderThicknessProperty, new Thickness(0, 0, 0, 1))); // Set border thickness (bottom only)
+            itemContainerStyle.Setters.Add(new Setter(ListViewItem.BackgroundProperty, new Binding("Background")));
+            itemContainerStyle.Setters.Add(new Setter(ListViewItem.ForegroundProperty, new Binding("Foreground")));
+            itemContainerStyle.Setters.Add(new Setter(ListViewItem.HorizontalAlignmentProperty, HorizontalAlignment.Center));
+
+            mainWindow.multiplePaymentDetails.ItemContainerStyle = itemContainerStyle;
+
+            mainWindow.totalMultiplePaymentText.Text = multiplePaymentAmount.ToString("#,0");
+
+            if (mainWindow.multiplePaymentDetails.Items.Count > 0)
+            {
+                // Scroll into the last item
+                mainWindow.multiplePaymentDetails.ScrollIntoView(mainWindow.multiplePaymentDetails.Items[mainWindow.multiplePaymentDetails.Items.Count - 1]);
+            }
+            UpdateCartUI();
+        }
+
         public void UpdateCartUI()
         {
             mainWindow.cartGridListView.Items.Clear();
@@ -833,15 +966,20 @@ namespace TranQuik.Model
 
             mainWindow.cartGridListView.ItemContainerStyle = itemContainerStyle;
 
+            decimal thisTax = totalPrice * productVATPercent / 100;
+            CurrentTransaction currentTransaction = new CurrentTransaction(totalPrice, thisTax);
+
+            decimal beforeTax = CurrentTransaction.NeedToPay;
+            decimal afterTax = CurrentTransaction.NeedToPay + CurrentTransaction.TaxAmount;
+
             // Update displayed total prices
-            mainWindow.subTotal.Text = $"{totalPrice:C0}";
-            mainWindow.total.Text = (totalPrice + (totalPrice * productVATPercent / 100)).ToString("#,0");
-            mainWindow.VATModeText.Text = $"{(totalPrice * productVATPercent / 100).ToString("#,0")}";
-            mainWindow.GrandTextBlock.Text = $"{totalPrice + (totalPrice * productVATPercent / 100):C0}";
+            mainWindow.subTotal.Text = $"{beforeTax:C0}";
+            mainWindow.total.Text = (afterTax  - multiplePaymentAmount).ToString("#,0");
+            mainWindow.VATModeText.Text = $"{thisTax.ToString("#,0")}";
+            mainWindow.GrandTextBlock.Text = $"{afterTax.ToString("C0")}";
             mainWindow.totalQty.Text = totalQuantity.ToString("0.00");
-            mainWindow.GrandTotalCalculator.Text = $"{(totalPrice + (totalPrice * productVATPercent / 100)).ToString("#,0")}";
-
-
+            mainWindow.GrandTotalCalculator.Text = $"{(afterTax - multiplePaymentAmount).ToString("#,0")}";
+            
             bool hasItemsInCart = cartProducts.Any();
             // Enable or disable the PayButton based on whether there are items in cartProducts
             mainWindow.PayButton.IsEnabled = hasItemsInCart;
@@ -1071,28 +1209,60 @@ namespace TranQuik.Model
             }
         }
 
-        public void ResetUI(string tStatus)
+        public void ResetUI(string transactionStatus)
         {
-            // Assuming you have access to the necessary variables: lastCartId, mainWindow, cartProducts, SaleMode
-            int customerID = mainWindow.OrderID;
-            Cart cart = new Cart(customerID, cartProducts.Values.ToList(), mainWindow.SaleMode, isReset, tStatus);
+            // Retrieve necessary variables
+            int customerId = mainWindow.OrderID;
+            int saleMode = mainWindow.SaleMode;
+
+            // Create a new cart
+            Cart cart = new Cart(customerId, cartProducts.Values.ToList(), saleMode, isReset, transactionStatus);
+
             // Clear the display after processing the input
-            isReset = true;
-            if (isReset)
-            {
-                cart = new Cart(customerID, cartProducts.Values.ToList(), mainWindow.SaleMode, isReset, tStatus);
-                isReset = false;
-            }
-            mainWindow.isNew = true;
+            ClearDisplay();
+
+            // Clear payment details
+            ClearDetails();
+
+            // Reset variables
+            ResetVariables();
+
+            // Reset UI elements
+            ResetMainUI();
+        }
+
+        private void ClearDisplay()
+        {
+            mainWindow.total.Text = "0";
+            mainWindow.GrandTotalCalculator.Text = "0";
             mainWindow.displayText.Text = "0";
-            cartProducts.Clear();
-            UpdateCartUI();
             Calculating();
+        }
+
+        private void ClearDetails()
+        {
+            cartProducts.Clear();
+            multiplePaymentList.Clear();
+        }
+
+        private void ResetMainUI()
+        {
+            mainWindow.isNew = true;
             mainWindow.PayementProcess.Visibility = Visibility.Collapsed;
             mainWindow.MainContentProduct.Visibility = Visibility.Visible;
             mainWindow.SaleMode = 0;
+            UpdateMultiplePaymentUI();
+            UpdateCartUI();
             mainWindow.SaleModeView();
+        }
+
+        private void ResetVariables()
+        {
+            isReset = true;
             CartIndex = 0;
+            paymentIndex = 0;
+            multiplePaymentAmount = 0;
+            isReset = false;
         }
 
         public async void qrisProcess(string PayTypeId, string PayTypeName)
@@ -1238,6 +1408,21 @@ namespace TranQuik.Model
                         name = "Tax"
                     });
 
+                    decimal remainingQris = CurrentTransaction.NeedToPay + CurrentTransaction.TaxAmount - multiplePaymentAmount;
+
+                    if (multiplePaymentAmount != 0)
+                    {
+                        itemDetails.Clear();
+                        var itemDetail = new
+                        {
+                            id = 0101,
+                            price = remainingQris,
+                            quantity = 1,
+                            name = $"MultiplePayment {mainWindow.OrderID}",
+                        };
+                        itemDetails.Add(itemDetail);
+                    }
+
                     // Define the request body
                     var requestBody = new
                     {
@@ -1245,7 +1430,7 @@ namespace TranQuik.Model
                         transaction_details = new
                         {
                             order_id = orderId,
-                            gross_amount = cartTotal + taxAmount, // Include tax in the total amount
+                            gross_amount = multiplePaymentAmount != 0 ? remainingQris : cartTotal + taxAmount, // Include tax in the total amount
                         },
                         item_details = itemDetails,
                         customer_details = new
@@ -1256,6 +1441,9 @@ namespace TranQuik.Model
                             phone = "000000"
                         }
                     };
+
+
+                    
 
                     // Convert the request body to JSON
                     string json = JsonConvert.SerializeObject(requestBody);
@@ -1312,7 +1500,10 @@ namespace TranQuik.Model
 
             string Message = "Waiting For QRIS Payment";
             NotificationPopup notificationPopup = new NotificationPopup(Message, false, null, false, true);
+            notificationPopup.Top = 99;  
             notificationPopup.Show();
+            // Disable main window interaction
+            mainWindow.IsEnabled = false;
 
             bool isDone = false;
             while (!isDone) // Continue indefinitely
@@ -1321,6 +1512,8 @@ namespace TranQuik.Model
                 {
                     if (notificationPopup.IsConfirmed)
                     {
+                        AddPaymentDetail(int.Parse(PayTypeId), PayTypeName, CurrentTransaction.NeedToPay + CurrentTransaction.TaxAmount - multiplePaymentAmount, false);
+                        mainWindow.IsEnabled = true;
                         isDone = true;
                         mainWindow.QrisDone("Cancel", PayTypeId, PayTypeName);
                     }
@@ -1350,14 +1543,17 @@ namespace TranQuik.Model
                             string transactionStatus = jsonResponse["transaction_status"]?.ToString();
                             // Set background color based on transaction status
                             Brush backgroundBrush;
+                            decimal remainingQris = (CurrentTransaction.NeedToPay + CurrentTransaction.TaxAmount - multiplePaymentAmount);
                             switch (transactionStatus)
                             {
                                 case "settlement":
                                     // Light green background for Settlement status
                                     backgroundBrush = Brushes.LightGreen;
                                     transactionStatus = "Settlement";
-                                    OrderTransactionFunction(2, string.Empty, mainWindow.total.Text, PayTypeId);
+                                    AddPaymentDetail(int.Parse(PayTypeId), PayTypeName, remainingQris);
+                                    OrderTransactionFunction(2, string.Empty, PayTypeId);
                                     notificationPopup.Close();
+                                    mainWindow.IsEnabled = true;
                                     mainWindow.QrisDone(transactionStatus, PayTypeId, PayTypeName);
                                     isDone = true;
                                     break;
@@ -1370,8 +1566,10 @@ namespace TranQuik.Model
                                     // Light red background for Cancel status
                                     backgroundBrush = Brushes.LightSalmon;
                                     transactionStatus = "Cancel";
-                                    OrderTransactionFunction(91, string.Empty, mainWindow.total.Text, PayTypeId);
+                                    AddPaymentDetail(int.Parse(PayTypeId), PayTypeName, remainingQris, false);
+                                    OrderTransactionFunction(91, string.Empty, PayTypeId);
                                     notificationPopup.Close();
+                                    mainWindow.IsEnabled = true;
                                     mainWindow.QrisDone(transactionStatus, PayTypeId, PayTypeName);
                                     isDone = true;
                                     break;
@@ -1379,8 +1577,10 @@ namespace TranQuik.Model
                                     // Light gray background for Expire status
                                     backgroundBrush = Brushes.LightGray;
                                     transactionStatus = "Expire";
-                                    OrderTransactionFunction(91, string.Empty, mainWindow.total.Text, PayTypeId);
+                                    AddPaymentDetail(int.Parse(PayTypeId), PayTypeName, remainingQris, false);
+                                    OrderTransactionFunction(91, string.Empty, PayTypeId);
                                     notificationPopup.Close();
+                                    mainWindow.IsEnabled = true;
                                     mainWindow.QrisDone(transactionStatus, PayTypeId, PayTypeName);
                                     isDone = true;
                                     break;
@@ -1403,32 +1603,72 @@ namespace TranQuik.Model
             }
         }
 
-        public async void OrderTransactionFunction(int transactionStatus = 2, string payRemark = "" , string TotalPays = "", string PayTypeID = "0")
+        public async Task OrderTransactionFunction(int transactionStatus = 2, string payRemark = "", string PayTypeID = "1")
+        {
+            decimal totalPrice = 0;
+            
+            foreach (KeyValuePair<int, Product> kvp in cartProducts)
+            {
+                Product product = kvp.Value;
+                decimal totalProductPrice = product.ProductPrice * product.Quantity;
+
+                if (product.Status)
+                {
+                    if (product.ChildItems != null && product.ChildItems.Any())
+                    {
+                        foreach (ChildItem childItem in product.ChildItems)
+                        {
+                            totalProductPrice += childItem.Price * childItem.Quantity;
+                        }
+                    }
+
+                    decimal taxAmount = totalProductPrice * productVATPercent / 100;
+                    totalProductPrice += taxAmount;
+                    totalPrice += totalProductPrice;
+                }
+            }
+
+            OrderTransaction orderTransaction = await CreateOrderTransaction(transactionStatus, payRemark, PayTypeID);
+
+            TransactionService transactionService = new TransactionService();
+            await transactionService.InsertTransaction(orderTransaction);
+            TransactionServicePayDetail transactionServicePayDetail = new TransactionServicePayDetail();
+            int payDetailID = 0;
+            foreach (var items in multiplePaymentList.Values)
+            {
+                if (items.PaymentIsAcitve)
+                {
+                    decimal TotalChange = 0;
+                    if (totalPrice < items.PaymentAmount)
+                    {
+                        TotalChange = items.PaymentAmount - totalPrice;
+                    }
+                    totalPrice -= items.PaymentAmount;
+                    payDetailID++;
+                    OrderPayDetail orderPayDetail = CreateOrderPayDetail(orderTransaction, payDetailID, items.PaymentTypeID.ToString(), totalPrice, items.PaymentAmount, TotalChange, payRemark);
+                    await transactionServicePayDetail.InsertTransaction(orderPayDetail);
+                }
+            }
+        }
+
+        public async Task<OrderTransaction> CreateOrderTransaction(int transactionStatus, string payRemark, string PayTypeID)
         {
             OrderTransaction orderTransaction = new OrderTransaction();
-
-            OrderPayDetail orderPayDetail = new OrderPayDetail();
 
             DateTime now = DateTime.Now;
 
             int ComputerID = Properties.Settings.Default._ComputerID;
-
             int SaleMode = mainWindow.SaleMode;
-
             int ShopID = int.Parse(Properties.Settings.Default._AppID);
-
             int ReceiptTotalQty = cartProducts.Count();
-
             int generatedTransactionID = await orderTransaction.GenerateTransactionID();
-
             int totalQuantity = 0;
-
             decimal totalPrice = 0;
 
             foreach (KeyValuePair<int, Product> kvp in cartProducts)
             {
                 Product product = kvp.Value;
-                decimal totalProductPrice = product.ProductPrice * product.Quantity; // Total price for the product including quantity
+                decimal totalProductPrice = product.ProductPrice * product.Quantity;
                 totalQuantity += product.Quantity;
 
                 if (product.Status)
@@ -1437,70 +1677,43 @@ namespace TranQuik.Model
                     {
                         foreach (ChildItem childItem in product.ChildItems)
                         {
-                            totalProductPrice += childItem.Price * childItem.Quantity; // Add the price of each child item
+                            totalProductPrice += childItem.Price * childItem.Quantity;
                         }
                     }
 
-                    // Calculate tax amount
                     decimal taxAmount = totalProductPrice * productVATPercent / 100;
-
-                    // Add tax amount to total product price
                     totalProductPrice += taxAmount;
-
-                    // Add total product price to total price
                     totalPrice += totalProductPrice;
                 }
             }
 
-            string PayText = TotalPays == "" ? mainWindow.displayText.Text.Replace(".", "") : TotalPays.Replace(".", "");
-
-            decimal TotalPay = decimal.TryParse(PayText, out TotalPay) ? TotalPay : 0;
-                        
-            decimal CurrencyRatio = 1;
-
-            decimal CurrencyExchangeRatio = 1;
-
+            decimal TotalPay = CurrentTransaction.NeedToPay + CurrentTransaction.NeedToPay;
             decimal TotalChange = TotalPay - totalPrice;
-
             string CurrencyCode = "Rp";
-
             string ReferenceNo = OrderTransaction.NumberGenerator.GenerateNumber(Properties.Settings.Default._ComputerID.ToString(), generatedTransactionID);
-
             string LogoIMG = Properties.Settings.Default._PrinterLogo;
-
             string key = $"{orderTransaction.TransactionID}:{ComputerID}";
-
             short customerID = (short)mainWindow.OrderID;
-
             short TransactionStatus = 2;
-
             string receiptNumber = MainWindow.GenerateReceiptNumber(mainWindow.OrderID.ToString());
-
             decimal DisctountItem = 0;
-
             decimal DisctountBill = 0;
-
             decimal DisctountOther = 0;
-
             decimal TotalDiscount = 0;
-
             decimal TransactionVATable = totalPrice + (totalPrice * productVATPercent / 100);
-
             decimal TransactionVat = totalPrice * productVATPercent / 100;
 
-            DateTime TransactionStart = DateTime.Now;
-
-            //THIS FOR GENERATING ID
+            // Populate order transaction object
             orderTransaction.TransactionID = generatedTransactionID;
             orderTransaction.ComputerID = ComputerID;
             orderTransaction.TransactionUUID = orderTransaction.GenerateUUID();
             orderTransaction.TranKey = key;
             orderTransaction.ReserveTime = null;
             orderTransaction.ReserveStaffID = 0;
-            orderTransaction.OpenTime = TransactionStart;
+            orderTransaction.OpenTime = now;
             orderTransaction.OpenStaffID = CurrentSessions.StaffID;
-            orderTransaction.OpenStaff = CurrentSessions.StaffFirstName;
-            orderTransaction.PaidTime = DateTime.Now;
+            orderTransaction.OpenStaff = $"{CurrentSessions.StaffFirstName} {CurrentSessions.StaffLastName}";
+            orderTransaction.PaidTime = now;
             orderTransaction.PaidStaffID = CurrentSessions.StaffID;
             orderTransaction.PaidStaff = $"{CurrentSessions.StaffFirstName} {CurrentSessions.StaffLastName}";
             orderTransaction.PaidComputerID = ComputerID;
@@ -1528,7 +1741,7 @@ namespace TranQuik.Model
             orderTransaction.ReceiptDay = now.Day;
             orderTransaction.ReceiptID = customerID;
             orderTransaction.ReceiptNumber = receiptNumber;
-            orderTransaction.SaleDate = DateTime.Now;
+            orderTransaction.SaleDate = now;
             orderTransaction.ShopID = ShopID;
             orderTransaction.TransactionVAT = TransactionVat;
             orderTransaction.TransactionVATable = TransactionVATable;
@@ -1589,11 +1802,24 @@ namespace TranQuik.Model
             orderTransaction.LogoImage = LogoIMG;
             orderTransaction.Deleted = 0;
 
-            TransactionService transactionService = new TransactionService();
-            transactionService.InsertTransaction(orderTransaction);
+            return orderTransaction;
+        }
 
-            orderPayDetail.PayDetailID = 1;
-            orderPayDetail.TransactionID = generatedTransactionID;
+        public OrderPayDetail CreateOrderPayDetail(OrderTransaction orderTransaction,int payDetailID, string PayTypeID, decimal totalPrice, decimal TotalPay, decimal TotalChange, string payRemark)
+        {
+            OrderPayDetail orderPayDetail = new OrderPayDetail();
+
+            DateTime now = DateTime.Now;
+            int ComputerID = Properties.Settings.Default._ComputerID;
+            int ShopID = int.Parse(Properties.Settings.Default._AppID);
+
+            string CurrencyCode = "Rp";
+            string LogoIMG = Properties.Settings.Default._PrinterLogo;
+            string key = $"{orderTransaction.TransactionID}:{ComputerID}";
+
+            // Populate order pay detail object
+            orderPayDetail.PayDetailID = payDetailID;
+            orderPayDetail.TransactionID = orderTransaction.TransactionID;
             orderPayDetail.ComputerID = ComputerID;
             orderPayDetail.TranKey = key;
             orderPayDetail.PayTypeID = int.Parse(PayTypeID);
@@ -1604,8 +1830,8 @@ namespace TranQuik.Model
             orderPayDetail.CashChangeCurrencyAmount = TotalChange;
             orderPayDetail.CashChangeCurrencyCode = CurrencyCode;
             orderPayDetail.CashChangeCurrencyName = "IDN - Rupiah";
-            orderPayDetail.CashChangeCurrencyRatio = CurrencyRatio;
-            orderPayDetail.CashChangeExchangeRate = CurrencyExchangeRatio;
+            orderPayDetail.CashChangeCurrencyRatio = 1; // Adjust as necessary
+            orderPayDetail.CashChangeExchangeRate = 1; // Adjust as necessary
             orderPayDetail.CreditCardNo = null;
             orderPayDetail.CreditCardHolderName = string.Empty;
             orderPayDetail.CCApproveCode = string.Empty;
@@ -1625,11 +1851,11 @@ namespace TranQuik.Model
             orderPayDetail.IsFromEDC = false;
             orderPayDetail.CurrencyCode = CurrencyCode;
             orderPayDetail.CurrencyName = "IDN - Rupiah";
-            orderPayDetail.CurrencyRatio = CurrencyRatio;
-            orderPayDetail.ExchangeRate = CurrencyExchangeRatio;
+            orderPayDetail.CurrencyRatio = 1; // Adjust as necessary
+            orderPayDetail.ExchangeRate = 1; // Adjust as necessary
             orderPayDetail.CurrencyAmount = TotalPay;
             orderPayDetail.ShopID = ShopID;
-            orderPayDetail.SaleDate = DateTime.Now;
+            orderPayDetail.SaleDate = now;
             orderPayDetail.OrgPayTypeID = 0;
             orderPayDetail.VoucherSellValue = 0;
             orderPayDetail.VoucherCostValue = 0;
@@ -1640,10 +1866,29 @@ namespace TranQuik.Model
             orderPayDetail.RedeemSettingPoint = 0;
             orderPayDetail.RedeemPerPayAmount = 0;
             orderPayDetail.RedeemPoint = 0;
-
-            TransactionServicePayDetail transactionServicePayDetail = new TransactionServicePayDetail();
-            transactionServicePayDetail.InsertTransaction(orderPayDetail);
-
+            return orderPayDetail;
         }
+
+        public void AddPaymentDetail(int payTypeID, string paymentTypeName, decimal paymentAmount, bool paymentIsActive = true)
+        {
+            // Create a PaymentDetails object
+            PaymentDetails paymentDetail = new PaymentDetails(
+                paymentTypeID: payTypeID,
+                paymentTypeName: paymentTypeName,
+                paymentAmount: paymentAmount,
+                paymentIsActive: paymentIsActive
+            );
+
+            // Calculate the total amount
+            multiplePaymentAmount += paymentAmount;
+
+            // Insert the PaymentDetails object into the dictionary
+            paymentIndex++;
+            multiplePaymentList[paymentIndex] = paymentDetail;
+
+            UpdateMultiplePaymentUI();
+            UpdateCartUI();
+        }
+
     }
 }

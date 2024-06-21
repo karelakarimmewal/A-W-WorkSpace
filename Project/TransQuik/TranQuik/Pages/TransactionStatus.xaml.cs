@@ -56,7 +56,8 @@ namespace TranQuik.Pages
 
         private void SuccessCase()
         {
-            transactionStatus.Text = "Transaction Success";
+            transactionStatus.Text = $"Transaction Success, Change = {modelProcessing.mainWindow.TotalReturnCalculator.Text}";
+            transactionStatus.TextWrapping = TextWrapping.Wrap;
             transactionStatus.Foreground = (Brush)Application.Current.FindResource("SuccessColor");
             Close.Background = (Brush)Application.Current.FindResource("SuccessColor");
         }

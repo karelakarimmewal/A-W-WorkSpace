@@ -740,14 +740,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TranQuik.exe" size="1123272">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TranQuik.exe" size="1136584">
       <assemblyIdentity name="TranQuik" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ZYpG+Hboahs+fuwOfdOLXMD19nq5vKGdmohtoGKRQqA=</dsig:DigestValue>
+        <dsig:DigestValue>S5OWGpOucBs2IHohaoEJLZ3SxWeqSMAxS2yeZMiAPpY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

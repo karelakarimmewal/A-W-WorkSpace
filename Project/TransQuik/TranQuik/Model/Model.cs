@@ -255,6 +255,32 @@ namespace TranQuik.Model
         //}
     }
 
+    public class CurrentTransaction
+    {
+        public static decimal NeedToPay {get; private set; }
+        public static decimal TaxAmount { get; private set; }
+        public CurrentTransaction(decimal needToPay, decimal taxAmount)
+        {
+            NeedToPay = needToPay;
+            TaxAmount = taxAmount;
+        }
+    }
+
+    public class PaymentDetails
+    {
+        public int PaymentTypeID { get; private set; }
+        public string PaymentTypeName { get; private set; }
+        public decimal PaymentAmount { get; private set; }
+        public bool PaymentIsAcitve { get; set; }
+        public PaymentDetails(int paymentTypeID, string paymentTypeName, decimal paymentAmount, bool paymentIsActive = true)
+        {
+            PaymentTypeID = paymentTypeID;
+            PaymentTypeName = paymentTypeName;
+            PaymentAmount = paymentAmount;
+            PaymentIsAcitve = paymentIsActive;
+        }
+    }
+
     public class Product
     {
         public int ProductId { get; set; }

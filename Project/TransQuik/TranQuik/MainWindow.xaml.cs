@@ -1,4 +1,5 @@
-﻿using Microsoft.CSharp.RuntimeBinder;
+﻿using Google.Protobuf.WellKnownTypes;
+using Microsoft.CSharp.RuntimeBinder;
 using MySql.Data.MySqlClient;
 using Serilog;
 using System;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.ModelBinding;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -86,24 +88,33 @@ namespace TranQuik
         public int subContentButtonCount = 5; // Total count of product buttons
 
 
-        
+
         public bool isNew = true;
 
         private bool DevTest = Properties.Settings.Default._PrinterDevMode;
+
         private static string ReceiptHeader;
+
         public string PrefixText;
 
         #endregion
 
         #region Payment and Display Data
 
+        public int SelectedMultiplePaymentIndex;
+
         private List<int> payTypeIDs = new List<int>(); // List of payment type IDs
+
         private List<string> displayNames = new List<string>(); // List of display names
+
         private List<bool> isAvailableList = new List<bool>(); // List of availability statuses
+
         public List<ChildItem> childItemsSelected = new List<ChildItem>();
 
         private SessionMethod sessionMethod;
+
         public SecondaryMonitor secondaryMonitor;
+
         private DispatcherTimer timer;
 
         #endregion
@@ -111,9 +122,18 @@ namespace TranQuik
         #region Cart and Customer Management
 
         public Dictionary<DateTime, HeldCart> heldCarts = new Dictionary<DateTime, HeldCart>(); // Dictionary of held carts
-        public int OrderID { get; set; }
-        public int paxTotal { get; set; }
-        public DateTime CustomerTime { get; set; }
+        public int OrderID
+        {
+            get; set;
+        }
+        public int paxTotal
+        {
+            get; set;
+        }
+        public DateTime CustomerTime
+        {
+            get; set;
+        }
 
         #endregion
 
@@ -136,8 +156,8 @@ namespace TranQuik
             SetVatNumberText();
             ShowSecondaryMonitorIfNeeded();
             UpdateChecker();
-            
-            
+
+
         }
 
         private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -160,8 +180,6 @@ namespace TranQuik
             }
         }
 
-
-
         private void InitializeSettings()
         {
             Config.LoadAppSettings();
@@ -172,7 +190,7 @@ namespace TranQuik
 
         private async Task UpdateChecker()
         {
-            
+
             if (Properties.Settings.Default._ComputerName != "POS1")
             {
                 DateTime openSession = await sessionMethod.CheckThisOpenSession();
@@ -189,7 +207,7 @@ namespace TranQuik
                         notificationPopup.ShowDialog();
                     }
                 }
-                
+
             }
         }
 
@@ -225,7 +243,7 @@ namespace TranQuik
         private void SetAnyDeskIDText()
         {
             AnyDeskID.Text = Config.AnyDeskIDs != null ? Config.AnyDeskIDs.ToString() : "Open AnyDesk";
-            
+
         }
 
         private void PositionWindowOnPrimaryScreen()
@@ -310,7 +328,7 @@ namespace TranQuik
             GetPayTypeList((Properties.Settings.Default._ComputerID), SaleMode);
             ProductGroupLoad();
             modelProcessing.LoadProductDetails(51);
-            
+
         }
 
         public void ModifierMenuView(int productID, int SelectedIndex)
@@ -431,7 +449,7 @@ namespace TranQuik
                     modelProcessing.UpdateProductSubcontent();
                 }
             }
-            
+
         }
 
         private void prevContent_Click(object sender, RoutedEventArgs e)
@@ -544,7 +562,7 @@ namespace TranQuik
                                             }
                                         });
                                         isProductComponent = true;
-                                    }                                    
+                                    }
                                 }
 
                                 else
@@ -719,7 +737,7 @@ namespace TranQuik
 
             // Display buttons for the current batch
             FilteredPayType();
-            
+
         }
 
         private void FilteredPayType()
@@ -870,7 +888,8 @@ namespace TranQuik
             if (currentIndex >= filteredPayTypes.Count)
             {
                 currentIndex = filteredPayTypes.Count - batchSize;
-                if (currentIndex < 0) currentIndex = 0; // Ensure currentIndex doesn't go negative if there are fewer items than batchSize
+                if (currentIndex < 0)
+                    currentIndex = 0; // Ensure currentIndex doesn't go negative if there are fewer items than batchSize
             }
             DisplayCurrentBatch();
         }
@@ -884,7 +903,7 @@ namespace TranQuik
             DisplayCurrentBatch();
         }
 
-        private void PaymentTypeButton_Click (object sender, RoutedEventArgs e)
+        private void PaymentTypeButton_Click(object sender, RoutedEventArgs e)
         {
             Log.ForContext("LogType", "ApplicationLog").Information($"Pay Type Button Clicked");
 
@@ -918,7 +937,8 @@ namespace TranQuik
                     {
                         // Call QRIS method
                         modelProcessing.qrisProcess(payTypeID.ToString(), displayName);
-                    } else if (payTypeID == 10009)
+                    }
+                    else if (payTypeID == 10009)
                     {
                         PaymentTypeWindow paymentTypeWindow = new PaymentTypeWindow(this, total.Text, payTypeID, displayName);
                         paymentTypeWindow.ShowDialog();
@@ -1025,9 +1045,10 @@ namespace TranQuik
                         break;
 
                     case "Expire":
-                        // Actions to perform when QRIS transaction has expired
-
-                        // Add other actions as needed
+                        secondaryMonitor.imageLoader.Source = null;
+                        secondaryMonitor.imageLoader.Height = 0;
+                        secondaryMonitor.imageLoader.Width = 0;
+                        TransactionCanceled();
                         break;
 
                     default:
@@ -1035,7 +1056,7 @@ namespace TranQuik
                         MessageBox.Show("Unknown Transaction Status!");
                         break;
                 }
-            }            
+            }
         }
 
         private void DisplayHeldCartsInConsole()
@@ -1126,18 +1147,17 @@ namespace TranQuik
                 {
                     // Calculate the return amount
                     double returnAmount = enteredAmount - grandTotalValue;
-
                     if (returnAmount < 0)
                     {
                         // Display a message indicating insufficient funds
-                        Log.ForContext("LogType", "TransactionLog").Information($"Cart for Order ID: {OrderID}. Insufficient funds. Please enter more money to proceed.");
-                        MessageBox.Show("Insufficient funds. Please enter more money to proceed.");
-                        return; // Exit the method without further processing
+                        Log.ForContext("LogType", "TransactionLog").Information($"Cart for Order ID: {OrderID}. Insufficient funds. This Come To MultiplePayement.");
+                        modelProcessing.MultiplePaymentProcess(1);
                     }
                     else
                     {
                         // Proceed with the rest of the processing
                         Log.ForContext("LogType", "TransactionLog").Information($"Cart for Order ID: {OrderID} Cash transaction Successfully return value is {returnAmount}");
+                        modelProcessing.MultiplePaymentProcess(1);
                         modelProcessing.OrderTransactionFunction();
                         TransactionDone("0", "Cash");
                     }
@@ -1146,6 +1166,7 @@ namespace TranQuik
                 {
                     MessageBox.Show("Invalid grand total value. Please check the total amount.");
                 }
+                displayText.Text = "0";
             }
             else
             {
@@ -1166,7 +1187,7 @@ namespace TranQuik
 
         public void Print(string PayTypeID, string PayTypeName, string ReceiptNumber)
         {
-            
+
             // Get the base directory of the application
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -1176,13 +1197,13 @@ namespace TranQuik
             {
                 Directory.CreateDirectory(receiptLogsDirectory);
             }
-            
+
             // Create a new PrintDocument
             var doc = new PrintDocument();
             PrintController printController = new StandardPrintController();
 
             // Attach the event handler for printing content
-            doc.PrintPage += (sender, e) => ProvideContent(sender, e, PayTypeID, PayTypeName, ReceiptNumber);
+            doc.PrintPage += (sender, e) => ProvideContent(sender, e, ReceiptNumber);
 
             // Calculate the required height based on the content
             int requiredHeight = CalculateRequiredHeight(); // Implement this method to calculate required height
@@ -1218,7 +1239,7 @@ namespace TranQuik
                 //// Show the print preview dialog
                 printPreviewDialog.ShowDialog();
             }
-            
+
             // Set the file name and save location
             //doc.PrinterSettings.PrintToFile = true;
             //doc.PrinterSettings.PrintFileName = filePath;
@@ -1296,8 +1317,60 @@ namespace TranQuik
             return numberOfLines;
         }
 
-        public void ProvideContent(object sender, PrintPageEventArgs e, string PayTypeID, string PayTypeName, string ReceiptNumber)
+        public void ProvideContent(object sender, PrintPageEventArgs e, string ReceiptNumber)
         {
+            Dictionary<string, int> paymentNameCounts = new Dictionary<string, int>();
+
+            string paymentNames = string.Empty;
+            bool isFirstPayment = true;
+            decimal tendered = 0;
+
+            // First, count the occurrences of each payment type name
+            foreach (var paymentDetail in modelProcessing.multiplePaymentList.Values)
+            {
+                if (!paymentDetail.PaymentIsAcitve)
+                {
+                    continue;
+                }
+
+                if (paymentNameCounts.ContainsKey(paymentDetail.PaymentTypeName))
+                {
+                    paymentNameCounts[paymentDetail.PaymentTypeName]++;
+                }
+                else
+                {
+                    paymentNameCounts[paymentDetail.PaymentTypeName] = 1;
+                }
+
+                tendered += paymentDetail.PaymentAmount;
+            }
+
+            // Then, build the formatted payment names string
+            bool isFirstPayments = true;
+            foreach (var entry in paymentNameCounts)
+            {
+                if (!isFirstPayments)
+                {
+                    paymentNames += ", ";
+                }
+                else
+                {
+                    isFirstPayments = false;
+                }
+
+                if (entry.Value > 1)
+                {
+                    paymentNames += $"{entry.Key} ({entry.Value})";
+                }
+                else
+                {
+                    paymentNames += entry.Key;
+                }
+            }
+
+            string payTypeName = modelProcessing.multiplePaymentList.Count > 1 ? $"{paymentNames}" : paymentNames;
+
+
             // Load settings from the file
             var settings = Config.LoadPrinterSettings();
 
@@ -1352,7 +1425,7 @@ namespace TranQuik
             sb.AppendLine(businessAddress);
             sb.AppendLine($"Vat Reg. No. : {VatNumber.Text}");
             sb.AppendLine($"TEL          : {businessPhone}");
-            sb.AppendLine($"Payment Type : {PayTypeName}");
+            sb.AppendLine($"Payment Type : {payTypeName}");
             sb.AppendLine($"Sales Type   :{salesModeText.Text}");
             sb.AppendLine(new string('=', paperWidth / 12));
             sb.AppendLine();
@@ -1395,21 +1468,6 @@ namespace TranQuik
 
             decimal vatAmount = total * modelProcessing.productVATPercent / 100;
             decimal grandTotal = total + vatAmount;
-
-            decimal tendered = 0;
-            if (PayTypeID == "0")
-            {
-                if (!decimal.TryParse(displayText.Text, out decimal parsedTendered))
-                {
-                    // Handle parsing error, maybe show a message to the user
-                    return;
-                }
-                tendered = Math.Round(parsedTendered);
-            }
-            else
-            {
-                tendered = grandTotal;
-            }
             decimal change = tendered - grandTotal;
 
             sb.AppendLine(new string('-', paperWidth / 12));
@@ -1466,11 +1524,22 @@ namespace TranQuik
                 heldCartManager.SaveHeldCarts(heldCarts);
             }
             string ReceiptNumber = GenerateReceiptNumber(OrderID.ToString());
+            int CalculatorPOS = int.Parse(displayText.Text.Replace(".", ""));
 
-            string totalText = total.Text.Replace(".", ""); // Remove decimal points
-            int totalValue = int.Parse(totalText); // Parse the string into an integer
+            // Check if there are any items in the cart
+            bool isHaveCart = modelProcessing.cartProducts.Any();
 
-            if (totalValue != 0) 
+            // Check if all items in the cart are active
+            bool isActiveCart = modelProcessing.cartProducts.Values.All(product => product.Status);
+
+            // Check if the transaction amount has been fulfilled
+            bool isFulfilled = CurrentTransaction.NeedToPay + CurrentTransaction.TaxAmount <= modelProcessing.multiplePaymentAmount;
+
+            // Check if the CalculatorPOS is not zero
+            bool isNotNull = CalculatorPOS != 0;
+
+
+            if (isHaveCart && isActiveCart && isFulfilled && isNotNull)
             {
                 if (Properties.Settings.Default._PrinterStatus)
                 {
@@ -1488,8 +1557,11 @@ namespace TranQuik
 
         private void TransactionCanceled()
         {
-            transactionStatus = new TransactionStatus("Cancel", modelProcessing);
-            transactionStatus.ShowDialog();
+            //transactionStatus = new TransactionStatus("Cancel", modelProcessing);
+            //transactionStatus.ShowDialog();
+            NotificationPopup notificationPopup = new NotificationPopup("QRIS Transaction have a problem, use another payment type...", false);
+            notificationPopup.ShowDialog();
+            modelProcessing.UpdateMultiplePaymentUI();
         }
 
         private void salesModeSee_Click(object sender, RoutedEventArgs e)
@@ -1669,7 +1741,7 @@ namespace TranQuik
         {
             try
             {
-                
+
                 string anyDeskPath = Config.anyDeskPath;
                 if (anyDeskPath != null)
                 {
@@ -1685,7 +1757,7 @@ namespace TranQuik
                     if (notificationPopup.IsConfirmed)
                     {
                         Process.Start(processInfo);
-                    }                   
+                    }
                 }
                 else
                 {
@@ -1700,5 +1772,70 @@ namespace TranQuik
                 MessageBox.Show($"An error occurred: {ex.Message}");
             }
         }
+
+        private void multiplePaymentSelectionChange(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ListView listView && listView.SelectedIndex != -1)
+            {
+                try
+                {
+                    // Get the selected item from the ListView
+                    dynamic selectedItem = listView.SelectedItem;
+
+                    if (selectedItem != null)
+                    {
+                        // Get the actual index from the ListView
+                        int ListIndex = listView.SelectedIndex;
+
+                        // Find the matching entry in the dictionary
+                        var matchingEntry = modelProcessing.multiplePaymentList.ElementAtOrDefault(ListIndex);
+
+                        if (!matchingEntry.Equals(default(KeyValuePair<int, PaymentDetails>)))
+                        {
+                            // Update the selected multiple payment index
+                            SelectedMultiplePaymentIndex = matchingEntry.Key;
+                        }
+                        else
+                        {
+                            // Handle the case where no matching entry is found
+                            MessageBox.Show("No matching payment entry found.");
+                        }
+                    }
+                }
+                catch (RuntimeBinderException ex)
+                {
+                    Console.WriteLine($"Error accessing properties: {ex.Message}");
+                }
+            }
+        }
+
+        public void removeIndexMultiplePayment_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedMultiplePaymentIndex != null)
+            {
+                // Check if the key exists in the dictionary
+                if (modelProcessing.multiplePaymentList.ContainsKey(SelectedMultiplePaymentIndex))
+                {
+                    // Deactivate the payment entry
+                    modelProcessing.multiplePaymentList[SelectedMultiplePaymentIndex].PaymentIsAcitve = false;
+
+                    // Reset the SelectedMultiplePaymentIndex
+                    SelectedMultiplePaymentIndex = Value.NullValueFieldNumber;
+
+                    // Update the UI to reflect changes
+                    modelProcessing.UpdateMultiplePaymentUI();
+                }
+                else
+                {
+                    MessageBox.Show("No matching payment entry found.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("No payment selected.");
+            }
+        }
+
+
     }
 }

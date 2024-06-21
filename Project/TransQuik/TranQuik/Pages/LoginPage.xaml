@@ -45,7 +45,7 @@
                         Foreground="{StaticResource PrimaryBackgroundColor}" BorderThickness="0" Click="fastLogin_Click">
                             <materialIcons:MaterialIcon Kind="ContentDuplicate" Height="14"/>
                         </Button>
-                        <TextBlock Text="Click for random user" FontFamily="arial" Foreground="{StaticResource FontColor}" FontSize="10" FontWeight="Light" VerticalAlignment="Center" Margin="5,0" />
+                        <TextBlock Text="click for random user" FontFamily="arial" Foreground="Gray" FontSize="10" FontWeight="Light" VerticalAlignment="Bottom" Margin="5,0" />
                     </StackPanel>
                 </StackPanel>
             </Border>

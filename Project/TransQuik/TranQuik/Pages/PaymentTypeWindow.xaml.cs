@@ -14,6 +14,7 @@ namespace TranQuik.Pages
     {
         private MainWindow MainWindow;
         private ModelProcessing modelProcessing;
+        private Control currentFocusedControl;
         private int PayTypeID;
         private string PayTypeName;
 
@@ -28,50 +29,78 @@ namespace TranQuik.Pages
             this.modelProcessing = mainWindow.modelProcessing;
         }
 
+        private void NIKInputFocus(object sender, RoutedEventArgs e)
+        {
+            currentFocusedControl = sender as Control;
+            currentFocusedControl.Focus(); // Set focus explicitly
+        }
+
+        private void NameInputFocus(object sender, RoutedEventArgs e)
+        {
+            currentFocusedControl = sender as Control;
+            currentFocusedControl.Focus(); // Set focus explicitly
+        }
+
+
         private void Number_Click(object sender, RoutedEventArgs e)
         {
             // Remove leading zeros before appending the clicked number or dot to the displayed text
             RemoveLeadingZeros();
+
+            // Check if the sender is a Button
             if (sender is Button button)
             {
                 string buttonText = button.Content.ToString();
+
+                // Determine which control should have its text updated
+                TextBox targetTextBox = currentFocusedControl as TextBox ?? TotalPay;
 
                 // Append the clicked number or dot to the displayed text
                 if (buttonText == ".")
                 {
                     // Check if dot is already present in the display text
-                    if (!TotalPay.Text.Contains("."))
+                    if (!targetTextBox.Text.Contains("."))
                     {
-                        TotalPay.Text += buttonText; // Append dot if not already present
+                        targetTextBox.Text += buttonText; // Append dot if not already present
                     }
                 }
                 else
                 {
                     // Append the clicked number to the display text
-                    TotalPay.Text += buttonText;
+                    targetTextBox.Text += buttonText;
                 }
             }
         }
 
+        // Dummy method to simulate leading zero removal, implement accordingly
         private void RemoveLeadingZeros()
         {
-            if (TotalPay.Text.StartsWith("0") && TotalPay.Text.Length > 0 && !TotalPay.Text.StartsWith("0."))
+            if (currentFocusedControl is TextBox textBox)
+            {
+                textBox.Text = textBox.Text.TrimStart('0');
+            }
+            else
             {
                 TotalPay.Text = TotalPay.Text.TrimStart('0');
             }
         }
 
+        // Event handler for backspace button click
         private void Backspace_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(TotalPay.Text))
+            TextBox targetTextBox = currentFocusedControl as TextBox ?? TotalPay;
+
+            if (!string.IsNullOrEmpty(targetTextBox.Text))
             {
-                TotalPay.Text = TotalPay.Text.Substring(0, TotalPay.Text.Length - 1);
+                targetTextBox.Text = targetTextBox.Text.Substring(0, targetTextBox.Text.Length - 1);
             }
         }
 
+        // Event handler for clear button click
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            TotalPay.Text = "0";
+            TextBox targetTextBox = currentFocusedControl as TextBox ?? TotalPay;
+            targetTextBox.Text = "0";
         }
 
         private void KeyboardShow_Click(object sender, RoutedEventArgs e)
@@ -112,16 +141,22 @@ namespace TranQuik.Pages
                 notificationPopup.ShowDialog();
                 return; // Exit the method to prevent further processing
             }
+            decimal TotalPayCard = Convert.ToDecimal(TotalPay.Text);
+            decimal NeedToPay = CurrentTransaction.NeedToPay + CurrentTransaction.TaxAmount - modelProcessing.multiplePaymentAmount;
+            modelProcessing.AddPaymentDetail(PayTypeID, PayTypeName, NeedToPay);
+            modelProcessing.OrderTransactionFunction(2, payRemark, PayTypeID.ToString());
 
             if (Properties.Settings.Default._PrinterStatus)
             {
-                modelProcessing.OrderTransactionFunction(2, payRemark , TotalPay.Text, PayTypeID.ToString());
-                MainWindow.TransactionDone(PayTypeID.ToString(), PayTypeName);
-                TransactionStatus transactionStatus = new TransactionStatus("Success", modelProcessing);
+                if (TotalPayCard >= NeedToPay)
+                {
+                    MainWindow.TransactionDone(PayTypeID.ToString(), PayTypeName);
+                    TransactionStatus transactionStatus = new TransactionStatus("Success", modelProcessing);
+                }
+                modelProcessing.MultiplePaymentProcess();
                 this.Close();
             }
         }
-
 
         private void MealCardButton_Click(object sender, RoutedEventArgs e)
         {

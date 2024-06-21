@@ -58,8 +58,8 @@
                             <Border Grid.Row="1" Background="LightGray"/>
                             <TextBlock x:Name="StatusCondition" Text="Not Selected" Grid.Row="1" FontSize="24" FontFamily="arial" FontWeight="Bold" Foreground="{StaticResource PrimaryButtonColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
-                        <ScrollViewer Grid.Row="1" Background="LightGray" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                            <ListView x:Name="cartGridListView" SelectionChanged="ListView_SelectionChanged"  HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" Width="780">
+                        <ScrollViewer Grid.Row="1" Background="{StaticResource PrimaryBackgroundColor}" VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled">
+                            <ListView x:Name="cartGridListView" SelectionChanged="ListView_SelectionChanged" Background="{StaticResource PrimaryBackgroundColor}"  HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" Width="780">
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="#" DisplayMemberBinding="{Binding Index}" Width="25" />
@@ -288,7 +288,7 @@
                             Background="{StaticResource PrimaryButtonColor}" Click="changeSalesMode_Click">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <materialIcons:MaterialIcon Kind="Exchange" Width="28" Height="30" VerticalAlignment="Center"/>
-                                <TextBlock Text="Change" FontSize="10"  VerticalAlignment="Center"/>
+                                <TextBlock Text="Sales Change" TextWrapping="Wrap" FontSize="10"  VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                         <Button x:Name="ClearButton" Height="72" 
@@ -554,48 +554,91 @@
                                 <Grid Grid.Row="0" x:Name="CalculatorShowed">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
-                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="260"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid Grid.Column="0" Margin="3">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="80" />
                                             <!-- Row for Grand Total -->
                                             <RowDefinition Height="*" />
                                             <!-- Row for Return -->
                                         </Grid.RowDefinitions>
-
-                                        <!-- Grand Total -->
-                                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="1,0,1,0" Background="{StaticResource FontColor}" Effect="{StaticResource DropShadowEffect}">
-                                            <TextBlock Text="Grand Total : " FontWeight="Bold" VerticalAlignment="Center" Foreground="{StaticResource TertiaryBackgroundColor}" Margin="5,0" Width="100" />
-                                            <TextBox x:Name="GrandTotalCalculator"
-                                             Background="{StaticResource FontColor}"
-                                             Foreground="White"
-                                             FontSize="28"
-                                             HorizontalAlignment="Stretch"
-                                             VerticalAlignment="Center"
-                                             TextAlignment="Right"
-                                             Text="0"
-                                             Padding="10"
-                                             BorderThickness="0" />
-                                        </StackPanel>
-
-                                        <!-- Return -->
-                                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="1,10,1,0" Background="LightYellow" Effect="{StaticResource DropShadowEffect}">
-                                            <TextBlock Text="Return : " FontWeight="Bold" VerticalAlignment="Center"  Width="100" Margin="5,0"/>
-                                            <TextBox x:Name="TotalReturnCalculator"
-                                                             Background="LightYellow"
-                                                             FontSize="28"
-                                                             HorizontalAlignment="Stretch"
-                                                             VerticalAlignment="Center"
-                                                             TextAlignment="Right"
-                                                             Text="0"
-                                                             Padding="10"
-                                                             BorderThickness="0" />
-                                        </StackPanel>
+                                        <Grid Grid.Row="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <!-- Grand Total -->
+                                            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="1,0,1,0"  Background="{StaticResource FontColor}" Effect="{StaticResource DropShadowEffect}">
+                                                <TextBlock Text="Total : " FontWeight="Bold" VerticalAlignment="Center" TextAlignment="Right" Foreground="{StaticResource TertiaryBackgroundColor}" Margin="5,0" Width="100" />
+                                                <TextBox x:Name="GrandTotalCalculator"
+                                                                 Width="170"
+                                                                 Background="{StaticResource FontColor}"
+                                                                 Foreground="White"
+                                                                 FontSize="14"
+                                                                 HorizontalAlignment="Stretch"
+                                                                 VerticalAlignment="Center"
+                                                                 TextAlignment="Right"
+                                                                 Text="0"
+                                                                 Padding="10"
+                                                                 BorderThickness="0" />
+                                            </StackPanel>
+                                            <!-- Return -->
+                                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="1,5,1,0" Background="LightYellow" Effect="{StaticResource DropShadowEffect}">
+                                                <TextBlock Text="Change : " FontWeight="Bold" VerticalAlignment="Center" TextAlignment="Right"  Width="100" Margin="5,0"/>
+                                                <TextBox x:Name="TotalReturnCalculator"
+                                                         Width="170"
+                                                                 Background="LightYellow"
+                                                                 FontSize="14"
+                                                                 HorizontalAlignment="Stretch"
+                                                                 VerticalAlignment="Center"
+                                                                 TextAlignment="Right"
+                                                                 Text="0"
+                                                                 Padding="10"
+                                                                 BorderThickness="0" />
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid Grid.Row="1" Background="{StaticResource PrimaryBackgroundColor}" Effect="{StaticResource DropShadowEffect}" Margin="1,5,1,0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="40"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="0.2" BorderBrush="{StaticResource FontColor}"/>
+                                            <ScrollViewer x:Name="multiplePaymentScrolling" MaxHeight="170" Grid.Row="0" Grid.ColumnSpan="2" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                                                <ListView x:Name="multiplePaymentDetails" SelectionChanged="multiplePaymentSelectionChange">
+                                                    <ListView.View>
+                                                        <GridView >
+                                                            <GridViewColumn Header="Type" DisplayMemberBinding="{Binding PaymentTypeName}" Width="100"/>
+                                                            <GridViewColumn Header="Detail" DisplayMemberBinding="{Binding PaymentDetail}" Width="100"/>
+                                                            <GridViewColumn Header="TotalPay" DisplayMemberBinding="{Binding PaymentAmount}" Width="100"/>
+                                                            <!-- Add more columns as needed -->
+                                                        </GridView>
+                                                    </ListView.View>
+                                                </ListView>
+                                            </ScrollViewer>
+                                            <Button x:Name="deleteMultiplePayment" Grid.Row="1" Grid.Column="0" Background="{StaticResource ErrorColor}" BorderThickness="0.5" BorderBrush="{StaticResource FontColor}" Click="removeIndexMultiplePayment_Click" >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <materialIcons:MaterialIcon Kind="TrashCan" Height="13" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="REMOVE" Margin="0,2" VerticalAlignment="Center" FontSize="10" FontWeight="Bold" FontFamily="arial"  HorizontalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Button>
+                                            <Grid Grid.Row="1" Grid.Column="1" Background="{StaticResource WarningColor}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="65"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock x:Name="totalMultiplePaymentText" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0" Text="5.000" Grid.Row="1" 
+                                                           Grid.Column="1" Background="{StaticResource WarningColor}" FontSize="16" FontFamily="arial" FontWeight="SemiBold">
+                                                </TextBlock>
+                                            </Grid>
+                                        </Grid>
+                                       
+                                        
                                     </Grid>
-
-
-
                                     <Grid Grid.Column="1" Margin="3" Background="LightSteelBlue" Effect="{StaticResource DropShadowEffect}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
@@ -623,20 +666,34 @@
                                             <Button Grid.Row="1" Grid.Column="0" Content="7" FontSize="24" FontFamily="arial" Background="Azure" Click="Number_Click"/>
                                             <Button Grid.Row="1" Grid.Column="1" Content="8" FontSize="24" FontFamily="arial" Background="Azure" Click="Number_Click"/>
                                             <Button Grid.Row="1" Grid.Column="2" Content="9" FontSize="24" FontFamily="arial" Background="Azure" Click="Number_Click"/>
-                                            <Button Grid.Row="1" Grid.Column="3" Content="C" FontSize="18" FontFamily="arial" Background="{StaticResource SecondaryButtonColor}" Click="Clear_Click"/>
+                                            <Button Grid.Row="1" Grid.Column="3" FontSize="18" FontFamily="arial" Background="{StaticResource SecondaryButtonColor}" Click="Clear_Click">
+                                                <StackPanel Orientation="Vertical">
+                                                    <materialIcons:MaterialIcon Margin="0,5" Kind="RemoveBoxMultiple" Height="24" Foreground="{StaticResource FontColor}"/>
+                                                </StackPanel>
+                                            </Button>
 
                                             <!-- Row 2 -->
                                             <Button Grid.Row="2" Grid.Column="0" Content="4" FontSize="24" FontFamily="arial" Background="Azure" Click="Number_Click"/>
                                             <Button Grid.Row="2" Grid.Column="1" Content="5" FontSize="24" FontFamily="arial" Background="Azure" Click="Number_Click"/>
                                             <Button Grid.Row="2" Grid.Column="2" Content="6" FontSize="24" FontFamily="arial" Background="Azure" Click="Number_Click"/>
-                                            <Button Grid.Row="2" Grid.Column="3" Content="⌫" FontSize="18" FontFamily="arial"  Background="{StaticResource ErrorColor}" Click="Backspace_Click"/>
+                                            <Button Grid.Row="2" Grid.Column="3"  FontSize="18" FontFamily="arial"  Background="{StaticResource ErrorColor}" Click="Backspace_Click">
+                                                <StackPanel Orientation="Vertical">
+                                                    <materialIcons:MaterialIcon Margin="0,5" Kind="Clear" Height="24" Foreground="{StaticResource FontColor}"/>
+                                                    
+                                                </StackPanel>
+                                            </Button>
                                             
 
                                             <!-- Row 3 -->
                                             <Button Grid.Row="3" Grid.Column="0" Content="1" FontSize="24" FontFamily="arial" Background="Azure" Click="Number_Click"/>
                                             <Button Grid.Row="3" Grid.Column="1" Content="2" FontSize="24" FontFamily="arial" Background="Azure" Click="Number_Click"/>
                                             <Button Grid.Row="3" Grid.Column="2" Content="3" FontSize="24" FontFamily="arial" Background="Azure" Click="Number_Click"/>
-                                            <Button Grid.Row="3" Grid.Column="3" Grid.RowSpan="2" Content="ENTER"  FontSize="18" FontFamily="arial" Background="{StaticResource PrimaryButtonColor}" Click="Enter_Click"/>
+                                            <Button Grid.Row="3" Grid.Column="3" Grid.RowSpan="2"  FontSize="18" FontFamily="arial" Background="{StaticResource PrimaryButtonColor}" Click="Enter_Click">
+                                                <StackPanel Orientation="Vertical">
+                                                    <materialIcons:MaterialIcon Margin="0,5" Kind="PresenceEnter" Height="24" Foreground="{StaticResource FontColor}"/>
+                                                    <TextBlock Text="ENTER" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource FontColor}" FontFamily="arial"/>
+                                                </StackPanel>
+                                            </Button>
 
                                             <!-- Row 4 -->
                                             <Button Grid.Row="4" Grid.Column="0" Content="0" FontSize="24" FontFamily="arial" Background="Azure"  Click="Number_Click"/>
