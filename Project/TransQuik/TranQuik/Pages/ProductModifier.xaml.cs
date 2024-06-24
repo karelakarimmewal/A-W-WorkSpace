@@ -286,7 +286,7 @@ namespace TranQuik.Pages
                         modifierMenu.ModifierMenuName,
                         modifierMenu.ModifierMenuPrice,
                         modifierMenu.ModifierMenuQuantity,
-                        true, 0 // Assuming StatusBar is a property of ChildItem
+                        true, 0,0 // Assuming StatusBar is a property of ChildItem
                     );
 
                     // Add the ChildItem to the mainWindow's childItemsSelected collection

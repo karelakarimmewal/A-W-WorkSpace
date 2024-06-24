@@ -224,7 +224,7 @@ namespace TranQuik.Pages
             ProductComponentButtonStartIndex = 0;
 
             string query = @"
-                            SELECT PC.ProductID, P.ProductID as ChildProductID, P.ProductName, P.ProductName2, PP.ProductPrice
+                            SELECT PC.PGroupID, PC.ProductID, P.ProductID as ChildProductID, P.ProductName, P.ProductName2, PP.ProductPrice
                             FROM ProductComponent PC
                             JOIN Products P ON PC.MaterialID = P.ProductID
                             JOIN ProductPrice PP ON P.ProductID = PP.ProductID
@@ -245,6 +245,7 @@ namespace TranQuik.Pages
                 while (reader.Read())
                 {
                     ProductComponentProduct productComponentProduct = new ProductComponentProduct();
+                    productComponentProduct.ProductComponentProductPGroupID = Convert.ToInt32(reader["PGroupID"]);
                     productComponentProduct.ProductComponentProductID = Convert.ToInt32(reader["ChildProductID"]);
                     productComponentProduct.ProductComponentProductName = reader["ProductName"].ToString();
                     productComponentProduct.ProductComponentProductPrice = Convert.ToDecimal(reader["ProductPrice"]);
@@ -254,6 +255,7 @@ namespace TranQuik.Pages
 
                     string productName = reader["ProductName"].ToString();
                     int productId = Convert.ToInt32(reader["ProductID"]);
+
                     decimal productPrice = Convert.ToDecimal(reader["ProductPrice"]);
 
                     // Create product instance
@@ -329,7 +331,8 @@ namespace TranQuik.Pages
                     productComponentProduct.ProductComponentProductPrice,
                     currentQuantity,
                     true,
-                    productComponentProduct.ProductComponentProductSetGroupNo
+                    productComponentProduct.ProductComponentProductSetGroupNo,
+                    productComponentProduct.ProductComponentProductPGroupID
                 ));
             }
 
@@ -378,7 +381,8 @@ namespace TranQuik.Pages
                     productComponentProduct.ProductComponentProductPrice,
                     currentQuantity,
                     true,
-                    productComponentProduct.ProductComponentProductSetGroupNo
+                    productComponentProduct.ProductComponentProductSetGroupNo,
+                    productComponentProduct.ProductComponentProductPGroupID
                 ));
             }
             else

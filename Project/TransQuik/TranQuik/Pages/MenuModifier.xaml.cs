@@ -332,7 +332,7 @@ namespace TranQuik.Pages
                     modifierMenu.ModifierMenuPrice,
                     modifierMenu.ModifierMenuQuantity,
                     true, // Assuming StatusBar is a property of ChildItem,
-                    0
+                    0 , 0
                 );
                 currentQuantity = modifierMenu.ModifierMenuQuantity;
 

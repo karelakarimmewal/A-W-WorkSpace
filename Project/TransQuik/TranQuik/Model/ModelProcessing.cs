@@ -1860,7 +1860,7 @@ namespace TranQuik.Model
                                     null,                        // comment: string
                                     0,                           // isComment: byte
                                     0,                           // billCheckID: byte
-                                    0,                           // pGroupID: short
+                                    (short)childItems.ChildPGroupID,                           // pGroupID: short
                                     (short)childItems.ChildSetGroupNo,                           // setGroupNo: short
                                     0,                           // qtyRatio: decimal
                                     0,                           // freeItem: byte

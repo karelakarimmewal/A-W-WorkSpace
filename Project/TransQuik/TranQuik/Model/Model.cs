@@ -113,11 +113,13 @@ namespace TranQuik.Model
 
     public class ProductComponentProduct
     {
+        public int ProductComponentProductPGroupID { get; set; }
         public int ProductComponentProductID { get; set; }
         public string ProductComponentProductName { get; set; }
         public decimal ProductComponentProductPrice { get; set; }
         public int ProductComponentProductSetGroupNo { get; set; }
         public int ProductComponentProductQuantity { get; set; } = 0;
+
     }
 
     public class Customer
@@ -324,10 +326,11 @@ namespace TranQuik.Model
         public string ChildName { get; set; }
         public decimal ChildPrice { get; set; }
         public int ChildSetGroupNo { get; set; }
+        public int ChildPGroupID { get; set; }
         public int ChildQuantity { get; set; }
         public bool ChildStatus { get; set; }
         public DateTime dateTime { get; set; }
-        public ChildItem(int childID, string childName, decimal childPrice, int childQuantity, bool childStatus, int childSetGroupNo)
+        public ChildItem(int childID, string childName, decimal childPrice, int childQuantity, bool childStatus, int childSetGroupNo, int childPGroupID)
         {
             ChildId = childID;
             ChildName = childName;
@@ -335,6 +338,7 @@ namespace TranQuik.Model
             ChildPrice = childPrice;
             ChildStatus = childStatus;
             ChildSetGroupNo = childSetGroupNo;
+            ChildPGroupID = childPGroupID;
             dateTime = DateTime.Now;
         }
     }
