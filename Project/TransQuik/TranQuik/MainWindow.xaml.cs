@@ -42,6 +42,7 @@ namespace TranQuik
         private TransactionStatus transactionStatus;
         public HeldCartManager heldCartManager;
         private SyncMethod syncMethod;
+        private PaymentTypeWindow paymentTypeWindow;
 
 
         #endregion
@@ -126,10 +127,12 @@ namespace TranQuik
         {
             get; set;
         }
+
         public int paxTotal
         {
             get; set;
         }
+
         public DateTime CustomerTime
         {
             get; set;
@@ -940,7 +943,7 @@ namespace TranQuik
                     }
                     else if (payTypeID == 10009)
                     {
-                        PaymentTypeWindow paymentTypeWindow = new PaymentTypeWindow(this, total.Text, payTypeID, displayName);
+                        paymentTypeWindow = new PaymentTypeWindow(this, total.Text, payTypeID, displayName);
                         paymentTypeWindow.ShowDialog();
                     }
                     //MessageBox.Show($"Waiting For Payment Using: {displayName}\nPayTypeID: {payTypeID}");
@@ -1147,9 +1150,19 @@ namespace TranQuik
                 {
                     // Calculate the return amount
                     double returnAmount = enteredAmount - grandTotalValue;
-                    if (returnAmount < 0)
+                    if (returnAmount < 0 )
                     {
-                        // Display a message indicating insufficient funds
+                        if (grandTotalValue > 0 && enteredAmount == 0)
+                        {
+                            NotificationPopup notificationPopup = new NotificationPopup("Pay Transaction is Can't Be Less Than 1", false);
+                            notificationPopup.Topmost = true;
+                            notificationPopup.ShowDialog();
+
+                            if (notificationPopup.IsConfirmed)
+                            {
+                                return;
+                            }
+                        }
                         Log.ForContext("LogType", "TransactionLog").Information($"Cart for Order ID: {OrderID}. Insufficient funds. This Come To MultiplePayement.");
                         modelProcessing.MultiplePaymentProcess(1);
                     }
@@ -1455,13 +1468,13 @@ namespace TranQuik
                 {
                     foreach (var childItem in item.ChildItems)
                     {
-                        string childItemName = childItem.Name.Length > FIRST_COL_WIDTH - 2 ? childItem.Name.Substring(0, FIRST_COL_WIDTH - 2) : childItem.Name;
+                        string childItemName = childItem.ChildName.Length > FIRST_COL_WIDTH - 2 ? childItem.ChildName.Substring(0, FIRST_COL_WIDTH - 2) : childItem.ChildName;
 
                         sb.Append((" - " + childItemName).PadRight(FIRST_COL_WIDTH));
-                        sb.Append(childItem.Quantity.ToString().PadLeft(SECOND_COL_WIDTH));
-                        sb.AppendLine((childItem.Price * childItem.Quantity).ToString("N0").PadLeft(FOURTH_COL_WIDTH));
+                        sb.Append(childItem.ChildQuantity.ToString().PadLeft(SECOND_COL_WIDTH));
+                        sb.AppendLine((childItem.ChildPrice * childItem.ChildQuantity).ToString("N0").PadLeft(FOURTH_COL_WIDTH));
 
-                        total += childItem.Price * childItem.Quantity; // Add child item's amount to total
+                        total += childItem.ChildPrice * childItem.ChildQuantity; // Add child item's amount to total
                     }
                 }
             }
@@ -1523,21 +1536,22 @@ namespace TranQuik
                 heldCarts.Remove(CustomerTime);
                 heldCartManager.SaveHeldCarts(heldCarts);
             }
+
             string ReceiptNumber = GenerateReceiptNumber(OrderID.ToString());
             int CalculatorPOS = int.Parse(displayText.Text.Replace(".", ""));
+            decimal TotalPayCard = paymentTypeWindow != null ? Convert.ToDecimal(paymentTypeWindow.TotalPay.Text) : 0;
 
             // Check if there are any items in the cart
             bool isHaveCart = modelProcessing.cartProducts.Any();
 
             // Check if all items in the cart are active
-            bool isActiveCart = modelProcessing.cartProducts.Values.All(product => product.Status);
+            bool isActiveCart = modelProcessing.cartProducts.Values.Any(product => product.Status);
 
             // Check if the transaction amount has been fulfilled
             bool isFulfilled = CurrentTransaction.NeedToPay + CurrentTransaction.TaxAmount <= modelProcessing.multiplePaymentAmount;
 
             // Check if the CalculatorPOS is not zero
-            bool isNotNull = CalculatorPOS != 0;
-
+            bool isNotNull = CalculatorPOS != 0 || TotalPayCard != 0;
 
             if (isHaveCart && isActiveCart && isFulfilled && isNotNull)
             {
@@ -1545,13 +1559,15 @@ namespace TranQuik
                 {
                     Print(PayTypeID, PayTypeName, ReceiptNumber);
                 }
+
                 transactionStatus = new TransactionStatus("Success", modelProcessing);
                 transactionStatus.ShowDialog();
             }
             else
             {
-                transactionStatus = new TransactionStatus("Void", modelProcessing);
-                transactionStatus.ShowDialog();
+                NotificationPopup notificationPopup = new NotificationPopup("Transaction Can't Be Done", false);
+                notificationPopup.Topmost = true;
+                notificationPopup.ShowDialog();
             }
         }
 

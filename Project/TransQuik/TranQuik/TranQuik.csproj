@@ -351,13 +351,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Configuration\CreateMasterToSlave.cs" />
     <Compile Include="Configuration\PrinterSettings.cs" />
     <Compile Include="Configuration\ConfigurationLogging.cs" />
     <Compile Include="Configuration\Scheduler.cs" />
     <Compile Include="Controller\CloudDbConnector.cs" />
     <Compile Include="Controller\CustomEncoder.cs" />
-    <Compile Include="Controller\GET_CloudSyncHQ.cs" />
     <Compile Include="Controller\HeldCartManager.cs" />
     <Compile Include="Controller\LocalDbConnector.cs" />
     <Compile Include="Controller\OrderTransaction.cs" />

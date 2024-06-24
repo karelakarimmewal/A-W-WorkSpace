@@ -193,7 +193,7 @@ namespace TranQuik.Pages
                             while (reader.Read())
                             {
                                 ModifierMenu modifierMenu = new ModifierMenu();
-                                modifierMenu.ModifierMenuCode = reader["ProductCode"].ToString();
+                                modifierMenu.ModifierMenuCode = Convert.ToInt32(reader["ProductCode"]);
                                 modifierMenu.ModifierMenuName = reader["ProductName"].ToString();
                                 modifierMenu.ModifierMenuPrice = Convert.ToDecimal(reader["ProductPrice"]);
                                 modifierMenu.ModifierMenuQuantity = 0; // Initialize quantity to zero
@@ -263,17 +263,17 @@ namespace TranQuik.Pages
 
                 // Check if a ChildItem corresponding to the ModifierMenu already exists
                 ChildItem existingItem = mainWindow.childItemsSelected.FirstOrDefault(item =>
-                    item.Name == modifierMenu.ModifierMenuName &&
-                    item.Price == modifierMenu.ModifierMenuPrice);
+                    item.ChildName == modifierMenu.ModifierMenuName &&
+                    item.ChildPrice == modifierMenu.ModifierMenuPrice);
 
                 if (existingItem != null)
                 {
-                    currentQuantity = existingItem.Quantity;
-                    existingItem.Quantity++;
+                    currentQuantity = existingItem.ChildQuantity;
+                    existingItem.ChildQuantity++;
 
-                    if (existingItem.Quantity > maxQuantity)
+                    if (existingItem.ChildQuantity > maxQuantity)
                     {
-                        existingItem.Quantity = maxQuantity;
+                        existingItem.ChildQuantity = maxQuantity;
                     }
                 }
                 else
@@ -282,10 +282,11 @@ namespace TranQuik.Pages
                     modifierMenu.ModifierMenuQuantity = 1;
 
                     ChildItem childItem = new ChildItem(
+                        modifierMenu.ModifierMenuCode,
                         modifierMenu.ModifierMenuName,
                         modifierMenu.ModifierMenuPrice,
                         modifierMenu.ModifierMenuQuantity,
-                        true // Assuming StatusBar is a property of ChildItem
+                        true, 0 // Assuming StatusBar is a property of ChildItem
                     );
 
                     // Add the ChildItem to the mainWindow's childItemsSelected collection

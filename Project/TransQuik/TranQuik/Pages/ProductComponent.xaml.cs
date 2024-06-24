@@ -224,7 +224,7 @@ namespace TranQuik.Pages
             ProductComponentButtonStartIndex = 0;
 
             string query = @"
-                            SELECT PC.ProductID, P.ProductName, P.ProductName2, PP.ProductPrice
+                            SELECT PC.ProductID, P.ProductID as ChildProductID, P.ProductName, P.ProductName2, PP.ProductPrice
                             FROM ProductComponent PC
                             JOIN Products P ON PC.MaterialID = P.ProductID
                             JOIN ProductPrice PP ON P.ProductID = PP.ProductID
@@ -245,9 +245,10 @@ namespace TranQuik.Pages
                 while (reader.Read())
                 {
                     ProductComponentProduct productComponentProduct = new ProductComponentProduct();
-                    productComponentProduct.ProductComponentProductCode = reader["ProductID"].ToString();
+                    productComponentProduct.ProductComponentProductID = Convert.ToInt32(reader["ChildProductID"]);
                     productComponentProduct.ProductComponentProductName = reader["ProductName"].ToString();
                     productComponentProduct.ProductComponentProductPrice = Convert.ToDecimal(reader["ProductPrice"]);
+                    productComponentProduct.ProductComponentProductSetGroupNo = SetGroupNo;
                     productComponentProduct.ProductComponentProductQuantity++;
                     productComponentProducts.Add(productComponentProduct);
 
@@ -301,7 +302,7 @@ namespace TranQuik.Pages
             // Check if the selected item already exists in the list
             ProductComponentSelectedItems existingItem = selectedItems.FirstOrDefault(item =>
             item.Name == productComponentProduct.ProductComponentProductName &&
-            item.Price == productComponentProduct.ProductComponentProductPrice);
+            item.Price == productComponentProduct.ProductComponentProductPrice && item.SetGroupNo == productComponentProduct.ProductComponentProductSetGroupNo );
 
             if (existingItem != null)
             {
@@ -312,8 +313,10 @@ namespace TranQuik.Pages
             {
                 existingItem = new ProductComponentSelectedItems
                 {
+                    ID = productComponentProduct.ProductComponentProductID,
                     Name = productComponentProduct.ProductComponentProductName,
                     Price = productComponentProduct.ProductComponentProductPrice,
+                    SetGroupNo = productComponentProduct.ProductComponentProductSetGroupNo,
                     Quantity = MinAmount > 0 ? MinAmount : 1 // Initialize with MinQuantity if greater than 0, else 1
                 };
 
@@ -321,10 +324,12 @@ namespace TranQuik.Pages
                 selectedItemsByProductComponentGroups[PGroupID] = selectedItems;
 
                 mainWindow.childItemsSelected.Add(new ChildItem(
+                    productComponentProduct.ProductComponentProductID,
                     productComponentProduct.ProductComponentProductName,
                     productComponentProduct.ProductComponentProductPrice,
                     currentQuantity,
-                    true
+                    true,
+                    productComponentProduct.ProductComponentProductSetGroupNo
                 ));
             }
 
@@ -361,30 +366,32 @@ namespace TranQuik.Pages
             // Check if an item with the same name and price already exists in childItemsSelected
 
             bool itemExists = mainWindow.childItemsSelected.Any(item =>
-            item.Name == productComponentProduct.ProductComponentProductName &&
-            item.Price == productComponentProduct.ProductComponentProductPrice);
+            item.ChildName == productComponentProduct.ProductComponentProductName &&
+            item.ChildPrice == productComponentProduct.ProductComponentProductPrice);
 
             if (!itemExists)
             {
                 // Add the selected item to the mainWindow's childItemsSelected collection
                 mainWindow.childItemsSelected.Add(new ChildItem(
+                    productComponentProduct.ProductComponentProductID,
                     productComponentProduct.ProductComponentProductName,
                     productComponentProduct.ProductComponentProductPrice,
                     currentQuantity,
-                    true
+                    true,
+                    productComponentProduct.ProductComponentProductSetGroupNo
                 ));
             }
             else
             {
                 // Find the existing item
                 var existingItems = mainWindow.childItemsSelected.FirstOrDefault(item =>
-                    item.Name == productComponentProduct.ProductComponentProductName &&
-                    item.Price == productComponentProduct.ProductComponentProductPrice);
+                    item.ChildName == productComponentProduct.ProductComponentProductName &&
+                    item.ChildPrice == productComponentProduct.ProductComponentProductPrice);
 
                 // Add the selected item only if the quantity of the existing item is less than or equal to the quantity of the selected item
-                if (existingItems != null && existingItems.Quantity <= productComponentProduct.ProductComponentProductQuantity)
+                if (existingItems != null && existingItems.ChildQuantity <= productComponentProduct.ProductComponentProductQuantity)
                 {
-                    existingItems.Quantity = currentQuantity;
+                    existingItems.ChildQuantity = currentQuantity;
                 }
             }
 

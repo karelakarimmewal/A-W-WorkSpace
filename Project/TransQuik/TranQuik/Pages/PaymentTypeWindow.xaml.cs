@@ -143,8 +143,9 @@ namespace TranQuik.Pages
             }
             decimal TotalPayCard = Convert.ToDecimal(TotalPay.Text);
             decimal NeedToPay = CurrentTransaction.NeedToPay + CurrentTransaction.TaxAmount - modelProcessing.multiplePaymentAmount;
-            modelProcessing.AddPaymentDetail(PayTypeID, PayTypeName, NeedToPay);
-            modelProcessing.OrderTransactionFunction(2, payRemark, PayTypeID.ToString());
+            modelProcessing.AddPaymentDetail(PayTypeID, PayTypeName, TotalPayCard,true, payRemark);
+            modelProcessing.OrderTransactionFunction(2, PayTypeID.ToString());
+
 
             if (Properties.Settings.Default._PrinterStatus)
             {
@@ -153,7 +154,6 @@ namespace TranQuik.Pages
                     MainWindow.TransactionDone(PayTypeID.ToString(), PayTypeName);
                     TransactionStatus transactionStatus = new TransactionStatus("Success", modelProcessing);
                 }
-                modelProcessing.MultiplePaymentProcess();
                 this.Close();
             }
         }

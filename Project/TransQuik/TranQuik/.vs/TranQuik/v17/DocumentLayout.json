@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\pages\\transactionstatus.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:pages\\transactionstatus.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\model\\modelprocessing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:model\\modelprocessing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\controller\\ordertransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:controller\\ordertransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\model\\model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:model\\model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,33 +26,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TransactionStatus.xaml.cs",
-              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\TransactionStatus.xaml.cs",
-              "RelativeDocumentMoniker": "Pages\\TransactionStatus.xaml.cs",
-              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\TransactionStatus.xaml.cs",
-              "RelativeToolTip": "Pages\\TransactionStatus.xaml.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAAA5wDkAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-21T10:20:20.146Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "MainWindow.xaml",
-              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\MainWindow.xaml",
-              "RelativeToolTip": "MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-06-21T09:00:33.402Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 3,
@@ -61,22 +36,48 @@
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
               "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\MainWindow.xaml.cs",
               "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AQIAACYFAAAAAAAAAAApwAsGAAA5AAAA",
+              "ViewState": "AQIAAL0DAAAAAAAAAAAcwBsGAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-21T08:22:45.612Z",
+              "WhenOpened": "2024-06-24T07:00:29.591Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Model.cs",
+              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Model\\Model.cs",
+              "RelativeDocumentMoniker": "Model\\Model.cs",
+              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Model\\Model.cs",
+              "RelativeToolTip": "Model\\Model.cs",
+              "ViewState": "AQIAADABAAAAAAAAAAAuwFEBAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-24T06:48:05.605Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OrderTransaction.cs",
+              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Controller\\OrderTransaction.cs",
+              "RelativeDocumentMoniker": "Controller\\OrderTransaction.cs",
+              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Controller\\OrderTransaction.cs",
+              "RelativeToolTip": "Controller\\OrderTransaction.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAOMEAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-24T05:41:52.083Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "ModelProcessing.cs",
               "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Model\\ModelProcessing.cs",
               "RelativeDocumentMoniker": "Model\\ModelProcessing.cs",
               "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Model\\ModelProcessing.cs",
               "RelativeToolTip": "Model\\ModelProcessing.cs",
-              "ViewState": "AQIAAAQAAAAAAAAAAAAMwB0AAAAOAAAA",
+              "ViewState": "AQIAALgGAAAAAAAAAAAiwNYGAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-21T07:13:18.483Z",
+              "WhenOpened": "2024-06-24T03:36:50.445Z",
               "EditorCaption": ""
             }
           ]

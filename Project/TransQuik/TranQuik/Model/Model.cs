@@ -1,6 +1,5 @@
 ﻿using Material.Icons;
 using MySql.Data.MySqlClient;
-using Mysqlx.Session;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -105,16 +104,19 @@ namespace TranQuik.Model
 
     public class ProductComponentSelectedItems
     {
+        public int ID { get ; set ; }
         public string Name { get; set; }
         public decimal Price { get; set; }
+        public int SetGroupNo { get; set; }
         public int Quantity { get; set; }
     }
 
     public class ProductComponentProduct
     {
-        public string ProductComponentProductCode { get; set; }
+        public int ProductComponentProductID { get; set; }
         public string ProductComponentProductName { get; set; }
         public decimal ProductComponentProductPrice { get; set; }
+        public int ProductComponentProductSetGroupNo { get; set; }
         public int ProductComponentProductQuantity { get; set; } = 0;
     }
 
@@ -272,12 +274,14 @@ namespace TranQuik.Model
         public string PaymentTypeName { get; private set; }
         public decimal PaymentAmount { get; private set; }
         public bool PaymentIsAcitve { get; set; }
-        public PaymentDetails(int paymentTypeID, string paymentTypeName, decimal paymentAmount, bool paymentIsActive = true)
+        public string PaymentPayRemarks{ get; private set; }
+        public PaymentDetails(int paymentTypeID, string paymentTypeName, decimal paymentAmount, bool paymentIsActive = true, string paymentPayRemarks = null)
         {
             PaymentTypeID = paymentTypeID;
             PaymentTypeName = paymentTypeName;
             PaymentAmount = paymentAmount;
             PaymentIsAcitve = paymentIsActive;
+            PaymentPayRemarks = paymentPayRemarks;
         }
     }
 
@@ -286,9 +290,13 @@ namespace TranQuik.Model
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal ProductPrice { get; set; }
+        public int ProductComponentLevel { get; set; }
         public string ProductButtonColor { get; set; }
         public int Quantity { get; set; } = 1; // Default quantity is 1
         public bool Status { get; set; } // Status property
+
+        public DateTime dateTime { get; private set; }
+
 
         public List<ChildItem> ChildItems { get; set; } // List of child items for the product
 
@@ -297,29 +305,37 @@ namespace TranQuik.Model
             return ChildItems != null && ChildItems.Count > 0;
         }
 
-        public Product(int productId, string productName, decimal productPrice, string productButtonColor)
+        public Product(int productId, string productName, decimal productPrice, string productButtonColor, int productComponentLevel = 1)
         {
             ProductId = productId;
             ProductName = productName;
             ProductPrice = productPrice;
+            ProductComponentLevel = productComponentLevel;
             ProductButtonColor = productButtonColor;
             Status = true; // Default status is Active
             ChildItems = new List<ChildItem>(); // Initialize child items list
+            dateTime = DateTime.Now;
         }
     }
 
     public class ChildItem
     {
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public int Quantity { get; set; }
-        public bool Status { get; set; }
-        public ChildItem(string name, decimal price, int quantity, bool status)
+        public int ChildId { get; set; } 
+        public string ChildName { get; set; }
+        public decimal ChildPrice { get; set; }
+        public int ChildSetGroupNo { get; set; }
+        public int ChildQuantity { get; set; }
+        public bool ChildStatus { get; set; }
+        public DateTime dateTime { get; set; }
+        public ChildItem(int childID, string childName, decimal childPrice, int childQuantity, bool childStatus, int childSetGroupNo)
         {
-            Name = name;
-            Quantity = quantity;
-            Price = price;
-            Status = status;
+            ChildId = childID;
+            ChildName = childName;
+            ChildQuantity = childQuantity;
+            ChildPrice = childPrice;
+            ChildStatus = childStatus;
+            ChildSetGroupNo = childSetGroupNo;
+            dateTime = DateTime.Now;
         }
     }
 
@@ -543,7 +559,7 @@ namespace TranQuik.Model
 
     public class ModifierMenu
     {
-        public string ModifierMenuCode { get; set; }
+        public int ModifierMenuCode { get; set; }
         public string ModifierMenuName { get; set; }
         public decimal ModifierMenuPrice { get; set; }
         public int ModifierMenuQuantity { get; set; } = 0;

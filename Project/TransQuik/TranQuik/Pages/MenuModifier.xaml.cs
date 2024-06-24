@@ -216,7 +216,7 @@ namespace TranQuik.Pages
                             while (await reader.ReadAsync())
                             {
                                 ModifierMenu modifierMenu = new ModifierMenu();
-                                modifierMenu.ModifierMenuCode = reader["ProductCode"].ToString();
+                                modifierMenu.ModifierMenuCode = Convert.ToInt32(reader["ProductCode"]);
                                 modifierMenu.ModifierMenuName = reader["ProductName"].ToString();
                                 modifierMenu.ModifierMenuPrice = Convert.ToDecimal(reader["ProductPrice"]);
                                 modifierMenu.ModifierMenuQuantity++;
@@ -312,25 +312,27 @@ namespace TranQuik.Pages
                                 .Max();
             // Check if a ChildItem corresponding to the ModifierMenu already exists
             ChildItem existingItem = mainWindow.childItemsSelected.FirstOrDefault(item =>
-                item.Name == modifierMenu.ModifierMenuName &&
-                item.Price == modifierMenu.ModifierMenuPrice);
+                item.ChildName == modifierMenu.ModifierMenuName &&
+                item.ChildPrice == modifierMenu.ModifierMenuPrice);
 
             if (existingItem != null)
             {
-                existingItem.Quantity++;
-                if (existingItem.Quantity > MaxQuantity)
+                existingItem.ChildQuantity++;
+                if (existingItem.ChildQuantity > MaxQuantity)
                 { 
-                    existingItem.Quantity = MaxQuantity; 
+                    existingItem.ChildQuantity = MaxQuantity; 
                 }
-                currentQuantity = existingItem.Quantity;
+                currentQuantity = existingItem.ChildQuantity;
             }
             else
             {
                 ChildItem childItem = new ChildItem(
+                    modifierMenu.ModifierMenuCode,
                     modifierMenu.ModifierMenuName,
                     modifierMenu.ModifierMenuPrice,
                     modifierMenu.ModifierMenuQuantity,
-                    true // Assuming StatusBar is a property of ChildItem
+                    true, // Assuming StatusBar is a property of ChildItem,
+                    0
                 );
                 currentQuantity = modifierMenu.ModifierMenuQuantity;
 

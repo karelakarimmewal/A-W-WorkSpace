@@ -1,7 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Threading.Tasks;
-using TranQuik.Model;
 
 namespace TranQuik.Controller
 {
@@ -365,6 +364,442 @@ namespace TranQuik.Controller
         }
     }
 
+    public class OrderDetail
+    {
+        public int OrderDetailID
+        {
+            get; set;
+        }
+        public int TransactionID
+        {
+            get; set;
+        }
+        public int ComputerID
+        {
+            get; set;
+        }
+        public string TranKey
+        {
+            get; set;
+        }
+        public int OrgOrderDetailID
+        {
+            get; set;
+        }
+        public int OrgTransactionID
+        {
+            get; set;
+        }
+        public int OrgComputerID
+        {
+            get; set;
+        }
+        public string OrgTranKey
+        {
+            get; set;
+        }
+        public byte ComponentLevel
+        {
+            get; set;
+        }
+        public int OrderDetailLinkID
+        {
+            get; set;
+        }
+        public short InsertOrderNo
+        {
+            get; set;
+        }
+        public byte IndentLevel
+        {
+            get; set;
+        }
+        public short DisplayOrdering
+        {
+            get; set;
+        }
+        public DateTime SaleDate
+        {
+            get; set;
+        }
+        public int ShopID
+        {
+            get; set;
+        }
+        public int ProductID
+        {
+            get; set;
+        }
+        public int ProductSetType
+        {
+            get; set;
+        }
+        public short OrderStatusID
+        {
+            get; set;
+        }
+        public short OrderEditStatus
+        {
+            get; set;
+        }
+        public int SaleMode
+        {
+            get; set;
+        }
+        public short SaleType
+        {
+            get; set;
+        }
+        public decimal TotalQty
+        {
+            get; set;
+        }
+        public decimal PricePerUnit
+        {
+            get; set;
+        }
+        public decimal TotalRetailPrice
+        {
+            get; set;
+        }
+        public decimal OrgPricePerUnit
+        {
+            get; set;
+        }
+        public decimal OrgTotalRetailPrice
+        {
+            get; set;
+        }
+        public decimal DiscPricePercent
+        {
+            get; set;
+        }
+        public decimal DiscPrice
+        {
+            get; set;
+        }
+        public decimal DiscPercent
+        {
+            get; set;
+        }
+        public decimal DiscAmount
+        {
+            get; set;
+        }
+        public decimal DiscOtherPercent
+        {
+            get; set;
+        }
+        public decimal DiscOther
+        {
+            get; set;
+        }
+        public decimal TotalItemDisc
+        {
+            get; set;
+        }
+        public decimal SalePrice
+        {
+            get; set;
+        }
+        public decimal DiscBill
+        {
+            get; set;
+        }
+        public decimal TotalDiscount
+        {
+            get; set;
+        }
+        public decimal NetSale
+        {
+            get; set;
+        }
+        public decimal AdjFromSaleType
+        {
+            get; set;
+        }
+        public decimal Vatable
+        {
+            get; set;
+        }
+        public string ProductVATCode
+        {
+            get; set;
+        }
+        public string VATDisplay
+        {
+            get; set;
+        }
+        public decimal ProductVATPercent
+        {
+            get; set;
+        }
+        public decimal ProductVAT
+        {
+            get; set;
+        }
+        public decimal ProductBeforeVAT
+        {
+            get; set;
+        }
+        public decimal TotalRetailVAT
+        {
+            get; set;
+        }
+        public decimal DiscVAT
+        {
+            get; set;
+        }
+        public byte IsSCBeforeDisc
+        {
+            get; set;
+        }
+        public byte HasServiceCharge
+        {
+            get; set;
+        }
+        public decimal SCPercent
+        {
+            get; set;
+        }
+        public decimal SCAmount
+        {
+            get; set;
+        }
+        public decimal SCVAT
+        {
+            get; set;
+        }
+        public decimal SCBeforeVAT
+        {
+            get; set;
+        }
+        public decimal WVatable
+        {
+            get; set;
+        }
+        public decimal SCWAmount
+        {
+            get; set;
+        }
+        public decimal SCWVAT
+        {
+            get; set;
+        }
+        public decimal SCWBeforeVAT
+        {
+            get; set;
+        }
+        public decimal WeightPrice
+        {
+            get; set;
+        }
+        public decimal WeightPriceVAT
+        {
+            get; set;
+        }
+        public decimal WeightBeforeVAT
+        {
+            get; set;
+        }
+        public decimal PaymentVAT
+        {
+            get; set;
+        }
+        public string OtherFoodName
+        {
+            get; set;
+        }
+        public int OtherProductGroupID
+        {
+            get; set;
+        }
+        public byte DiscountAllow
+        {
+            get; set;
+        }
+        public byte ItemDiscAllow
+        {
+            get; set;
+        }
+        public short AlreadyDiscQty
+        {
+            get; set;
+        }
+        public int? LastTransactionID
+        {
+            get; set;
+        }
+        public int? LastComputerID
+        {
+            get; set;
+        }
+        public string PrinterID
+        {
+            get; set;
+        }
+        public int InventoryID
+        {
+            get; set;
+        }
+        public int OrderStaffID
+        {
+            get; set;
+        }
+        public string OrderStaff
+        {
+            get; set;
+        }
+        public int OrderComputerID
+        {
+            get; set;
+        }
+        public string OrderComputer
+        {
+            get; set;
+        }
+        public int OrderTableID
+        {
+            get; set;
+        }
+        public string OrderTable
+        {
+            get; set;
+        }
+        public byte VoidTypeID
+        {
+            get; set;
+        }
+        public int VoidStaffID
+        {
+            get; set;
+        }
+        public string VoidStaff
+        {
+            get; set;
+        }
+        public DateTime? VoidDateTime
+        {
+            get; set;
+        }
+        public string VoidManualText
+        {
+            get; set;
+        }
+        public string VoidReasonText
+        {
+            get; set;
+        }
+        public byte VATType
+        {
+            get; set;
+        }
+        public byte PrintGroup
+        {
+            get; set;
+        }
+        public int NoPrintBill
+        {
+            get; set;
+        }
+        public byte NoRePrintOrder
+        {
+            get; set;
+        }
+        public DateTime? StartTime
+        {
+            get; set;
+        }
+        public DateTime? FinishTime
+        {
+            get; set;
+        }
+        public byte PrintStatus
+        {
+            get; set;
+        }
+        public DateTime? PrintOrderDateTime
+        {
+            get; set;
+        }
+        public DateTime? LastPrintOrderDateTime
+        {
+            get; set;
+        }
+        public string PrintErrorMsg
+        {
+            get; set;
+        }
+        public int CancelPrintStaffID
+        {
+            get; set;
+        }
+        public DateTime? CancelPrintDateTime
+        {
+            get; set;
+        }
+        public string CancelPrintReason
+        {
+            get; set;
+        }
+        public int ProcessID
+        {
+            get; set;
+        }
+        public DateTime? InsertOrderDateTime
+        {
+            get; set;
+        }
+        public DateTime? SubmitOrderDateTime
+        {
+            get; set;
+        }
+        public DateTime? ModifyOrderDateTime
+        {
+            get; set;
+        }
+        public int ModifyStaffID
+        {
+            get; set;
+        }
+        public string Comment
+        {
+            get; set;
+        }
+        public byte IsComment
+        {
+            get; set;
+        }
+        public short BillCheckID
+        {
+            get; set;
+        }
+        public int PGroupID
+        {
+            get; set;
+        }
+        public short SetGroupNo
+        {
+            get; set;
+        }
+        public decimal QtyRatio
+        {
+            get; set;
+        }
+        public byte FreeItem
+        {
+            get; set;
+        }
+        public int SummaryID
+        {
+            get; set;
+        }
+        public byte Deleted
+        {
+            get; set;
+        }
+    }
+
     public class TransactionService
     {
         private LocalDbConnector localDbConnector = new LocalDbConnector();
@@ -638,5 +1073,183 @@ namespace TranQuik.Controller
             }
         }
     }
+
+    public class TransactionServiceOrderDetail
+    {
+        private LocalDbConnector localDbConnector = new LocalDbConnector();
+
+        public async Task<bool> InsertTransaction(OrderDetail orderDetail)
+        {
+            try
+            {
+                // Define the SQL query for inserting a new transaction
+                string query = @"
+        INSERT INTO orderdetail (
+            OrderDetailID, TransactionID, ComputerID, TranKey, OrgOrderDetailID, OrgTransactionID, OrgComputerID,
+            OrgTranKey, ComponentLevel, OrderDetailLinkID, InsertOrderNo, IndentLevel, DisplayOrdering, SaleDate,
+            ShopID, ProductID, ProductSetType, OrderStatusID, OrderEditStatus, SaleMode, SaleType, TotalQty,
+            PricePerUnit, TotalRetailPrice, OrgPricePerUnit, OrgTotalRetailPrice, DiscPricePercent, DiscPrice,
+            DiscPercent, DiscAmount, DiscOtherPercent, DiscOther, TotalItemDisc, SalePrice, DiscBill, TotalDiscount,
+            NetSale, AdjFromSaleType, Vatable, ProductVATCode, VATDisplay, ProductVATPercent, ProductVAT,
+            ProductBeforeVAT, TotalRetailVAT, DiscVAT, IsSCBeforeDisc, HasServiceCharge, SCPercent, SCAmount,
+            SCVAT, SCBeforeVAT, WVatable, SCWAmount, SCWVAT, SCWBeforeVAT, WeightPrice, WeightPriceVAT,
+            WeightBeforeVAT, PaymentVAT, OtherFoodName, OtherProductGroupID, DiscountAllow, ItemDiscAllow,
+            AlreadyDiscQty, LastTransactionID, LastComputerID, PrinterID, InventoryID, OrderStaffID, OrderStaff,
+            OrderComputerID, OrderComputer, OrderTableID, OrderTable, VoidTypeID, VoidStaffID, VoidStaff,
+            VoidDateTime, VoidManualText, VoidReasonText, VATType, PrintGroup, NoPrintBill, NoRePrintOrder,
+            StartTime, FinishTime, PrintStatus, PrintOrderDateTime, LastPrintOrderDateTime, PrintErrorMsg,
+            CancelPrintStaffID, CancelPrintDateTime, CancelPrintReason, ProcessID, InsertOrderDateTime,
+            SubmitOrderDateTime, ModifyOrderDateTime, ModifyStaffID, Comment, IsComment, BillCheckID, PGroupID,
+            SetGroupNo, QtyRatio, FreeItem, SummaryID, Deleted
+        ) VALUES (
+            @OrderDetailID, @TransactionID, @ComputerID, @TranKey, @OrgOrderDetailID, @OrgTransactionID, @OrgComputerID,
+            @OrgTranKey, @ComponentLevel, @OrderDetailLinkID, @InsertOrderNo, @IndentLevel, @DisplayOrdering, @SaleDate,
+            @ShopID, @ProductID, @ProductSetType, @OrderStatusID, @OrderEditStatus, @SaleMode, @SaleType, @TotalQty,
+            @PricePerUnit, @TotalRetailPrice, @OrgPricePerUnit, @OrgTotalRetailPrice, @DiscPricePercent, @DiscPrice,
+            @DiscPercent, @DiscAmount, @DiscOtherPercent, @DiscOther, @TotalItemDisc, @SalePrice, @DiscBill, @TotalDiscount,
+            @NetSale, @AdjFromSaleType, @Vatable, @ProductVATCode, @VATDisplay, @ProductVATPercent, @ProductVAT,
+            @ProductBeforeVAT, @TotalRetailVAT, @DiscVAT, @IsSCBeforeDisc, @HasServiceCharge, @SCPercent, @SCAmount,
+            @SCVAT, @SCBeforeVAT, @WVatable, @SCWAmount, @SCWVAT, @SCWBeforeVAT, @WeightPrice, @WeightPriceVAT,
+            @WeightBeforeVAT, @PaymentVAT, @OtherFoodName, @OtherProductGroupID, @DiscountAllow, @ItemDiscAllow,
+            @AlreadyDiscQty, @LastTransactionID, @LastComputerID, @PrinterID, @InventoryID, @OrderStaffID, @OrderStaff,
+            @OrderComputerID, @OrderComputer, @OrderTableID, @OrderTable, @VoidTypeID, @VoidStaffID, @VoidStaff,
+            @VoidDateTime, @VoidManualText, @VoidReasonText, @VATType, @PrintGroup, @NoPrintBill, @NoRePrintOrder,
+            @StartTime, @FinishTime, @PrintStatus, @PrintOrderDateTime, @LastPrintOrderDateTime, @PrintErrorMsg,
+            @CancelPrintStaffID, @CancelPrintDateTime, @CancelPrintReason, @ProcessID, @InsertOrderDateTime,
+            @SubmitOrderDateTime, @ModifyOrderDateTime, @ModifyStaffID, @Comment, @IsComment, @BillCheckID, @PGroupID,
+            @SetGroupNo, @QtyRatio, @FreeItem, @SummaryID, @Deleted
+        )";
+
+                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+                {
+                    await connection.OpenAsync();
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        // Add parameters to the command
+                        command.Parameters.AddWithValue("@OrderDetailID", orderDetail.OrderDetailID);
+                        command.Parameters.AddWithValue("@TransactionID", orderDetail.TransactionID);
+                        command.Parameters.AddWithValue("@ComputerID", orderDetail.ComputerID);
+                        command.Parameters.AddWithValue("@TranKey", orderDetail.TranKey);
+                        command.Parameters.AddWithValue("@OrgOrderDetailID", orderDetail.OrgOrderDetailID);
+                        command.Parameters.AddWithValue("@OrgTransactionID", orderDetail.OrgTransactionID);
+                        command.Parameters.AddWithValue("@OrgComputerID", orderDetail.OrgComputerID);
+                        command.Parameters.AddWithValue("@OrgTranKey", orderDetail.OrgTranKey);
+                        command.Parameters.AddWithValue("@ComponentLevel", orderDetail.ComponentLevel);
+                        command.Parameters.AddWithValue("@OrderDetailLinkID", orderDetail.OrderDetailLinkID);
+                        command.Parameters.AddWithValue("@InsertOrderNo", orderDetail.InsertOrderNo);
+                        command.Parameters.AddWithValue("@IndentLevel", orderDetail.IndentLevel);
+                        command.Parameters.AddWithValue("@DisplayOrdering", orderDetail.DisplayOrdering);
+                        command.Parameters.AddWithValue("@SaleDate", orderDetail.SaleDate);
+                        command.Parameters.AddWithValue("@ShopID", orderDetail.ShopID);
+                        command.Parameters.AddWithValue("@ProductID", orderDetail.ProductID);
+                        command.Parameters.AddWithValue("@ProductSetType", orderDetail.ProductSetType);
+                        command.Parameters.AddWithValue("@OrderStatusID", orderDetail.OrderStatusID);
+                        command.Parameters.AddWithValue("@OrderEditStatus", orderDetail.OrderEditStatus);
+                        command.Parameters.AddWithValue("@SaleMode", orderDetail.SaleMode);
+                        command.Parameters.AddWithValue("@SaleType", orderDetail.SaleType);
+                        command.Parameters.AddWithValue("@TotalQty", orderDetail.TotalQty);
+                        command.Parameters.AddWithValue("@PricePerUnit", orderDetail.PricePerUnit);
+                        command.Parameters.AddWithValue("@TotalRetailPrice", orderDetail.TotalRetailPrice);
+                        command.Parameters.AddWithValue("@OrgPricePerUnit", orderDetail.OrgPricePerUnit);
+                        command.Parameters.AddWithValue("@OrgTotalRetailPrice", orderDetail.OrgTotalRetailPrice);
+                        command.Parameters.AddWithValue("@DiscPricePercent", orderDetail.DiscPricePercent);
+                        command.Parameters.AddWithValue("@DiscPrice", orderDetail.DiscPrice);
+                        command.Parameters.AddWithValue("@DiscPercent", orderDetail.DiscPercent);
+                        command.Parameters.AddWithValue("@DiscAmount", orderDetail.DiscAmount);
+                        command.Parameters.AddWithValue("@DiscOtherPercent", orderDetail.DiscOtherPercent);
+                        command.Parameters.AddWithValue("@DiscOther", orderDetail.DiscOther);
+                        command.Parameters.AddWithValue("@TotalItemDisc", orderDetail.TotalItemDisc);
+                        command.Parameters.AddWithValue("@SalePrice", orderDetail.SalePrice);
+                        command.Parameters.AddWithValue("@DiscBill", orderDetail.DiscBill);
+                        command.Parameters.AddWithValue("@TotalDiscount", orderDetail.TotalDiscount);
+                        command.Parameters.AddWithValue("@NetSale", orderDetail.NetSale);
+                        command.Parameters.AddWithValue("@AdjFromSaleType", orderDetail.AdjFromSaleType);
+                        command.Parameters.AddWithValue("@Vatable", orderDetail.Vatable);
+                        command.Parameters.AddWithValue("@ProductVATCode", orderDetail.ProductVATCode);
+                        command.Parameters.AddWithValue("@VATDisplay", orderDetail.VATDisplay);
+                        command.Parameters.AddWithValue("@ProductVATPercent", orderDetail.ProductVATPercent);
+                        command.Parameters.AddWithValue("@ProductVAT", orderDetail.ProductVAT);
+                        command.Parameters.AddWithValue("@ProductBeforeVAT", orderDetail.ProductBeforeVAT);
+                        command.Parameters.AddWithValue("@TotalRetailVAT", orderDetail.TotalRetailVAT);
+                        command.Parameters.AddWithValue("@DiscVAT", orderDetail.DiscVAT);
+                        command.Parameters.AddWithValue("@IsSCBeforeDisc", orderDetail.IsSCBeforeDisc);
+                        command.Parameters.AddWithValue("@HasServiceCharge", orderDetail.HasServiceCharge);
+                        command.Parameters.AddWithValue("@SCPercent", orderDetail.SCPercent);
+                        command.Parameters.AddWithValue("@SCAmount", orderDetail.SCAmount);
+                        command.Parameters.AddWithValue("@SCVAT", orderDetail.SCVAT);
+                        command.Parameters.AddWithValue("@SCBeforeVAT", orderDetail.SCBeforeVAT);
+                        command.Parameters.AddWithValue("@WVatable", orderDetail.WVatable);
+                        command.Parameters.AddWithValue("@SCWAmount", orderDetail.SCWAmount);
+                        command.Parameters.AddWithValue("@SCWVAT", orderDetail.SCWVAT);
+                        command.Parameters.AddWithValue("@SCWBeforeVAT", orderDetail.SCWBeforeVAT);
+                        command.Parameters.AddWithValue("@WeightPrice", orderDetail.WeightPrice);
+                        command.Parameters.AddWithValue("@WeightPriceVAT", orderDetail.WeightPriceVAT);
+                        command.Parameters.AddWithValue("@WeightBeforeVAT", orderDetail.WeightBeforeVAT);
+                        command.Parameters.AddWithValue("@PaymentVAT", orderDetail.PaymentVAT);
+                        command.Parameters.AddWithValue("@OtherFoodName", orderDetail.OtherFoodName);
+                        command.Parameters.AddWithValue("@OtherProductGroupID", orderDetail.OtherProductGroupID);
+                        command.Parameters.AddWithValue("@DiscountAllow", orderDetail.DiscountAllow);
+                        command.Parameters.AddWithValue("@ItemDiscAllow", orderDetail.ItemDiscAllow);
+                        command.Parameters.AddWithValue("@AlreadyDiscQty", orderDetail.AlreadyDiscQty);
+                        command.Parameters.AddWithValue("@LastTransactionID", orderDetail.LastTransactionID);
+                        command.Parameters.AddWithValue("@LastComputerID", orderDetail.LastComputerID);
+                        command.Parameters.AddWithValue("@PrinterID", orderDetail.PrinterID);
+                        command.Parameters.AddWithValue("@InventoryID", orderDetail.InventoryID);
+                        command.Parameters.AddWithValue("@OrderStaffID", orderDetail.OrderStaffID);
+                        command.Parameters.AddWithValue("@OrderStaff", orderDetail.OrderStaff);
+                        command.Parameters.AddWithValue("@OrderComputerID", orderDetail.OrderComputerID);
+                        command.Parameters.AddWithValue("@OrderComputer", orderDetail.OrderComputer);
+                        command.Parameters.AddWithValue("@OrderTableID", orderDetail.OrderTableID);
+                        command.Parameters.AddWithValue("@OrderTable", orderDetail.OrderTable);
+                        command.Parameters.AddWithValue("@VoidTypeID", orderDetail.VoidTypeID);
+                        command.Parameters.AddWithValue("@VoidStaffID", orderDetail.VoidStaffID);
+                        command.Parameters.AddWithValue("@VoidStaff", orderDetail.VoidStaff);
+                        command.Parameters.AddWithValue("@VoidDateTime", orderDetail.VoidDateTime);
+                        command.Parameters.AddWithValue("@VoidManualText", orderDetail.VoidManualText);
+                        command.Parameters.AddWithValue("@VoidReasonText", orderDetail.VoidReasonText);
+                        command.Parameters.AddWithValue("@VATType", orderDetail.VATType);
+                        command.Parameters.AddWithValue("@PrintGroup", orderDetail.PrintGroup);
+                        command.Parameters.AddWithValue("@NoPrintBill", orderDetail.NoPrintBill);
+                        command.Parameters.AddWithValue("@NoRePrintOrder", orderDetail.NoRePrintOrder);
+                        command.Parameters.AddWithValue("@StartTime", orderDetail.StartTime);
+                        command.Parameters.AddWithValue("@FinishTime", orderDetail.FinishTime);
+                        command.Parameters.AddWithValue("@PrintStatus", orderDetail.PrintStatus);
+                        command.Parameters.AddWithValue("@PrintOrderDateTime", orderDetail.PrintOrderDateTime);
+                        command.Parameters.AddWithValue("@LastPrintOrderDateTime", orderDetail.LastPrintOrderDateTime);
+                        command.Parameters.AddWithValue("@PrintErrorMsg", orderDetail.PrintErrorMsg);
+                        command.Parameters.AddWithValue("@CancelPrintStaffID", orderDetail.CancelPrintStaffID);
+                        command.Parameters.AddWithValue("@CancelPrintDateTime", orderDetail.CancelPrintDateTime);
+                        command.Parameters.AddWithValue("@CancelPrintReason", orderDetail.CancelPrintReason);
+                        command.Parameters.AddWithValue("@ProcessID", orderDetail.ProcessID);
+                        command.Parameters.AddWithValue("@InsertOrderDateTime", orderDetail.InsertOrderDateTime);
+                        command.Parameters.AddWithValue("@SubmitOrderDateTime", orderDetail.SubmitOrderDateTime);
+                        command.Parameters.AddWithValue("@ModifyOrderDateTime", orderDetail.ModifyOrderDateTime);
+                        command.Parameters.AddWithValue("@ModifyStaffID", orderDetail.ModifyStaffID);
+                        command.Parameters.AddWithValue("@Comment", orderDetail.Comment);
+                        command.Parameters.AddWithValue("@IsComment", orderDetail.IsComment);
+                        command.Parameters.AddWithValue("@BillCheckID", orderDetail.BillCheckID);
+                        command.Parameters.AddWithValue("@PGroupID", orderDetail.PGroupID);
+                        command.Parameters.AddWithValue("@SetGroupNo", orderDetail.SetGroupNo);
+                        command.Parameters.AddWithValue("@QtyRatio", orderDetail.QtyRatio);
+                        command.Parameters.AddWithValue("@FreeItem", orderDetail.FreeItem);
+                        command.Parameters.AddWithValue("@SummaryID", orderDetail.SummaryID);
+                        command.Parameters.AddWithValue("@Deleted", orderDetail.Deleted);
+
+                        // Execute the command
+                        int rowsAffected = await command.ExecuteNonQueryAsync();
+                        return rowsAffected > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions
+                Console.WriteLine("Error: " + ex.Message);
+                return false;
+            }
+        }
+    }
+
 
 }

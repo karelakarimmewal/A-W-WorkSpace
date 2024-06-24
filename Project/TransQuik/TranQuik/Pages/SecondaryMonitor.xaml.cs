@@ -224,7 +224,7 @@ namespace TranQuik.Pages
                     {
                         foreach (ChildItem childItem in product.ChildItems)
                         {
-                            totalProductPrice += (childItem.Price * childItem.Quantity);
+                            totalProductPrice += (childItem.ChildPrice * childItem.ChildQuantity);
                         }
                     }
                     totalPrice += totalProductPrice; // Only add to totalPrice if status is true
@@ -251,9 +251,9 @@ namespace TranQuik.Pages
                         cartPanelSecondary.Items.Add(new
                         {
                             Index = "-", // Indent child items with a dash for visual separation
-                            ProductName = childItem.Name,
-                            ProductPrice = childItem.Price.ToString("#,0"),
-                            Quantity = childItem.Quantity,
+                            ProductName = childItem.ChildName,
+                            ProductPrice = childItem.ChildPrice.ToString("#,0"),
+                            Quantity = childItem.ChildQuantity,
                             Background = Brushes.LightGray, // Inherit parent's background color
                             Foreground = rowForeground // Inherit parent's foreground color
                         });

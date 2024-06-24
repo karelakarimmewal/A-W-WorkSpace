@@ -12,9 +12,9 @@ DEBUG;TRACE
 D:\Practice WPF\Project\TransQuik\TranQuik\App.xaml
 121872826485
 4-697703326
-351279321452
+331111128990
 195-1027145957
 MainWindow.xaml;Pages\LoginPage.xaml;Pages\MenuModifier.xaml;Pages\NotificationPopup.xaml;Pages\PaymentTypeWindow.xaml;Pages\ProductComponent.xaml;Pages\ProductModifier.xaml;Pages\SecondaryMonitor.xaml;Pages\ShutDownPopup.xaml;Pages\StartUpSelector.xaml;Pages\TransactionStatus.xaml;SaleModePop.xaml;
 
-True
+False
 

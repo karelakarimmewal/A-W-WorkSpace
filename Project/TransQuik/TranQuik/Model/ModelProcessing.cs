@@ -1,21 +1,19 @@
 ﻿using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Reflection;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TranQuik.Controller;
@@ -670,9 +668,9 @@ namespace TranQuik.Model
             // Clear component groups (assuming this is necessary based on your logic)
             componentGroups.Clear();
 
+            int ComponentLevel = 1;
             // Set the desired status for the new 
-
-            Product newProduct = new Product(product.ProductId, product.ProductName, product.ProductPrice, product.ProductButtonColor);
+            Product newProduct = new Product(product.ProductId, product.ProductName, product.ProductPrice, product.ProductButtonColor, ComponentLevel);
             newProduct.Status = true;
             // Add the new product to the cart at the new CartIndex
             cartProducts.Add(CartIndex, newProduct);
@@ -690,6 +688,7 @@ namespace TranQuik.Model
             CheckProductComponent(product, out componentGroups);
             if (componentGroups.Count > 1)
             {
+                product.ProductComponentLevel = 2;
                 ProductComponent productComponent = new ProductComponent(this, product, mainWindow, mainWindow.SaleMode, cartIndex, false);
                 productComponent.ShowDialog();
 
@@ -916,7 +915,7 @@ namespace TranQuik.Model
                     {
                         foreach (ChildItem childItem in product.ChildItems)
                         {
-                            totalProductPrice += (childItem.Price * childItem.Quantity);
+                            totalProductPrice += (childItem.ChildPrice * childItem.ChildQuantity);
                         }
                     }
                     totalPrice += totalProductPrice; // Only add to totalPrice if status is true
@@ -945,9 +944,9 @@ namespace TranQuik.Model
                         mainWindow.cartGridListView.Items.Add(new
                         {
                             Index = "-", // Indent child items with a dash for visual separation
-                            ProductName = childItem.Name,
-                            ProductPrice = childItem.Price.ToString("#,0"),
-                            Quantity = childItem.Quantity,
+                            ProductName = childItem.ChildName,
+                            ProductPrice = childItem.ChildPrice.ToString("#,0"),
+                            Quantity = childItem.ChildQuantity,
                             Background = rowBackground, // Inherit parent's background color
                             Foreground = rowForeground, // Inherit parent's foreground color
                             TextDecorations = textDecorations
@@ -1014,8 +1013,8 @@ namespace TranQuik.Model
                     {
                         foreach (ChildItem childItem in productToCancel.ChildItems)
                         {
-                            childItem.Status = false;
-                            childItem.Quantity = 0;
+                            childItem.ChildStatus = false;
+                            childItem.ChildQuantity = 0;
                         }
                     }
 
@@ -1042,7 +1041,7 @@ namespace TranQuik.Model
                         Console.WriteLine("Child Items:");
                         foreach (var childItem in product.ChildItems)
                         {
-                            Console.WriteLine($"- {childItem.Name}, Price: {childItem.Price:C}, Quantity: {childItem.Quantity}, Status: {(childItem.Status ? "Active" : "Canceled")}");
+                            Console.WriteLine($"- {childItem.ChildName}, Price: {childItem.ChildPrice:C}, Quantity: {childItem.ChildQuantity}, Status: {(childItem.ChildStatus ? "Active" : "Canceled")}");
                         }
                     }
                 }
@@ -1376,10 +1375,10 @@ namespace TranQuik.Model
                                 {
                                     var childItemDetail = new
                                     {
-                                        id = childItem.Name,
-                                        price = childItem.Price,
-                                        quantity = childItem.Quantity,
-                                        name = childItem.Name
+                                        id = childItem.ChildId,
+                                        price = childItem.ChildPrice,
+                                        quantity = childItem.ChildQuantity,
+                                        name = childItem.ChildName
                                     };
 
                                     itemDetails.Add(childItemDetail);
@@ -1551,7 +1550,7 @@ namespace TranQuik.Model
                                     backgroundBrush = Brushes.LightGreen;
                                     transactionStatus = "Settlement";
                                     AddPaymentDetail(int.Parse(PayTypeId), PayTypeName, remainingQris);
-                                    OrderTransactionFunction(2, string.Empty, PayTypeId);
+                                    OrderTransactionFunction(2, PayTypeId);
                                     notificationPopup.Close();
                                     mainWindow.IsEnabled = true;
                                     mainWindow.QrisDone(transactionStatus, PayTypeId, PayTypeName);
@@ -1567,7 +1566,7 @@ namespace TranQuik.Model
                                     backgroundBrush = Brushes.LightSalmon;
                                     transactionStatus = "Cancel";
                                     AddPaymentDetail(int.Parse(PayTypeId), PayTypeName, remainingQris, false);
-                                    OrderTransactionFunction(91, string.Empty, PayTypeId);
+                                    OrderTransactionFunction(91, PayTypeId);
                                     notificationPopup.Close();
                                     mainWindow.IsEnabled = true;
                                     mainWindow.QrisDone(transactionStatus, PayTypeId, PayTypeName);
@@ -1578,7 +1577,7 @@ namespace TranQuik.Model
                                     backgroundBrush = Brushes.LightGray;
                                     transactionStatus = "Expire";
                                     AddPaymentDetail(int.Parse(PayTypeId), PayTypeName, remainingQris, false);
-                                    OrderTransactionFunction(91, string.Empty, PayTypeId);
+                                    OrderTransactionFunction(91, PayTypeId);
                                     notificationPopup.Close();
                                     mainWindow.IsEnabled = true;
                                     mainWindow.QrisDone(transactionStatus, PayTypeId, PayTypeName);
@@ -1603,10 +1602,9 @@ namespace TranQuik.Model
             }
         }
 
-        public async Task OrderTransactionFunction(int transactionStatus = 2, string payRemark = "", string PayTypeID = "1")
+        public async Task OrderTransactionFunction(int transactionStatus = 2, string PayTypeID = "1")
         {
             decimal totalPrice = 0;
-            
             foreach (KeyValuePair<int, Product> kvp in cartProducts)
             {
                 Product product = kvp.Value;
@@ -1618,7 +1616,7 @@ namespace TranQuik.Model
                     {
                         foreach (ChildItem childItem in product.ChildItems)
                         {
-                            totalProductPrice += childItem.Price * childItem.Quantity;
+                            totalProductPrice += childItem.ChildPrice * childItem.ChildQuantity;
                         }
                     }
 
@@ -1627,11 +1625,255 @@ namespace TranQuik.Model
                     totalPrice += totalProductPrice;
                 }
             }
-
-            OrderTransaction orderTransaction = await CreateOrderTransaction(transactionStatus, payRemark, PayTypeID);
-
+            OrderTransaction orderTransaction = await CreateOrderTransaction(transactionStatus, PayTypeID);
             TransactionService transactionService = new TransactionService();
             await transactionService.InsertTransaction(orderTransaction);
+
+            int insertOrderNo = 0;
+            short DisplayOrdering = 1;
+            short TemporaryID = 0;
+            int orderDetailID = 0;
+            foreach (var items in cartProducts)
+            {
+                TransactionServiceOrderDetail transactionServiceOrderDetail = new TransactionServiceOrderDetail();
+                TemporaryID = 0;
+                TemporaryID++;
+                orderDetailID += TemporaryID;
+                insertOrderNo = items.Key;
+                int orderStatusID = items.Value.Status ? 2 : 92;
+                int orderEditID = 0;
+                int voidStaffID = orderStatusID == 2 ? 0 : orderTransaction.OpenStaffID;
+                string voidStaff = orderStatusID == 2 ? "" : orderTransaction.OpenStaff;
+                DateTime? voidDateTime = orderStatusID == 2 ? (DateTime?)null : items.Value.dateTime;
+                string voidManualText = orderStatusID == 2 ? "" : "VOID";
+                string voidManualReasonText = orderStatusID == 2 ? "" : "VOID";
+
+
+
+                decimal ProductVat = items.Value.ProductPrice * productVATPercent;
+                decimal ProductNetSale = items.Value.ProductPrice + ProductVat;
+                decimal DiscVat = 0;
+
+                OrderDetail orderDetail = CreateOrderDetail(
+                                    orderTransaction,            // orderTransaction: OrderTransaction object
+                                    orderDetailID,               // orderDetailID: int
+                                    Convert.ToByte(items.Value.ProductComponentLevel), // componentLevel: byte
+                                    0,                           // orderDetailLinkID: int
+                                    Convert.ToByte(insertOrderNo), // insertOrderNo: short
+                                    0,                           // indentLevel: byte
+                                    DisplayOrdering,             // displayOrdering: short
+                                    items.Value.ProductId,       // productID: int
+                                    0,                           // productSetType: int
+                                    (short)orderStatusID,        // orderStatusID: short
+                                    (short)orderEditID,          // orderEditStatus: short
+                                    0,                           // saleType: short
+                                    items.Value.Quantity,        // totalQty: int
+                                    ProductNetSale,    // pricePerUnit: decimal
+                                    ProductNetSale,    // totalRetailPrice: decimal
+                                    ProductNetSale,    // orgPricePerUnit: decimal
+                                    ProductNetSale,    // orgTotalRetailPrice: decimal
+                                    0,                           // discPricePercent: decimal
+                                    0,                           // discPrice: decimal
+                                    0,                           // discPercent: decimal
+                                    0,                           // discAmount: decimal
+                                    0,                           // discOtherPercent: decimal
+                                    0,                           // discOther: decimal
+                                    0,                           // totalItemDisc: decimal
+                                    ProductNetSale,    // salePrice: decimal
+                                    0,                           // discBill: decimal
+                                    0,                           // totalDiscount: decimal
+                                    ProductNetSale,                           // netSale: decimal
+                                    0,                           // adjFromSaleType: decimal
+                                    ProductNetSale,                           // vatable: decimal
+                                    productVatCode,                          // productVATCode: string
+                                    productVatCode,                          // vatDisplay: string
+                                    productVATPercent,           // productVATPercent: decimal
+                                    ProductVat,                  // productVAT: decimal
+                                    items.Value.ProductPrice,    // productBeforeVAT: decimal
+                                    Math.Round(ProductVat, 1),                           // totalRetailVAT: decimal
+                                    0,                           // discVAT: decimal
+                                    0,                           // isSCBeforeDisc: byte
+                                    0,                           // hasServiceCharge: byte
+                                    0,                           // scPercent: decimal
+                                    0,                           // scAmount: decimal
+                                    0,                           // scVAT: decimal
+                                    0,                           // scBeforeVAT: decimal
+                                    ProductNetSale,                           // wVatable: decimal
+                                    0,                           // scWAmount: decimal
+                                    0,                           // scWVAT: decimal
+                                    0,                           // scWBeforeVAT: decimal
+                                    ProductNetSale,                           // weightPrice: decimal
+                                    ProductVat,                           // weightPriceVAT: decimal
+                                    items.Value.ProductPrice,                           // weightBeforeVAT: decimal
+                                    ProductVat,                           // paymentVAT: decimal
+                                    "",                          // otherFoodName: string
+                                    0,                           // otherProductGroupID: int
+                                    0,                           // discountAllow: byte
+                                    0,                           // itemDiscAllow: byte
+                                    0,                           // alreadyDiscQty: short
+                                    0,                           // lastTransactionID: int
+                                    0,                           // lastComputerID: int
+                                    "",                          // printerID: string
+                                    0,                           // inventoryID: int
+                                    orderTransaction.OpenStaffID, // orderStaffID: int
+                                    orderTransaction.OpenStaff,  // orderStaff: string
+                                    orderTransaction.ComputerID, // orderComputerID: int
+                                    Properties.Settings.Default._ComputerName,                          // orderComputer: string
+                                    0,                           // orderTableID: int
+                                    "",                          // orderTable: string
+                                    0,                           // voidTypeID: byte
+                                    voidStaffID,                 // voidStaffID: int
+                                    voidStaff,                   // voidStaff: string
+                                    voidDateTime,                // voidDateTime: DateTime?
+                                    voidManualText,              // voidManualText: string
+                                    voidManualReasonText,        // voidReasonText: string
+                                    1,                           // vatType: byte
+                                    1,                           // printGroup: byte
+                                    0,                           // noPrintBill: int
+                                    0,                           // noRePrintOrder: byte
+                                    null,                        // startTime: DateTime?
+                                    null,                        // finishTime: DateTime?
+                                    0,                           // printStatus: byte
+                                    null,                        // printOrderDateTime: DateTime?
+                                    null,                        // lastPrintOrderDateTime: DateTime?
+                                    null,                        // printErrorMsg: string
+                                    0,                           // cancelPrintStaffID: int
+                                    null,                        // cancelPrintDateTime: DateTime?
+                                    null,                        // cancelPrintReason: string
+                                    0,                           // processID: int
+                                    items.Value.dateTime,                        // insertOrderDateTime: DateTime?
+                                    DateTime.Now,                        // submitOrderDateTime: DateTime?
+                                    null,                        // modifyOrderDateTime: DateTime?
+                                    0,                           // modifyStaffID: int
+                                    null,                        // comment: string
+                                    0,                           // isComment: byte
+                                    0,                           // billCheckID: byte
+                                    0,                           // pGroupID: short
+                                    0,                           // setGroupNo: short
+                                    0,                           // qtyRatio: decimal
+                                    0,                           // freeItem: byte
+                                    0,                           // summaryID: int
+                                    0                            // deleted: byte
+                                );
+                await transactionServiceOrderDetail.InsertTransaction(orderDetail);
+
+                foreach (var childItems in items.Value.ChildItems)
+                {
+                    TemporaryID++;
+                    orderDetailID ++;
+
+                    decimal ProductVAT = childItems.ChildPrice * productVATPercent;
+                    decimal ProductBeforeVAT = childItems.ChildPrice;
+                    decimal ProductAfterVAT = ProductBeforeVAT + ProductVAT;
+
+                    OrderDetail orderDetails = CreateOrderDetail(
+                                    orderTransaction,            // orderTransaction: OrderTransaction object
+                                    orderDetailID,               // orderDetailID: int
+                                    1, // componentLevel: byte
+                                    Convert.ToByte(insertOrderNo),                           // orderDetailLinkID: int
+                                    Convert.ToByte(insertOrderNo), // insertOrderNo: short
+                                    1,                           // indentLevel: byte
+                                    TemporaryID += DisplayOrdering,             // displayOrdering: short
+                                    childItems.ChildId,       // productID: int
+                                    0,                           // productSetType: int
+                                    (short)orderStatusID,        // orderStatusID: short
+                                    (short)orderEditID,          // orderEditStatus: short
+                                    0,                           // saleType: short
+                                    childItems.ChildQuantity,        // totalQty: int
+                                    ProductAfterVAT,    // pricePerUnit: decimal
+                                    ProductAfterVAT,    // totalRetailPrice: decimal
+                                    ProductAfterVAT,    // orgPricePerUnit: decimal
+                                    ProductAfterVAT,    // orgTotalRetailPrice: decimal
+                                    0,                           // discPricePercent: decimal
+                                    0,                           // discPrice: decimal
+                                    0,                           // discPercent: decimal
+                                    0,                           // discAmount: decimal
+                                    0,                           // discOtherPercent: decimal
+                                    0,                           // discOther: decimal
+                                    0,                           // totalItemDisc: decimal
+                                    childItems.ChildPrice,    // salePrice: decimal
+                                    0,                           // discBill: decimal
+                                    0,                           // totalDiscount: decimal
+                                    0,                           // netSale: decimal
+                                    0,                           // adjFromSaleType: decimal
+                                    0,                           // vatable: decimal
+                                    productVatCode,                          // productVATCode: string
+                                    productVatCode,                          // vatDisplay: string
+                                    productVATPercent,           // productVATPercent: decimal
+                                    ProductVAT,                  // productVAT: decimal
+                                    ProductBeforeVAT,    // productBeforeVAT: decimal
+                                    Math.Round(ProductVAT, 1),                           // totalRetailVAT: decimal
+                                    0,                           // discVAT: decimal
+                                    0,                           // isSCBeforeDisc: byte
+                                    0,                           // hasServiceCharge: byte
+                                    0,                           // scPercent: decimal
+                                    0,                           // scAmount: decimal
+                                    0,                           // scVAT: decimal
+                                    0,                           // scBeforeVAT: decimal
+                                    0,                           // wVatable: decimal
+                                    0,                           // scWAmount: decimal
+                                    0,                           // scWVAT: decimal
+                                    0,                           // scWBeforeVAT: decimal
+                                    ProductAfterVAT,                           // weightPrice: decimal
+                                    ProductVAT,                           // weightPriceVAT: decimal
+                                    ProductBeforeVAT,                           // weightBeforeVAT: decimal
+                                    ProductVAT,                           // paymentVAT: decimal
+                                    "",                          // otherFoodName: string
+                                    0,                           // otherProductGroupID: int
+                                    0,                           // discountAllow: byte
+                                    0,                           // itemDiscAllow: byte
+                                    0,                           // alreadyDiscQty: short
+                                    0,                           // lastTransactionID: int
+                                    0,                           // lastComputerID: int
+                                    "",                          // printerID: string
+                                    0,                           // inventoryID: int
+                                    orderTransaction.OpenStaffID, // orderStaffID: int
+                                    orderTransaction.OpenStaff,  // orderStaff: string
+                                    orderTransaction.ComputerID, // orderComputerID: int
+                                    Properties.Settings.Default._ComputerName,                          // orderComputer: string
+                                    0,                           // orderTableID: int
+                                    "",                          // orderTable: string
+                                    0,                           // voidTypeID: byte
+                                    voidStaffID,                 // voidStaffID: int
+                                    voidStaff,                   // voidStaff: string
+                                    voidDateTime,                // voidDateTime: DateTime?
+                                    voidManualText,              // voidManualText: string
+                                    voidManualReasonText,        // voidReasonText: string
+                                    1,                           // vatType: byte
+                                    1,                           // printGroup: byte
+                                    0,                           // noPrintBill: int
+                                    0,                           // noRePrintOrder: byte
+                                    null,                        // startTime: DateTime?
+                                    null,                        // finishTime: DateTime?
+                                    0,                           // printStatus: byte
+                                    null,                        // printOrderDateTime: DateTime?
+                                    null,                        // lastPrintOrderDateTime: DateTime?
+                                    null,                        // printErrorMsg: string
+                                    0,                           // cancelPrintStaffID: int
+                                    null,                        // cancelPrintDateTime: DateTime?
+                                    null,                        // cancelPrintReason: string
+                                    0,                           // processID: int
+                                    childItems.dateTime,                        // insertOrderDateTime: DateTime?
+                                    DateTime.Now,                        // submitOrderDateTime: DateTime?
+                                    null,                        // modifyOrderDateTime: DateTime?
+                                    0,                           // modifyStaffID: int
+                                    null,                        // comment: string
+                                    0,                           // isComment: byte
+                                    0,                           // billCheckID: byte
+                                    0,                           // pGroupID: short
+                                    (short)childItems.ChildSetGroupNo,                           // setGroupNo: short
+                                    0,                           // qtyRatio: decimal
+                                    0,                           // freeItem: byte
+                                    0,                           // summaryID: int
+                                    0                            // deleted: byte
+                                );
+                    await transactionServiceOrderDetail.InsertTransaction(orderDetails);
+                }
+                
+                DisplayOrdering += 100;
+            }
+
+
             TransactionServicePayDetail transactionServicePayDetail = new TransactionServicePayDetail();
             int payDetailID = 0;
             foreach (var items in multiplePaymentList.Values)
@@ -1645,13 +1887,13 @@ namespace TranQuik.Model
                     }
                     totalPrice -= items.PaymentAmount;
                     payDetailID++;
-                    OrderPayDetail orderPayDetail = CreateOrderPayDetail(orderTransaction, payDetailID, items.PaymentTypeID.ToString(), totalPrice, items.PaymentAmount, TotalChange, payRemark);
+                    OrderPayDetail orderPayDetail = CreateOrderPayDetail(orderTransaction, payDetailID, items.PaymentTypeID.ToString(), totalPrice, items.PaymentAmount, TotalChange, items.PaymentPayRemarks);
                     await transactionServicePayDetail.InsertTransaction(orderPayDetail);
                 }
             }
         }
 
-        public async Task<OrderTransaction> CreateOrderTransaction(int transactionStatus, string payRemark, string PayTypeID)
+        public async Task<OrderTransaction> CreateOrderTransaction(int transactionStatus, string PayTypeID)
         {
             OrderTransaction orderTransaction = new OrderTransaction();
 
@@ -1677,7 +1919,7 @@ namespace TranQuik.Model
                     {
                         foreach (ChildItem childItem in product.ChildItems)
                         {
-                            totalProductPrice += childItem.Price * childItem.Quantity;
+                            totalProductPrice += childItem.ChildPrice * childItem.ChildQuantity;
                         }
                     }
 
@@ -1869,14 +2111,231 @@ namespace TranQuik.Model
             return orderPayDetail;
         }
 
-        public void AddPaymentDetail(int payTypeID, string paymentTypeName, decimal paymentAmount, bool paymentIsActive = true)
+        public OrderDetail CreateOrderDetail(
+        OrderTransaction orderTransaction,
+        int orderDetailID = 0,
+        byte componentLevel = 0,
+        int orderDetailLinkID = 0,
+        short insertOrderNo = 0,
+        byte indentLevel = 0,
+        short displayOrdering = 0,
+        int productID = 0,
+        int productSetType = 0,
+        short orderStatusID = 2,
+        short orderEditStatus = 0,
+        short saleType = 0,
+        int totalQty = 0,
+        decimal pricePerUnit = 0.0000M,
+        decimal totalRetailPrice = 0.0000M,
+        decimal orgPricePerUnit = 0.0000M,
+        decimal orgTotalRetailPrice = 0.0000M,
+        decimal discPricePercent = 0.0000M,
+        decimal discPrice = 0.0000M,
+        decimal discPercent = 0.0000M,
+        decimal discAmount = 0.0000M,
+        decimal discOtherPercent = 0.0000M,
+        decimal discOther = 0.0000M,
+        decimal totalItemDisc = 0.0000M,
+        decimal salePrice = 0.0000M,
+        decimal discBill = 0.0000M,
+        decimal totalDiscount = 0.0000M,
+        decimal netSale = 0.0000M,
+        decimal adjFromSaleType = 0.0000M,
+        decimal vatable = 0.0000M,
+        string productVATCode = "",
+        string vatDisplay = "",
+        decimal productVATPercent = 0.0000M,
+        decimal productVAT = 0.0000M,
+        decimal productBeforeVAT = 0.0000M,
+        decimal totalRetailVAT = 0.0000M,
+        decimal discVAT = 0.0000M,
+        byte isSCBeforeDisc = 0,
+        byte hasServiceCharge = 0,
+        decimal scPercent = 0.0000M,
+        decimal scAmount = 0.0000M,
+        decimal scVAT = 0.0000M,
+        decimal scBeforeVAT = 0.0000M,
+        decimal wVatable = 0.0000M,
+        decimal scWAmount = 0.0000M,
+        decimal scWVAT = 0.0000M,
+        decimal scWBeforeVAT = 0.0000M,
+        decimal weightPrice = 0.0000M,
+        decimal weightPriceVAT = 0.0000M,
+        decimal weightBeforeVAT = 0.0000M,
+        decimal paymentVAT = 0.0000M,
+        string otherFoodName = "",
+        int otherProductGroupID = 0,
+        byte discountAllow = 0,
+        byte itemDiscAllow = 0,
+        short alreadyDiscQty = 0,
+        int lastTransactionID = 0,
+        int lastComputerID = 0,
+        string printerID = "",
+        int inventoryID = 0,
+        int orderStaffID = 0,
+        string orderStaff = "",
+        int orderComputerID = 0,
+        string orderComputer = "",
+        int orderTableID = 0,
+        string orderTable = "",
+        byte voidTypeID = 0,
+        int voidStaffID = 0,
+        string voidStaff = "",
+        DateTime? voidDateTime = null,
+        string voidManualText = null,
+        string voidReasonText = null,
+        byte vatType = 1,
+        byte printGroup = 0,
+        int noPrintBill = 0,
+        byte noRePrintOrder = 0,
+        DateTime? startTime = null,
+        DateTime? finishTime = null,
+        byte printStatus = 0,
+        DateTime? printOrderDateTime = null,
+        DateTime? lastPrintOrderDateTime = null,
+        string printErrorMsg = null,
+        int cancelPrintStaffID = 0,
+        DateTime? cancelPrintDateTime = null,
+        string cancelPrintReason = null,
+        int processID = 0,
+        DateTime? insertOrderDateTime = null,
+        DateTime? submitOrderDateTime = null,
+        DateTime? modifyOrderDateTime = null,
+        int modifyStaffID = 0,
+        string comment = null,
+        byte isComment = 0,
+        byte billCheckID = 0,
+        short pGroupID = 0,
+        short setGroupNo = 0,
+        decimal qtyRatio = 0.00M,
+        byte freeItem = 0,
+        int summaryID = 0,
+        byte deleted = 0
+)
+        {
+            OrderDetail orderDetail = new OrderDetail();
+            DateTime dateTime = DateTime.Now;
+
+            orderDetail.OrderDetailID = orderDetailID;
+            orderDetail.TransactionID = orderTransaction.TransactionID;
+            orderDetail.ComputerID = orderTransaction.ComputerID;
+            orderDetail.TranKey = orderTransaction.TranKey;
+            orderDetail.OrgOrderDetailID = 0;
+            orderDetail.OrgTransactionID = 0;
+            orderDetail.OrgComputerID = 0;
+            orderDetail.OrgTranKey = null;
+            orderDetail.ComponentLevel = componentLevel;
+            orderDetail.OrderDetailLinkID = orderDetailLinkID;
+            orderDetail.InsertOrderNo = insertOrderNo;
+            orderDetail.IndentLevel = indentLevel;
+            orderDetail.DisplayOrdering = displayOrdering;
+            orderDetail.SaleDate = orderTransaction.SaleDate;
+            orderDetail.ShopID = orderTransaction.ShopID;
+            orderDetail.ProductID = productID;
+            orderDetail.ProductSetType = productSetType;
+            orderDetail.OrderStatusID = orderStatusID;
+            orderDetail.OrderEditStatus = orderEditStatus;
+            orderDetail.SaleMode = orderTransaction.SaleMode;
+            orderDetail.SaleType = saleType;
+            orderDetail.TotalQty = totalQty;
+            orderDetail.PricePerUnit = pricePerUnit;
+            orderDetail.TotalRetailPrice = totalRetailPrice;
+            orderDetail.OrgPricePerUnit = orgPricePerUnit;
+            orderDetail.OrgTotalRetailPrice = orgTotalRetailPrice;
+            orderDetail.DiscPricePercent = discPricePercent;
+            orderDetail.DiscPrice = discPrice;
+            orderDetail.DiscPercent = discPercent;
+            orderDetail.DiscAmount = discAmount;
+            orderDetail.DiscOtherPercent = discOtherPercent;
+            orderDetail.DiscOther = discOther;
+            orderDetail.TotalItemDisc = totalItemDisc;
+            orderDetail.SalePrice = salePrice;
+            orderDetail.DiscBill = discBill;
+            orderDetail.TotalDiscount = totalDiscount;
+            orderDetail.NetSale = netSale;
+            orderDetail.AdjFromSaleType = adjFromSaleType;
+            orderDetail.Vatable = vatable;
+            orderDetail.ProductVATCode = productVATCode;
+            orderDetail.VATDisplay = vatDisplay;
+            orderDetail.ProductVATPercent = productVATPercent;
+            orderDetail.ProductVAT = productVAT;
+            orderDetail.ProductBeforeVAT = productBeforeVAT;
+            orderDetail.TotalRetailVAT = totalRetailVAT;
+            orderDetail.DiscVAT = discVAT;
+            orderDetail.IsSCBeforeDisc = isSCBeforeDisc;
+            orderDetail.HasServiceCharge = hasServiceCharge;
+            orderDetail.SCPercent = scPercent;
+            orderDetail.SCAmount = scAmount;
+            orderDetail.SCVAT = scVAT;
+            orderDetail.SCBeforeVAT = scBeforeVAT;
+            orderDetail.WVatable = wVatable;
+            orderDetail.SCWAmount = scWAmount;
+            orderDetail.SCWVAT = scWVAT;
+            orderDetail.SCWBeforeVAT = scWBeforeVAT;
+            orderDetail.WeightPrice = weightPrice;
+            orderDetail.WeightPriceVAT = weightPriceVAT;
+            orderDetail.WeightBeforeVAT = weightBeforeVAT;
+            orderDetail.PaymentVAT = paymentVAT;
+            orderDetail.OtherFoodName = otherFoodName;
+            orderDetail.OtherProductGroupID = otherProductGroupID;
+            orderDetail.DiscountAllow = discountAllow;
+            orderDetail.ItemDiscAllow = itemDiscAllow;
+            orderDetail.AlreadyDiscQty = alreadyDiscQty;
+            orderDetail.LastTransactionID = orderTransaction.TransactionID;
+            orderDetail.LastComputerID = orderTransaction.ComputerID;
+            orderDetail.PrinterID = printerID;
+            orderDetail.InventoryID = inventoryID;
+            orderDetail.OrderStaffID = orderTransaction.PaidStaffID;
+            orderDetail.OrderStaff = orderTransaction.PaidStaff;
+            orderDetail.OrderComputerID = orderTransaction.ComputerID;
+            orderDetail.OrderComputer = Properties.Settings.Default._ComputerName;
+            orderDetail.OrderTableID = orderTableID;
+            orderDetail.OrderTable = orderTable;
+            orderDetail.VoidTypeID = voidTypeID;
+            orderDetail.VoidStaffID = voidStaffID;
+            orderDetail.VoidStaff = voidStaff;
+            orderDetail.VoidDateTime = voidDateTime;
+            orderDetail.VoidManualText = voidManualText;
+            orderDetail.VoidReasonText = voidReasonText;
+            orderDetail.VATType = vatType;
+            orderDetail.PrintGroup = printGroup;
+            orderDetail.NoPrintBill = noPrintBill;
+            orderDetail.NoRePrintOrder = noRePrintOrder;
+            orderDetail.StartTime = startTime;
+            orderDetail.FinishTime = finishTime;
+            orderDetail.PrintStatus = printStatus;
+            orderDetail.PrintOrderDateTime = printOrderDateTime;
+            orderDetail.LastPrintOrderDateTime = lastPrintOrderDateTime;
+            orderDetail.PrintErrorMsg = printErrorMsg;
+            orderDetail.CancelPrintStaffID = cancelPrintStaffID;
+            orderDetail.CancelPrintDateTime = cancelPrintDateTime;
+            orderDetail.CancelPrintReason = cancelPrintReason;
+            orderDetail.ProcessID = processID;
+            orderDetail.InsertOrderDateTime = insertOrderDateTime;
+            orderDetail.SubmitOrderDateTime = submitOrderDateTime;
+            orderDetail.ModifyOrderDateTime = modifyOrderDateTime;
+            orderDetail.ModifyStaffID = modifyStaffID;
+            orderDetail.Comment = comment;
+            orderDetail.IsComment = isComment;
+            orderDetail.BillCheckID = billCheckID;
+            orderDetail.PGroupID = pGroupID;
+            orderDetail.SetGroupNo = setGroupNo;
+            orderDetail.QtyRatio = qtyRatio;
+            orderDetail.FreeItem = freeItem;
+            orderDetail.SummaryID = summaryID;
+            orderDetail.Deleted = deleted;
+
+            return orderDetail;
+        }
+        public void AddPaymentDetail(int payTypeID, string paymentTypeName, decimal paymentAmount, bool paymentIsActive = true, string paymentPayRemarks = "")
         {
             // Create a PaymentDetails object
             PaymentDetails paymentDetail = new PaymentDetails(
                 paymentTypeID: payTypeID,
                 paymentTypeName: paymentTypeName,
                 paymentAmount: paymentAmount,
-                paymentIsActive: paymentIsActive
+                paymentIsActive: paymentIsActive,
+                paymentPayRemarks: paymentPayRemarks
             );
 
             // Calculate the total amount
