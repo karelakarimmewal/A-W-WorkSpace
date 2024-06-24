@@ -1,4 +1,5 @@
 ﻿using Material.Icons;
+using MaterialDesignThemes.Wpf;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System;
@@ -120,6 +121,23 @@ namespace TranQuik.Model
         public int ProductComponentProductSetGroupNo { get; set; }
         public int ProductComponentProductQuantity { get; set; } = 0;
 
+    }
+
+    public static class ReportManager
+    {
+        public static Dictionary<string, PackIconKind> GetReportManagerItem()
+        {
+            return new Dictionary<string, PackIconKind>
+        {
+            { "End Day Report", PackIconKind.CalendarAlert },
+            { "Session Report", PackIconKind.PersonAlert },
+            { "Receipt Report", PackIconKind.Receipt },
+            { "Sales By Pord Report", PackIconKind.SaleBox},
+            { "Product Hourly Report", PackIconKind.ClockAlert},
+            { "Product Price Report", PackIconKind.DocumentSign },
+            { "Sales Type Report", PackIconKind.FileDocumentAlert }
+        };
+        }
     }
 
     public class Customer

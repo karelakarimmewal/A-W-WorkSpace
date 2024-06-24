@@ -12,10 +12,11 @@
         WindowStyle="None"
         Background="{x:Null}"
         AllowsTransparency="True"
-        Title="StartUpSelector" Height="210" Width="500">
+        Title="StartUpSelector" Height="310" Width="650">
     <Border Background="{StaticResource PrimaryBackgroundColor}" CornerRadius="14" Effect="{StaticResource DropShadowEffect}">
         <Grid x:Name="Selector" Margin="20">
             <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
@@ -24,25 +25,38 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="POS" Grid.Row="0" Grid.Column="0" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource PrimaryButtonColor}" Click="POS_Click">
+            <Button x:Name="Reports" Grid.Row="0" Grid.Column="1" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource AccentColor}" Click="Reports_Click" >
+                <StackPanel Orientation="Vertical" >
+                    <materialIcons:MaterialIcon Foreground="{StaticResource PrimaryBackgroundColor}" Kind="DocumentSign" Height="40"/>
+                    <TextBlock Text="REPORTS" Foreground="{StaticResource PrimaryBackgroundColor}" HorizontalAlignment="Center" FontSize="14" FontWeight="SemiBold" FontStyle="Italic" FontFamily="arial"/>
+                </StackPanel>
+            </Button>
+            
+            <Button x:Name="Utility" Grid.Row="0" Grid.Column="2" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Click="Utility_Click">
+                <StackPanel Orientation="Vertical" >
+                    <materialIcons:MaterialIcon Foreground="{StaticResource PrimaryBackgroundColor}" Kind="SetTopBox" Height="40"/>
+                    <TextBlock Text="UTILITY" Foreground="{StaticResource PrimaryBackgroundColor}" HorizontalAlignment="Center" FontSize="14" FontWeight="SemiBold" FontStyle="Italic" FontFamily="arial"/>
+                </StackPanel>
+            </Button>
+            <Button x:Name="POS" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource PrimaryButtonColor}" Click="POS_Click">
                 <StackPanel Orientation="Vertical" >
                     <materialIcons:MaterialIcon Foreground="{StaticResource PrimaryBackgroundColor}" Kind="Computer" Height="40"/>
                     <TextBlock Text="POS" Foreground="{StaticResource PrimaryBackgroundColor}" HorizontalAlignment="Center" FontSize="14" FontWeight="SemiBold" FontStyle="Italic" FontFamily="arial"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="Sync" Visibility="Visible" Grid.Row="0" Grid.Column="1" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource ButtonEnabledColor1}" Click="SyncButton_Click">
+            <Button x:Name="Sync" Visibility="Visible" Grid.Row="1" Grid.Column="1" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource ButtonEnabledColor1}" Click="SyncButton_Click">
                 <StackPanel Orientation="Vertical" >
                     <materialIcons:MaterialIcon Foreground="{StaticResource PrimaryBackgroundColor}" Kind="Database" Height="40"/>
                     <TextBlock Text="SYNC DB" Foreground="{StaticResource PrimaryBackgroundColor}" FontSize="14" HorizontalAlignment="Center" FontWeight="SemiBold" FontStyle="Italic" FontFamily="arial"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="ExitButton" Grid.Row="0" Grid.Column="2" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource ErrorColor}" Click="ExitButton_Click">
+            <Button x:Name="ExitButton" Grid.Row="1" Grid.Column="2" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource ErrorColor}" Click="ExitButton_Click">
                 <StackPanel Orientation="Vertical" >
-                    <materialIcons:MaterialIcon Foreground="{StaticResource PrimaryBackgroundColor}" Kind="ExitRun" Height="40"/>
+                    <materialIcons:MaterialIcon Foreground="{StaticResource PrimaryBackgroundColor}" Kind="Shutdown" Height="40"/>
                     <TextBlock Text="EXIT" Foreground="{StaticResource PrimaryBackgroundColor}" FontSize="14" HorizontalAlignment="Center" FontWeight="SemiBold" FontStyle="Italic" FontFamily="arial"/>
                 </StackPanel>
             </Button>
-            <StackPanel Grid.Row="1" Grid.ColumnSpan="3" Margin="0,20,0,0">
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Margin="0,20,0,0">
                 <Grid VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>

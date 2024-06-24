@@ -1,54 +1,67 @@
 ﻿using System;
-using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using TranQuik.Configuration;
 using TranQuik.Controller;
-using System.Windows.Controls;
-using ZstdSharp.Unsafe;
-
 
 namespace TranQuik.Pages
 {
     public partial class StartUpSelector : Window
     {
-        
-
         public StartUpSelector()
         {
             InitializeComponent();
-            
-            Config.LoadAppSettings();
-            AutoSyncFunction();
+            InitializeApplication();
         }
 
-        private void AutoSyncFunction()
+        private void InitializeApplication()
+        {
+            Config.LoadAppSettings();
+            UpdateLastSyncTime();
+            ConfigureAutoSyncSettings();
+        }
+
+        private void UpdateLastSyncTime()
         {
             LastSync.Text = Properties.Settings.Default._LastSync.ToString();
+        }
 
-            // Determine the text and color based on the value of _AutoSync
-            string autoSyncText = Properties.Settings.Default._AutoSync ? "ON" : "OFF";
-            string syncColor = Properties.Settings.Default._AutoSync ? "ButtonEnabledColor1" : "ErrorColor";
+        private void ConfigureAutoSyncSettings()
+        {
+            bool isAutoSyncEnabled = Properties.Settings.Default._AutoSync;
+            string autoSyncText = isAutoSyncEnabled ? "ON" : "OFF";
+            string syncColorResource = isAutoSyncEnabled ? "ButtonEnabledColor1" : "ErrorColor";
 
             string serverStatus = Properties.Settings.Default._ComputerName;
-            string serverColor = Properties.Settings.Default._ComputerName == "POS1" ? "ErrorColor" : "FontColor";
+            string serverColorResource = serverStatus == "POS1" ? "ErrorColor" : "FontColor";
 
-            if (Properties.Settings.Default._ComputerName != "POS1")
+            if (serverStatus != "POS1")
             {
-                Grid.SetColumnSpan(POS, 2);
-
-                Sync.Visibility = Visibility.Collapsed;
-                Sync.IsEnabled = false;
+                AdjustUiForNonPos1Server();
             }
 
+            SetAutoSyncStatus(autoSyncText, syncColorResource);
+            SetServerStatus(serverStatus, serverColorResource);
+        }
 
-            // Set the text and background color
-            AutoSync.Text = autoSyncText;
-            AutoSync.Background = (System.Windows.Media.Brush)Application.Current.FindResource(syncColor);
+        private void AdjustUiForNonPos1Server()
+        {
+            Grid.SetColumnSpan(POS, 2);
+            Sync.Visibility = Visibility.Collapsed;
+            Sync.IsEnabled = false;
+        }
 
-            deviceType.Text = serverStatus;
-            deviceType.Background = (System.Windows.Media.Brush)Application.Current.FindResource(serverColor);
+        private void SetAutoSyncStatus(string text, string colorResource)
+        {
+            AutoSync.Text = text;
+            AutoSync.Background = (System.Windows.Media.Brush)Application.Current.FindResource(colorResource);
+        }
 
-            
+        private void SetServerStatus(string text, string colorResource)
+        {
+            deviceType.Text = text;
+            deviceType.Background = (System.Windows.Media.Brush)Application.Current.FindResource(colorResource);
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -58,26 +71,56 @@ namespace TranQuik.Pages
 
         private async void POS_Click(object sender, RoutedEventArgs e)
         {
-            LoginPage loginPage = new LoginPage();
+            await OpenLoginPageAsync();
+        }
 
-            loginPage.ShowDialog();
-
-            this.Close();
+        private Task OpenLoginPageAsync()
+        {
+            return Task.Run(() =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    LoginPage loginPage = new LoginPage();
+                    loginPage.ShowDialog();
+                    Close();
+                });
+            });
         }
 
         private async void SyncButton_Click(object sender, RoutedEventArgs e)
         {
+            await PerformDataSyncAsync();
+        }
+
+        private async Task PerformDataSyncAsync()
+        {
             SyncMethod syncMethod = new SyncMethod(UpdateProgress);
             await syncMethod.SyncDataAsync();
-            LastSync.Text = Properties.Settings.Default._LastSync.ToString();
-            string NotifMessage = "Data synchronization complete!";
-            NotificationPopup notificationPopup = new NotificationPopup(NotifMessage, false);
+            UpdateLastSyncTime();
+            ShowNotification("Data synchronization complete!");
+        }
+
+        private void ShowNotification(string message)
+        {
+            NotificationPopup notificationPopup = new NotificationPopup(message, false);
             notificationPopup.ShowDialog();
         }
 
         private void UpdateProgress(int value)
         {
             Dispatcher.Invoke(() => ProgressBarx.Value = value);
+        }
+
+        private void Reports_Click(object sender, RoutedEventArgs e)
+        {
+            ReportPage reportPage = new ReportPage();
+            reportPage.ShowDialog();
+        }
+
+        private void Utility_Click(object sender, RoutedEventArgs e)
+        {
+            NotificationPopup notificationPopup = new NotificationPopup("NOT AVAILABLE RIGHT NOW", false);
+            notificationPopup.ShowDialog();
         }
     }
 }

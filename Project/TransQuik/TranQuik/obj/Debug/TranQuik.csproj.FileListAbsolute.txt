@@ -358,3 +358,5 @@ D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\TranQuik.exe
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\TranQuik.pdb
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Interop.AXVLC.dll
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\TranQuik.csproj.ResolveComReference.cache
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ReportPage.g.cs
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ReportPage.baml

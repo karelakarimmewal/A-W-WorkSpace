@@ -53,6 +53,7 @@ namespace TranQuik
             this.modelProcessing = modelProcessing;
             this.secondaryMonitor = secondaryMonitor;
         }
+
         public void GetPayTypeList(int computerID)
         {
             Console.WriteLine($"Computer ID: {computerID}");
