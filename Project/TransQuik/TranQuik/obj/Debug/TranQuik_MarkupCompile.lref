@@ -12,4 +12,11 @@ FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\StartUpSelector.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\TransactionStatus.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\SaleModePop.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ReportPage.xaml;;
+FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ChildPage\SessionReports.xaml;;
+FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ChildPage\EndDayReports.xaml;;
+FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ChildPage\PorductHourlyReports.xaml;;
+FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ChildPage\ProductPriceReports.xaml;;
+FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ChildPage\ReceiptReports.xaml;;
+FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ChildPage\SalesByProductReports.xaml;;
+FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ChildPage\SalesTypeReports.xaml;;
 

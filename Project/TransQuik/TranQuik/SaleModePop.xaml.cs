@@ -98,39 +98,15 @@ namespace TranQuik
 
         public List<SaleMode> GetSaleModes()
         {
+            SaleMode.populateSaleModeList.Clear();
+
+            SaleMode.PopulateSaleMode(localDbConnector);
+            
             List<SaleMode> saleModes = new List<SaleMode>();
 
-            string query = "SELECT SaleModeID, SaleModeName, ReceiptHeaderText, NOTinPayTypeList, PrefixText, PrefixQueue FROM SaleMode";
-
-            using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+            foreach (var items in SaleMode.populateSaleModeList)
             {
-                MySqlCommand command = new MySqlCommand(query, connection);
-
-                try
-                {
-                    connection.Open();
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            SaleMode saleMode = new SaleMode
-                            {
-                                SaleModeID = reader.GetInt32("SaleModeID"),
-                                SaleModeName = reader.GetString("SaleModeName"),
-                                ReceiptHeaderText = reader.GetString("ReceiptHeaderText"),
-                                NotInPayTypeList = reader.GetString("NOTinPayTypeList"),
-                                PrefixText = reader.GetString("PrefixText"),
-                                PrefixQueue = reader.GetString("PrefixQueue")
-                            };
-
-                            saleModes.Add(saleMode);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error retrieving SaleMode data: {ex.Message}");
-                }
+                saleModes.Add(items);
             }
 
             return saleModes;

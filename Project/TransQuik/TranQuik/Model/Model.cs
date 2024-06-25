@@ -1,9 +1,7 @@
 ﻿using Material.Icons;
 using MaterialDesignThemes.Wpf;
-using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -13,6 +11,248 @@ using System.Windows.Media;
 
 namespace TranQuik.Model
 {
+    using MySql.Data.MySqlClient;
+    using System.Collections.Generic;
+
+    public class ShopData
+    {
+        public static List<ShopData> shopDatas = new List<ShopData>();
+
+        public int ShopId { get; set; }
+        public int BrandID { get; set; }
+        public int MerchantID { get; set; }
+        public string ShopCode { get; set; }
+        public string ShopKey { get; set; }
+        public string ShopName { get; set; }
+        public int IsShop { get; set; }
+        public int IsInv { get; set; }
+        public string VATCode { get; set; }
+        public int VATType { get; set; }
+        public int MasterShop { get; set; }
+        public int MasterShopLink { get; set; }
+        public DateTime OpenHour { get; set; }
+        public DateTime CloseHour { get; set; }
+        public string CompanyName { get; set; }
+
+        public ShopData(int shopId, int brandId, int merchantId, string shopCode, string shopKey, string shopName,
+                        int isShop, int isInv, string vatCode, int vatType, int masterShop, int masterShopLink,
+                        DateTime openHour, DateTime closeHour, string companyName)
+        {
+            ShopId = shopId; BrandID = brandId;
+            MerchantID = merchantId; ShopCode = shopCode;
+            ShopKey = shopKey; ShopName = shopName;
+            IsShop = isShop; IsInv = isInv;
+            VATCode = vatCode; VATType = vatType;
+            MasterShop = masterShop; MasterShopLink = masterShopLink;
+            OpenHour = openHour; CloseHour = closeHour;
+            CompanyName = companyName;
+        }
+
+        public static void PopulateShopData(LocalDbConnector localDbConnector)
+        {
+            string queryShopData = "SELECT ShopID, BrandID, MerchantID, ShopCode, ShopKey, ShopName, IsShop, " +
+                                   "IsInv, VATCode, VATType, MasterShop, MasterShopLink, OpenHour, CloseHour, " +
+                                   "CompanyName FROM shop_data  ";
+
+            try
+            {
+                shopDatas.Clear();
+                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(queryShopData, connection))
+                    {
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                int shopId = reader.GetInt32("ShopID");
+                                int brandId = reader.GetInt32("BrandID");
+                                int merchantId = reader.GetInt32("MerchantID");
+                                string shopCode = reader.GetString("ShopCode");
+                                string shopKey = reader.GetString("ShopKey");
+                                string shopName = reader.GetString("ShopName");
+                                int isShop = reader.GetInt32("IsShop");
+                                int isInv = reader.GetInt32("IsInv");
+                                string vatCode = reader.GetString("VATCode");
+                                int vatType = reader.GetInt32("VATType");
+                                int masterShop = reader.GetInt32("MasterShop");
+                                int masterShopLink = reader.GetInt32("MasterShopLink");
+                                DateTime openHour = reader.GetDateTime("OpenHour");
+                                DateTime closeHour = reader.GetDateTime("CloseHour");
+                                string companyName = reader.GetString("CompanyName");
+
+                                ShopData shopData = new ShopData(shopId, brandId, merchantId, shopCode, shopKey,
+                                                                 shopName, isShop, isInv, vatCode, vatType, masterShop,
+                                                                 masterShopLink, openHour, closeHour, companyName);
+                                shopDatas.Add(shopData);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                // Handle exception
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+    }
+
+
+    public class ProductGroupPopulate
+    {
+        public static List<ProductGroupPopulate> productGroupPopulates = new List<ProductGroupPopulate>();
+
+        // Removed the instance variable for LocalDbConnector
+
+        public int ProductGroupID
+        {
+            get; private set;
+        }
+        public int ShopID
+        {
+            get; private set;
+        }
+        public string ProductGroupCode
+        {
+            get; private set;
+        }
+        public string ProductGroupName
+        {
+            get; private set;
+        }
+        public bool ProductGroupActivate
+        {
+            get; private set;
+        }
+
+        public ProductGroupPopulate(int productGroupID, int shopID, string productGroupCode, string productGroupName, bool productGroupActivate)
+        {
+            ProductGroupID = productGroupID;
+            ShopID = shopID;
+            ProductGroupCode = productGroupCode;
+            ProductGroupName = productGroupName;
+            ProductGroupActivate = productGroupActivate;
+        }
+
+        public static void PopulateProductGroup(LocalDbConnector localDbConnector)
+        {
+            string queryProductGroup = "SELECT ProductGroupID, ShopID, ProductGroupCode, ProductGroupName, ProductGroupActivate FROM productgroup ORDER BY ProductGroupID ASC"; // Adjust the table name as needed
+
+            try
+            {
+                productGroupPopulates.Clear();
+                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(queryProductGroup, connection))
+                    {
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int productGroupID = reader.GetInt32("ProductGroupID");
+                                int shopID = reader.GetInt32("ShopID");
+                                string productGroupCode = reader.GetString("ProductGroupCode");
+                                string productGroupName = reader.GetString("ProductGroupName");
+                                bool productGroupActivate = reader.GetBoolean("ProductGroupActivate");
+
+                                ProductGroupPopulate productGroup = new ProductGroupPopulate(productGroupID, shopID, productGroupCode, productGroupName, productGroupActivate);
+                                productGroupPopulates.Add(productGroup);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                // Handle exception
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+    }
+
+    public class ProductDeptPopulate
+    {
+        public static List<ProductDeptPopulate> productDeptPopulates = new List<ProductDeptPopulate>();
+
+        public int ProductDeptID 
+        { 
+            get; set; 
+        }
+        public int ProductGroupID
+        {
+            get; set;
+        }
+        public int ShopID
+        {
+            get; set;
+        }
+        public string ProductDeptCode
+        {
+            get; set;
+        }
+        public string ProductDeptName
+        {
+            get; set;
+        }
+        public bool ProductDeptActivate
+        {
+            get; set;
+        }
+        public ProductDeptPopulate(int productDeptID, int productGroupID, int shopID, string productDeptCode, string productDeptName, bool productDeptActivate)
+        {
+            ProductDeptID = productDeptID;
+            ProductGroupID = productGroupID;
+            ShopID = shopID;
+            ProductDeptCode = productDeptCode;
+            ProductDeptName = productDeptName;
+            ProductDeptActivate = productDeptActivate;
+        }
+
+        public static void PopulateProductDept(LocalDbConnector localDbConnector)
+        {
+            // Ensure the query handles multiple ProductGroupIDs correctly
+            string queryProductGroup = "SELECT ProductDeptID, ProductGroupID, ShopID, ProductDeptCode, ProductDeptName, ProductDeptActivate FROM productdept " +
+                "ORDER BY ProductDeptID ASC";
+
+            try
+            {
+                productDeptPopulates.Clear();
+                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(queryProductGroup, connection))
+                    {
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int productDeptID = reader.GetInt32("ProductDeptID");
+                                int productGroupID = reader.GetInt32("ProductGroupID");
+                                int shopID = reader.GetInt32("ShopID");
+                                string productDeptCode = reader.GetString("ProductDeptCode");
+                                string productDeptName = reader.GetString("ProductDeptName");
+                                bool productDeptActivate = reader.GetBoolean("ProductDeptActivate");
+
+                                ProductDeptPopulate productDeptPopulate = new ProductDeptPopulate(productDeptID, productGroupID, shopID, productDeptCode, productDeptName, productDeptActivate);
+                                productDeptPopulates.Add(productDeptPopulate);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                // Handle exception
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+    }
+
     public class TimerForScheduler
     {
         public int Times { get; set; } = 5000;
@@ -56,10 +296,12 @@ namespace TranQuik.Model
 
     public class ComputerAccessData
     {
+        public static List<ComputerAccessData> ComputerAccessDatas = new List<ComputerAccessData>();
+
         public int ComputerID { get; set; }
         public string ComputerName { get; set; }
         public int ShopID { get; set; }
-        public string ComputerType { get; set; }
+        public int ComputerType { get; set; }
         public string PayTypeList { get; set; }
         public string SaleModeList { get; set; }
         public string TableZoneList { get; set; }
@@ -68,13 +310,86 @@ namespace TranQuik.Model
         public string ReceiptHeader { get; set; }
         public string FullTaxHeader { get; set; }
         public string DeviceCode { get; set; }
-        public string KDSID { get; set; }
+        public byte KDSID { get; set; }
         public string KDSPrinters { get; set; }
         public string Description { get; set; }
         public string ProductGroupList { get; set; }
         public string FavoriteImagePageList { get; set; }
         public string FavoriteTextPageList { get; set; }
         public bool Deleted { get; set; }
+
+        public ComputerAccessData(int computerID, string computerName, int shopID, int computerType, string payTypeList, string saleModeList, string tableZoneList, string ipAddress, string registrationNumber, string receiptHeader, string fullTaxHeader, string deviceCode, byte kDSID, string kDSPrinters, string description, string productGroupList, string favoriteImagePageList, string favoriteTextPageList, bool deleted)
+        {
+            ComputerID = computerID;
+            ComputerName = computerName;
+            ShopID = shopID;
+            ComputerType = computerType;
+            PayTypeList = payTypeList;
+            SaleModeList = saleModeList;
+            TableZoneList = tableZoneList;
+            IPAddress = ipAddress;
+            RegistrationNumber = registrationNumber;
+            ReceiptHeader = receiptHeader;
+            FullTaxHeader = fullTaxHeader;
+            DeviceCode = deviceCode;
+            KDSID = kDSID;
+            KDSPrinters = kDSPrinters;
+            Description = description;
+            ProductGroupList = productGroupList;
+            FavoriteImagePageList = favoriteImagePageList;
+            FavoriteTextPageList = favoriteTextPageList;
+            Deleted = deleted;
+        }
+
+        public static void PopulateComputerAccessData(LocalDbConnector localDbConnector)
+        {
+            string queryComputerAccess = "SELECT ComputerID, ComputerName, ShopID, ComputerType, PayTypeList, SaleModeList, TableZoneList, IPAddress, RegistrationNumber, ReceiptHeader, FullTaxHeader, DeviceCode, KDSID, KDSPrinters, Description, ProductGroupList, FavoriteImagePageList, FavoriteTextPageList, Deleted FROM computername ORDER BY ComputerID ASC";
+
+            try
+            {
+                ComputerAccessDatas.Clear();
+                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(queryComputerAccess, connection))
+                    {
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int computerID = reader.GetInt32("ComputerID");
+                                string computerName = reader.GetString("ComputerName");
+                                int shopID = reader.GetInt32("ShopID");
+                                int computerType = reader.GetInt32("ComputerType");
+                                string payTypeList = reader.GetString("PayTypeList");
+                                string saleModeList = reader.GetString("SaleModeList");
+                                string tableZoneList = reader.GetString("TableZoneList");
+                                string ipAddress = reader.GetString("IPAddress");
+                                string registrationNumber = reader.GetString("RegistrationNumber");
+                                string receiptHeader = reader.GetString("ReceiptHeader");
+                                string fullTaxHeader = reader.GetString("FullTaxHeader");
+                                string deviceCode = reader.GetString("DeviceCode");
+                                byte kDSID = reader.GetByte("KDSID");
+                                string kDSPrinters = reader.GetString("KDSPrinters");
+                                string description = reader.GetString("Description");
+                                string productGroupList = reader.GetString("ProductGroupList");
+                                string favoriteImagePageList = reader.GetString("FavoriteImagePageList");
+                                string favoriteTextPageList = reader.GetString("FavoriteTextPageList");
+                                bool deleted = reader.GetBoolean("Deleted");
+
+                                ComputerAccessData computerAccessData = new ComputerAccessData(computerID, computerName, shopID, computerType, payTypeList, saleModeList, tableZoneList, ipAddress, registrationNumber, receiptHeader, fullTaxHeader, deviceCode, kDSID, kDSPrinters, description, productGroupList, favoriteImagePageList, favoriteTextPageList, deleted);
+                                ComputerAccessDatas.Add(computerAccessData);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                // Handle exception
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
     }
 
     public class FilteredPayType
@@ -132,10 +447,11 @@ namespace TranQuik.Model
             { "End Day Report", PackIconKind.CalendarAlert },
             { "Session Report", PackIconKind.PersonAlert },
             { "Receipt Report", PackIconKind.Receipt },
-            { "Sales By Pord Report", PackIconKind.SaleBox},
+            { "Sales By Prod Report", PackIconKind.SaleBox},
             { "Product Hourly Report", PackIconKind.ClockAlert},
             { "Product Price Report", PackIconKind.DocumentSign },
-            { "Sales Type Report", PackIconKind.FileDocumentAlert }
+            { "Sales Type Report", PackIconKind.FileDocumentAlert },
+
         };
         }
     }
@@ -564,12 +880,85 @@ namespace TranQuik.Model
 
     public class SaleMode
     {
-        public int SaleModeID { get; set; }
-        public string SaleModeName { get; set; }
-        public string ReceiptHeaderText { get; set; }
-        public string NotInPayTypeList { get; set; }
-        public string PrefixText { get; set; }
-        public string PrefixQueue { get; set; }
+        public static List<SaleMode> populateSaleModeList = new List<SaleMode>();
+
+        public int SaleModeID
+        {
+            get; set;
+        }
+        public string SaleModeName
+        {
+            get; set;
+        }
+        public string PrefixText
+        {
+            get; set;
+        }
+        public string PrefixQueue
+        {
+            get; set;
+        }
+        public string ReceiptHeaderText
+        {
+            get; set;
+        }
+        public string PayTypeList
+        {
+            get; set;
+        }
+        public string NotInPayTypeList
+        {
+            get; set;
+        }
+
+        public SaleMode(int saleModeID, string saleModeName, string prefixText, string prefixQueue, string receiptHeaderText, string payTypeList, string notInPayTypeList)
+        {
+            SaleModeID = saleModeID;
+            SaleModeName = saleModeName;
+            PrefixText = prefixText;
+            PrefixQueue = prefixQueue;
+            ReceiptHeaderText = receiptHeaderText;
+            PayTypeList = payTypeList;
+            NotInPayTypeList = notInPayTypeList;
+        }
+
+        public static void PopulateSaleMode(LocalDbConnector localDbConnector)
+        {
+            string querySaleMode = "SELECT SaleModeID, SaleModeName, PrefixText, PrefixQueue, ReceiptHeaderText, PayTypeList, NotInPayTypeList FROM salemode ORDER BY SaleModeID ASC"; // Adjust the table name as needed
+
+            try
+            {
+                populateSaleModeList.Clear();
+                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(querySaleMode, connection))
+                    {
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int saleModeID = reader.GetInt32("SaleModeID");
+                                string saleModeName = reader.GetString("SaleModeName");
+                                string prefixText = reader.GetString("PrefixText");
+                                string prefixQueue = reader.GetString("PrefixQueue");
+                                string receiptHeaderText = reader.GetString("ReceiptHeaderText");
+                                string payTypeList = reader.GetString("PayTypeList");
+                                string notInPayTypeList = reader.GetString("NotInPayTypeList");
+
+                                SaleMode saleMode = new SaleMode(saleModeID, saleModeName, prefixText, prefixQueue, receiptHeaderText, payTypeList, notInPayTypeList);
+                                populateSaleModeList.Add(saleMode);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                // Handle exception
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
     }
 
     public class ModifierGroup

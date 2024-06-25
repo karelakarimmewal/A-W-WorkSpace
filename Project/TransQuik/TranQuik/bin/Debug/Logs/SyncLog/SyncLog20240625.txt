@@ -1,0 +1,6 @@
+2024-06-25 12:22:09.222 +07:00 [INF] New session created with SessionID 48 and ComputerID 21. Rows affected: 1
+2024-06-25 12:23:34.231 +07:00 [INF] Close session created with SessionID 48 and ComputerID 21. Rows affected: 1
+2024-06-25 15:21:49.782 +07:00 [INF] New session created with SessionID 49 and ComputerID 21. Rows affected: 1
+2024-06-25 15:21:57.732 +07:00 [INF] Close session created with SessionID 49 and ComputerID 21. Rows affected: 1
+2024-06-25 15:22:46.923 +07:00 [INF] New session created with SessionID 50 and ComputerID 21. Rows affected: 1
+2024-06-25 15:22:49.366 +07:00 [INF] Close session created with SessionID 50 and ComputerID 21. Rows affected: 1

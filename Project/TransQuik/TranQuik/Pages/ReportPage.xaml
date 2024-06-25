@@ -7,8 +7,8 @@
         xmlns:local="clr-namespace:TranQuik.Pages"
         mc:Ignorable="d"
         Title="ReportPage" 
-        Height="500" 
-        Width="800"
+        Height="600" 
+        Width="850"
         WindowStartupLocation="CenterScreen"
         WindowState="Normal"
         WindowStyle="None"
@@ -22,17 +22,17 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" Background="{StaticResource PrimaryButtonColor}" Effect="{StaticResource DropShadowEffect}" BorderThickness="0"/>
+            <Border Grid.Row="0" Background="{StaticResource FontColor}" Effect="{StaticResource DropShadowEffect}" BorderThickness="0"/>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Horizontal" >
-                    <materialIcons:MaterialIcon Kind="DocumentSign" Height="34" Margin="20,0,5,0"/>
-                    <TextBlock Text="Report Manager" FontSize="14"  FontWeight="SemiBold" FontStyle="Italic" FontFamily="arial" VerticalAlignment="Center"/>
+                    <materialIcons:MaterialIcon Kind="DocumentSign" Height="34" Margin="20,0,5,0" Foreground="{StaticResource PrimaryButtonColor}"/>
+                    <TextBlock Text="Report Manager" FontSize="14"  FontWeight="SemiBold" FontStyle="Italic" FontFamily="arial" VerticalAlignment="Center" Foreground="{StaticResource PrimaryBackgroundColor}"/>
                 </StackPanel>
-                <Button x:Name="closeWindow" Grid.Column="1" Width="150" HorizontalAlignment="Right" Background="{StaticResource ErrorColor}" Effect="{StaticResource DropShadowEffect}" BorderThickness="0" Foreground="{StaticResource FontColor}" Click="closeWindow_Click" >
+                <Button x:Name="closeWindow" Grid.Column="1" Width="60" HorizontalAlignment="Right" Background="{StaticResource ErrorColor}" Effect="{StaticResource DropShadowEffect}" BorderThickness="0" Foreground="{StaticResource FontColor}" Click="closeWindow_Click" >
                     <StackPanel Orientation="Vertical">
                         <materialIcons:MaterialIcon Kind="CloseBox" Width="26"/>
                         <TextBlock Text="Close" FontSize="14" FontWeight="SemiBold" FontStyle="Italic" FontFamily="arial" VerticalAlignment="Center"/>
@@ -40,23 +40,43 @@
                 </Button>
             </Grid>
             <Border Grid.RowSpan="2" Grid.Row="1" Background="{StaticResource SecondaryBackgroundColor}"/>
-
-            <Border  Grid.Row="2" Margin="15" BorderThickness="0" BorderBrush="Gray" Effect="{StaticResource DropShadowEffect}"/>
-            <Frame Grid.Row="2" Name="framingItems" Margin="5"/>
-            <Grid Grid.Row="2" Name="myGrid" Margin="5">
+            <Border Grid.Row="1" BorderBrush="{StaticResource FontColor}" BorderThickness="0,0,0,1"/>
+            <Grid Grid.Row="1" x:Name="navigationReport">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+                <Grid Grid.Column="0" x:Name="navigationReportPage">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="PrevButton" Grid.Column="0" BorderThickness="1" BorderBrush="{StaticResource PrimaryButtonColor}" 
+             Margin="2,2,1,2" Background="{StaticResource PrimaryButtonColor}" Click="PrevButton_Click">
+                        <StackPanel>
+                            <materialIcons:MaterialIcon Kind="ArrowLeftBoldBox" Foreground="{StaticResource PrimaryBackgroundColor}" Width="25"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="nextButton" Grid.Column="2" Margin="1,2,2,2" BorderBrush="{StaticResource PrimaryButtonColor}" 
+              Background="{StaticResource PrimaryButtonColor}" Click="NextButton_Click">
+                        <StackPanel>
+                            <materialIcons:MaterialIcon Kind="ArrowRightBoldBox" Foreground="{StaticResource PrimaryBackgroundColor}" BorderThickness="1"  Width="25"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
             </Grid>
+            <Border  Grid.Row="2" Margin="0" BorderThickness="0" BorderBrush="Gray" Background="{StaticResource DisabledButtonColor}" Effect="{StaticResource DropShadowEffect}"/>
+            <TextBlock Grid.Row="2" Text="FRONT REPORTS" FontFamily="arial" FontWeight="SemiBold" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Frame Grid.Row="2" Name="framingItems" Margin="0"/>
         </Grid>
     </Border>
 </Window>

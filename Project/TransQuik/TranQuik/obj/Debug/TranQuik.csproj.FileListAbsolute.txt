@@ -360,3 +360,17 @@ D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Interop.AXVLC.dll
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\TranQuik.csproj.ResolveComReference.cache
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ReportPage.g.cs
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ReportPage.baml
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\SessionReports.g.cs
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\SessionReports.baml
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\EndDayReports.g.cs
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\PorductHourlyReports.g.cs
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\ProductPriceReports.g.cs
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\ReceiptReports.g.cs
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\SalesByProductReports.g.cs
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\SalesTypeReports.g.cs
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\EndDayReports.baml
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\PorductHourlyReports.baml
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\ProductPriceReports.baml
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\ReceiptReports.baml
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\SalesByProductReports.baml
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\SalesTypeReports.baml

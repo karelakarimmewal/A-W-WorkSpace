@@ -1,0 +1,159 @@
+﻿<Page x:Class="TranQuik.Pages.ChildPage.ProductPriceReports"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TranQuik.Pages.ChildPage"
+      xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="830"
+      Background="{StaticResource PrimaryBackgroundColor}"
+      Title="ProductPriceReports">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,2" Effect="{StaticResource DropShadowEffect}" 
+        BorderBrush="{StaticResource PrimaryButtonColor}" Background="{StaticResource PrimaryButtonColor}"/>
+        <TextBlock x:Name="sessionReportsShopName"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="AW-TEST" VerticalAlignment="Center" HorizontalAlignment="Center"
+           FontSize="20" FontWeight="SemiBold" FontFamily="arial" FontStyle="Italic" Foreground="{StaticResource PrimaryBackgroundColor}"/>
+        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,2" Effect="{StaticResource DropShadowEffect}" 
+BorderBrush="{StaticResource FontColor}" Background="{StaticResource FontColor}"/>
+        <TextBlock x:Name="sessionReportsPageName"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="PRODUCT PRICE REPORT REPORTS" VerticalAlignment="Center" HorizontalAlignment="Center"
+   FontSize="12" FontWeight="SemiBold" FontFamily="arial" FontStyle="Italic" Foreground="{StaticResource PrimaryBackgroundColor}"/>
+
+        <Border Grid.Row="2" BorderThickness="0,0,2,0" BorderBrush="{StaticResource FontColor}"/>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <ListView x:Name="productpricereportListView" Background="Azure">
+                <ListView.Resources>
+                    <!-- Style for Column Headers -->
+                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="BorderBrush" Value="Gray"/>
+                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                        <Setter Property="Padding" Value="6"/>
+                    </Style>
+                </ListView.Resources>
+
+                <!-- ListView View -->
+                <ListView.View>
+                    <GridView AllowsColumnReorder="False">
+                        <GridViewColumn Header="#" DisplayMemberBinding="{Binding Index}" Width="30"/>
+                        <GridViewColumn Header="Product Name" DisplayMemberBinding="{Binding ProductName}" Width="150"/>
+                        <GridViewColumn Header="Product Price" DisplayMemberBinding="{Binding ProductPrice}" Width="120"/>
+                        <!-- Add more columns as needed -->
+                    </GridView>
+                </ListView.View>
+
+                <!-- Style for ListView Items -->
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Background" Value="Azure"/>
+                        <Setter Property="BorderThickness" Value="0,1,0,0"/>
+                        <Setter Property="BorderBrush" Value="Gray"/>
+                        <Setter Property="Height" Value="25"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                        <Setter Property="FontFamily" Value="arial"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="Padding" Value="6"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border BorderThickness="0,1,0,0" BorderBrush="Gray" Background="{TemplateBinding Background}">
+                                        <GridViewRowPresenter Content="{TemplateBinding Content}"
+                              Columns="{TemplateBinding GridView.ColumnCollection}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border BorderThickness="0,0,0,2" BorderBrush="{StaticResource FontColor}"/>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Vertical" Margin="5,5,2.5,5" Grid.Row="0" VerticalAlignment="Stretch">
+                        <TextBlock Text="SELECT DATE" FontSize="12" FontWeight="SemiBold" FontFamily="arial"/>
+                        <DatePicker x:Name="startDatePicker" FontFamily="arial" FontSize="12"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="5,5,5,5" Grid.Row="1" VerticalAlignment="Stretch">
+                        <TextBlock Text="PRODUCT GROUP" FontSize="12" FontWeight="SemiBold" FontFamily="arial"/>
+                        <ComboBox x:Name="selectProductGroup" SelectionChanged="selectProductGroup_Change" Height="24" FontFamily="arial" FontSize="12"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="5,5,5,5" Grid.Row="2" VerticalAlignment="Stretch">
+                        <TextBlock Text="PRODUCT DEPT" FontSize="12" FontWeight="SemiBold" FontFamily="arial"/>
+                        <ComboBox x:Name="selectProductDept" Height="24" FontFamily="arial" FontSize="12"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Column="1" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <StackPanel Orientation="Vertical" Margin="2.5,5,5,5" Grid.Row="1" VerticalAlignment="Stretch">
+                        <TextBlock Text="SALE MODE" FontSize="12" FontWeight="SemiBold" FontFamily="arial"/>
+                        <ComboBox Height="24" x:Name="selectSaleMode" FontFamily="arial" FontSize="12">
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="2.5,5,5,5" Grid.Row="2" VerticalAlignment="Stretch">
+                        <TextBlock Text="PRODUCT NAME" FontSize="12" FontWeight="SemiBold" FontFamily="arial"/>
+                        <TextBox Height="24" x:Name="productNameText" FontFamily="arial" FontSize="12">
+                        </TextBox>
+                    </StackPanel>
+
+                </Grid>
+
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="showReports" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Height="100"  
+                        Effect="{StaticResource DropShadowEffect}" FontFamily="arial" Background="{StaticResource PrimaryButtonColor}" 
+                        BorderBrush="{StaticResource PrimaryButtonColor}" Click="showReports_Click">
+                    <StackPanel>
+                        <materialIcons:MaterialIcon Foreground="{StaticResource PrimaryBackgroundColor}" Kind="SearchGlobe" Width="30"/>
+                        <TextBlock Text="SHOW REPORT" Foreground="{StaticResource PrimaryBackgroundColor}" FontSize="12" FontWeight="SemiBold" FontFamily="arial"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="printReports" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Height="100"  Effect="{StaticResource DropShadowEffect}" FontFamily="arial" 
+                    Background="{StaticResource SuccessColor}" BorderBrush="{StaticResource SuccessColor}" Click="printReports_Click" >
+                    <StackPanel>
+                        <materialIcons:MaterialIcon Foreground="{StaticResource PrimaryBackgroundColor}" Kind="Printer" Width="30"/>
+                        <TextBlock Text="PRINT REPORT" Foreground="{StaticResource PrimaryBackgroundColor}" FontSize="12" FontWeight="SemiBold" FontFamily="arial"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

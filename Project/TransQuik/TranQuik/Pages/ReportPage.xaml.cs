@@ -1,30 +1,51 @@
 ﻿using MaterialDesignThemes.Wpf;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using TranQuik.Model;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using System.Xml.Linq;
+using TranQuik.Model;
+using TranQuik.Pages.ChildPage;
+using Application = System.Windows.Application;
 
 namespace TranQuik.Pages
 {
-    /// <summary>
-    /// Interaction logic for ReportPage.xaml
-    /// </summary>
     public partial class ReportPage : Window
     {
         private int currentPage = 0;
-        private const int PageSize = 16; // 4 columns * 4 rows
+        private const int PageSize = 5; // 5 items per page
+
         private Dictionary<string, PackIconKind> ReportItemDictionary;
+        private List<Button> ButtonList = new List<Button>();
+
+        private EndDayReports EndDayReports = new EndDayReports();
+        private SessionReports SessionReports = new SessionReports();
+        private ReceiptReports ReceiptReports = new ReceiptReports();
+        private SalesByProductReports SalesByProductReports = new SalesByProductReports();
+        private PorductHourlyReports PorductHourlyReports = new PorductHourlyReports();
+        private ProductPriceReports ProductPriceReports = new ProductPriceReports();
+        private SalesTypeReports SalesTypeReports = new SalesTypeReports();
+
 
         public ReportPage()
         {
             InitializeComponent();
+            framingItems.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
             ReportItemDictionary = ReportManager.GetReportManagerItem();
-            PopulateGrid();
+            LocalDbConnector localDbConnector = new LocalDbConnector();
+            PopulateButton();
+            AddButtonsToGrid();
+            ShopData.PopulateShopData(localDbConnector);
+            var shop18 = ShopData.shopDatas.Find(shop => shop.ShopId == 18);
+            if (shop18 != null)
+            {
+                EndDayReports.sessionReportsShopName.Text = shop18.ShopName;
+                SessionReports.sessionReportsShopName.Text = shop18.ShopName;
+                SalesByProductReports.sessionReportsShopName.Text = shop18.ShopName;
+                PorductHourlyReports.sessionReportsShopName.Text = shop18.ShopName;
+                ProductPriceReports.sessionReportsShopName.Text = shop18.ShopName;
+                SalesTypeReports.sessionReportsShopName.Text = shop18.ShopName;
+            }
         }
 
         private void closeWindow_Click(object sender, RoutedEventArgs e)
@@ -32,53 +53,14 @@ namespace TranQuik.Pages
             this.Close();
         }
 
-        private void PopulateGrid()
+        private void PopulateButton()
         {
-            int totalItems = ReportItemDictionary.Count;
-            int startIndex = currentPage * PageSize;
-            int endIndex = Math.Min(startIndex + PageSize, totalItems);
-
-            // Clear previous content
-            myGrid.Children.Clear();
-
-            int row = 0, column = 0;
-
-            for (int i = startIndex; i < endIndex; i++)
+            Dictionary<string, PackIconKind> ReportItemDictionary = ReportManager.GetReportManagerItem();
+            foreach (var items in ReportItemDictionary)
             {
-                var item = ReportItemDictionary.ElementAt(i);
-                Button button = CreateButton(item.Key, item.Value);
-                myGrid.Children.Add(button);
-                Grid.SetRow(button, row);
-                Grid.SetColumn(button, column);
-
-                column++;
-                if (column >= 4)
-                {
-                    column = 0;
-                    row++;
-                }
+                Button button = CreateButton(items.Key, items.Value);
+                ButtonList.Add(button);
             }
-
-            // Add remaining disabled buttons if necessary
-            while (row < 4)
-            {
-                Button button = new Button { IsEnabled = false };
-                button.Margin = new Thickness(3);
-                button.Effect = (Effect)Application.Current.FindResource("DropShadowEffect");
-                myGrid.Children.Add(button);
-                Grid.SetRow(button, row);
-                Grid.SetColumn(button, column);
-
-                column++;
-                if (column >= 4)
-                {
-                    column = 0;
-                    row++;
-                }
-            }
-
-            // Add navigation buttons if needed
-            AddNavigationButtons(totalItems);
         }
 
         private Button CreateButton(string name, PackIconKind iconKind)
@@ -90,17 +72,20 @@ namespace TranQuik.Pages
                 Height = 24,
                 Margin = new Thickness(2),
                 HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
                 Foreground = Brushes.Black
             };
 
             TextBlock textBlock = new TextBlock
             {
                 Text = name,
-                FontFamily = new FontFamily("Arial"), // Example font family
-                FontSize = 12, // Example font size
-                FontStyle = FontStyles.Normal, // Example font style
-                Foreground = Brushes.Black, // Example font color
+                FontFamily = new FontFamily("Arial"),
+                FontSize = 12,
+                FontStyle = FontStyles.Normal,
+                Foreground = Brushes.Black,
                 TextAlignment = TextAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(2),
                 FontWeight = FontWeights.Regular,
             };
@@ -111,21 +96,57 @@ namespace TranQuik.Pages
                 {
                     Orientation = Orientation.Vertical,
                     HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
                     Children =
                     {
                         icon,
                         textBlock
                     }
-                }, Tag = name,
-                 Background = Brushes.Azure,
-                 Effect = (Effect)Application.Current.FindResource("DropShadowEffect"),
-                 Margin = new Thickness(3),
+                },
+                Tag = name,
+                Background = Brushes.Azure,
+                Effect = (Effect)Application.Current.FindResource("DropShadowEffect"),
             };
 
             // Attach click event handler
             button.Click += ReportItemClicked;
 
             return button;
+        }
+
+        private void AddButtonsToGrid()
+        {
+            navigationReportPage.Children.Clear();
+
+            int startIndex = currentPage * PageSize;
+            for (int i = 0; i < PageSize; i++)
+            {
+                int index = startIndex + i;
+                if (index < ButtonList.Count)
+                {
+                    Grid.SetColumn(ButtonList[index], i);
+                    navigationReportPage.Children.Add(ButtonList[index]);
+                }
+                else
+                {
+                    Button blankButton = new Button
+                    {
+                        Content = string.Empty,
+                        Background = Brushes.Green,
+                        IsEnabled = false,
+                        Margin = new Thickness(0, 0, 0, 2)
+                    };
+                    Grid.SetColumn(blankButton, i);
+                    navigationReportPage.Children.Add(blankButton);
+                }
+            }
+            UpdateNavigationButtons();
+        }
+
+        private void UpdateNavigationButtons()
+        {
+            PrevButton.IsEnabled = currentPage > 0;
+            nextButton.IsEnabled = (currentPage + 1) * PageSize < ButtonList.Count;
         }
 
         private void ReportItemClicked(object sender, RoutedEventArgs e)
@@ -137,26 +158,33 @@ namespace TranQuik.Pages
                     switch (reportName)
                     {
                         case "End Day Report":
-                            MessageBox.Show(reportName);
+                            DisplayEndDayReportsPage();
                             break;
+                            
                         case "Session Report":
-                            MessageBox.Show(reportName);
+                            DisplaySessionReportsPage();
                             break;
+
                         case "Receipt Report":
-                            MessageBox.Show(reportName);
+                            DisplayReceiptReportsPage(); 
                             break;
-                        case "Sales By Pord Report":
-                            MessageBox.Show(reportName);
+
+                        case "Sales By Prod Report":
+                            DisplaySalesByProductReportsPage();
                             break;
+
                         case "Product Hourly Report":
-                            MessageBox.Show(reportName);
+                            DisplayProductHourlyReportsPage(); 
                             break;
+
                         case "Product Price Report":
-                            MessageBox.Show(reportName);
+                            DiplayProductPriceReportsPage(); 
                             break;
+
                         case "Sales Type Report":
-                            MessageBox.Show(reportName);
+                            DisplaySalesTypeReportsPage(); 
                             break;
+
                         default:
                             break;
                     }
@@ -164,28 +192,42 @@ namespace TranQuik.Pages
             }
         }
 
-        private void AddNavigationButtons(int totalItems)
+        private void DisplayEndDayReportsPage()
         {
-            if (totalItems <= PageSize)
-                return;
+            framingItems.Content = null;
+            framingItems.Content = EndDayReports;
+        }
 
-            if (currentPage > 0)
-            {
-                Button prevButton = new Button { Content = "Prev" };
-                prevButton.Click += PrevButton_Click;
-                myGrid.Children.Add(prevButton);
-                Grid.SetRow(prevButton, 4);
-                Grid.SetColumn(prevButton, 0);
-            }
-
-            if ((currentPage + 1) * PageSize < totalItems)
-            {
-                Button nextButton = new Button { Content = "Next" };
-                nextButton.Click += NextButton_Click;
-                myGrid.Children.Add(nextButton);
-                Grid.SetRow(nextButton, 4);
-                Grid.SetColumn(nextButton, 3);
-            }
+        private void DisplaySessionReportsPage()
+        {
+            framingItems.Content = null;
+            framingItems.Content = SessionReports;
+        }
+        
+        private void DisplayReceiptReportsPage()
+        {
+            framingItems.Content = null;
+            framingItems.Content = ReceiptReports;
+        }
+        private void DisplayProductHourlyReportsPage()
+        {
+            framingItems.Content = null;
+            framingItems.Content = PorductHourlyReports;
+        }
+        private void DisplaySalesByProductReportsPage()
+        {
+            framingItems.Content = null;
+            framingItems.Content = SalesByProductReports;
+        }
+        private void DiplayProductPriceReportsPage()
+        {
+            framingItems.Content = null;
+            framingItems.Content = ProductPriceReports;
+        }
+        private void DisplaySalesTypeReportsPage()
+        {
+            framingItems.Content = null;
+            framingItems.Content = SalesTypeReports;
         }
 
         private void PrevButton_Click(object sender, RoutedEventArgs e)
@@ -193,16 +235,18 @@ namespace TranQuik.Pages
             if (currentPage > 0)
             {
                 currentPage--;
-                PopulateGrid();
+                AddButtonsToGrid();
+                UpdateNavigationButtons();
             }
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            if ((currentPage + 1) * PageSize < ReportItemDictionary.Count)
+            if ((currentPage + 1) * PageSize < ButtonList.Count)
             {
                 currentPage++;
-                PopulateGrid();
+                AddButtonsToGrid();
+                UpdateNavigationButtons();
             }
         }
     }

@@ -54,10 +54,7 @@ namespace TranQuik
         {
             base.OnStartup(e);
             Scheduler();
-            // Get the current process
             Process currentProcess = Process.GetCurrentProcess();
-
-            // Set the priority to High 
             currentProcess.PriorityClass = ProcessPriorityClass.High;
             EventManager.RegisterClassHandler(typeof(UIElement), UIElement.TouchDownEvent, new EventHandler<TouchEventArgs>(MyEventHandler));
         }

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Practice WPF\Project\TransQuik\TranQuik\App.xaml
-131943110804
+201026831993
 4-697703326
-34-1589619249
+41-1318865502
 195-1027145957
-MainWindow.xaml;Pages\LoginPage.xaml;Pages\MenuModifier.xaml;Pages\NotificationPopup.xaml;Pages\PaymentTypeWindow.xaml;Pages\ProductComponent.xaml;Pages\ProductModifier.xaml;Pages\ReportPage.xaml;Pages\SecondaryMonitor.xaml;Pages\ShutDownPopup.xaml;Pages\StartUpSelector.xaml;Pages\TransactionStatus.xaml;SaleModePop.xaml;
+MainWindow.xaml;Pages\ChildPage\EndDayReports.xaml;Pages\ChildPage\PorductHourlyReports.xaml;Pages\ChildPage\ProductPriceReports.xaml;Pages\ChildPage\ReceiptReports.xaml;Pages\ChildPage\SalesByProductReports.xaml;Pages\ChildPage\SalesTypeReports.xaml;Pages\ChildPage\SessionReports.xaml;Pages\LoginPage.xaml;Pages\MenuModifier.xaml;Pages\NotificationPopup.xaml;Pages\PaymentTypeWindow.xaml;Pages\ProductComponent.xaml;Pages\ProductModifier.xaml;Pages\ReportPage.xaml;Pages\SecondaryMonitor.xaml;Pages\ShutDownPopup.xaml;Pages\StartUpSelector.xaml;Pages\TransactionStatus.xaml;SaleModePop.xaml;
 
 True
 
