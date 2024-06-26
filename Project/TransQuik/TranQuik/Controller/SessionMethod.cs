@@ -1,7 +1,7 @@
-﻿using System;
-using System.Data.Common;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
+using TranQuik.Model;
 
 namespace TranQuik.Controller
 {
@@ -14,46 +14,10 @@ namespace TranQuik.Controller
             dbConnector = new LocalDbConnector();
         }
 
-        public async Task<DateTime> CheckThisOpenSession()
+        public static DateTime CheckThisOpenSession()
         {
-            try
-            {
-                string query = @"
-                                SELECT `OpenSessionDateTime`
-                                FROM `session`
-                                WHERE `ComputerName` = @ComputerName AND `ComputerID` = @ComputerID 
-                                ORDER BY `SessionID` DESC
-                                LIMIT 1;
-                                ";
-                using (MySqlConnection connection = dbConnector.GetMySqlConnection())
-                {
-                    await connection.OpenAsync();
-
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@ComputerID", Properties.Settings.Default._ComputerID);
-                        command.Parameters.AddWithValue("@ComputerName", Properties.Settings.Default._ComputerName);
-
-                        object result = await command.ExecuteScalarAsync();
-
-                        if (result != null)
-                        {
-                            return Convert.ToDateTime(result);
-                        }
-                    }
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Console.WriteLine("MySQL Error: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
-            }
-
-            // If no session is found or an error occurred, return the default DateTime value
-            return DateTime.MinValue;
+            DateTime results = UserSessions.Current_OpenSessionDate;
+            return results;
         }
 
         public async Task<bool> CheckSessionConditionAsync(DateTime thisOpenSession)
@@ -61,10 +25,10 @@ namespace TranQuik.Controller
             try
             {
                 string query = @"
-                SELECT `SessionUpdateDate`
-                FROM `session`
-                WHERE `ComputerName` = @ComputerName
-                ORDER BY `SessionID` DESC
+                SELECT `SyncLastUpdate`
+                FROM `log_lastsync`
+                WHERE ExportImport = 2
+                ORDER BY `SyncLastUpdate` DESC
                 LIMIT 1;
         ";
 
@@ -74,8 +38,6 @@ namespace TranQuik.Controller
 
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@ComputerName", "POS1");
-
                         object result = await command.ExecuteScalarAsync();
 
                         if (result != null)
@@ -101,16 +63,14 @@ namespace TranQuik.Controller
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine("MySQL Error: " + ex.Message);
+                Console.WriteLine("MySQL Error");
                 return false;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
+                Console.WriteLine("Error");
                 return false;
             }
         }
-
-
     }
 }

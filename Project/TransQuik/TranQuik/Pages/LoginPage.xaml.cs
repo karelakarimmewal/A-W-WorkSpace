@@ -1,6 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TranQuik.Controller;
@@ -108,33 +107,36 @@ namespace TranQuik.Pages
 
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
-                            
+
                             if (reader.Read())
                             {
                                 UserSessions userSessions = new UserSessions();
                                 // Set the properties of UserSessions directly
-                                userSessions.StaffID = reader.GetInt32("StaffID");
-                                userSessions.StaffRoleID = reader.GetInt32("StaffRoleID");
-                                userSessions.StaffFirstName = reader.GetString("StaffFirstName");
-                                userSessions.StaffLastName = reader.GetString("StaffLastName");
+                                
+                                int StaffID = reader.GetInt32("StaffID");
+                                int StaffRoleID = reader.GetInt32("StaffRoleID");
+                                string StaffFirstName = reader.GetString("StaffFirstName");
+                                string StaffLastName = reader.GetString("StaffLastName");
+                                DateTime OpenSessionDate = DateTime.Now;
+
+                                userSessions.CurrentSession(StaffID, StaffRoleID, StaffFirstName, StaffLastName, OpenSessionDate);
 
                                 syncMethod = new SyncMethod();
                                 sessionMethod = new SessionMethod();
 
-                                bool isOpen = await syncMethod.CheckUserSessions(userSessions);
+                                (bool isOpen, bool isNew) = await syncMethod.CheckUserSessions(userSessions);
 
                                 if (isOpen)
                                 {
-                                    NotificationPopup notificationPopups = new NotificationPopup("ANOTHER SESSIONS WITH THIS USER", false);
+                                    Notification.NotificationLoginAnotherUserIsActivate();
 
-                                    notificationPopups.ShowDialog();
-
-                                    Environment.Exit(0);
+                                    UsernameTextBox.Clear();
+                                    PasswordBox.Clear();
+                                    return;
                                 }
 
-                                NotificationPopup notificationPopup = new NotificationPopup("Login Sucessfully", false);
+                                Notification.NotificationLoginSuccess();
 
-                                notificationPopup.ShowDialog();
 
                                 this.Close();
 
@@ -144,15 +146,20 @@ namespace TranQuik.Pages
 
                                 var mainWindow = new MainWindow();
 
-                                await syncMethod.CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 1, userSessions);
-
-                                mainWindow.SessionNameText.Text = $"ID {userSessions.StaffID.ToString()} {userSessions.StaffFirstName} {userSessions.StaffLastName}";
+                                if (isNew)
+                                {
+                                    await syncMethod.CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 1, userSessions);
+                                }
+                                else
+                                {
+                                    await syncMethod.CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 0, userSessions);
+                                }
+                                mainWindow.SessionNameText.Text = $"ID {UserSessions.Current_StaffRoleID} {UserSessions.Current_StaffFirstName} {UserSessions.Current_StaffLastName}";
                                 mainWindow.ShowDialog();
                             }
                             else
                             {
-                                NotificationPopup notificationPopup = new NotificationPopup("Login Failed", false);
-                                notificationPopup.ShowDialog();
+                                Notification.NotificationLoginFailed();
                             }
                         }
                     }

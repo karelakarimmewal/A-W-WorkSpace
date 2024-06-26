@@ -374,3 +374,7 @@ D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\ProductPric
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\ReceiptReports.baml
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\SalesByProductReports.baml
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ChildPage\SalesTypeReports.baml
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\UtilityPage.g.cs
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\UtilityPage.baml
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\AuthWin.g.cs
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\AuthWin.baml

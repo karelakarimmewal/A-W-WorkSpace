@@ -1,102 +1,11 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using TranQuik.Model;
 
 namespace TranQuik.Pages.ChildPage
 {
-
-    public class ReportProductPrice
-    {
-        public static List<ReportProductPrice> reportProductPrices = new List<ReportProductPrice>();
-        public string ProductName { get; set; }
-        public decimal ProductPrice { get; set; }
-        public int SaleMode { get; set; } // Assuming SaleMode is an int
-
-        public ReportProductPrice(string productName, decimal productPrice, int saleMode)
-        {
-            ProductName = productName;
-            ProductPrice = productPrice;
-            SaleMode = saleMode;
-        }
-
-        public static void PopulateReports(LocalDbConnector localDbConnector, int ProductGroup, int ProductDept, int SaleMode, string DatePicker)
-        {
-            string baseQuery = "SELECT P.`ProductName`, PP.`ProductPrice`, PP.`SaleMode` FROM products P " +
-                               "JOIN productprice PP ON P.`ProductID` = PP.`ProductID`";
-
-            List<string> conditions = new List<string>();
-
-            if (ProductGroup != 0)
-            {
-                conditions.Add("P.ProductGroupID = @ProductGroupID");
-            }
-            if (ProductDept != 0)
-            {
-                conditions.Add("P.ProductDeptID = @ProductDeptID");
-            }
-            if (SaleMode != 0)
-            {
-                conditions.Add("PP.SaleMode = @SaleMode");
-            }
-            if (DatePicker != "")
-            {
-                conditions.Add("PP.Date >= @DatePicker");
-            }
-
-            if (conditions.Count > 0)
-            {
-                baseQuery += " WHERE " + string.Join(" AND ", conditions);
-            }
-
-            try
-            {
-                baseQuery += " ORDER BY P.ProductName ASC"; // Ensure space before ORDER
-                reportProductPrices.Clear();
-                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(baseQuery, connection))
-                    {
-                        // Add parameters
-                        if (ProductGroup != 0)
-                            command.Parameters.AddWithValue("@ProductGroupID", ProductGroup);
-                        if (ProductDept != 0)
-                            command.Parameters.AddWithValue("@ProductDeptID", ProductDept);
-                        if (SaleMode != 0)
-                            command.Parameters.AddWithValue("@SaleMode", SaleMode);
-                        if (DatePicker != "")
-                            command.Parameters.AddWithValue("@DatePicker", DatePicker);
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                string productName = reader.GetString("ProductName");
-                                decimal productPrice = reader.GetDecimal("ProductPrice");
-                                int saleMode = reader.GetInt32("SaleMode");
-
-                                ReportProductPrice report = new ReportProductPrice(productName, productPrice, saleMode);
-                                reportProductPrices.Add(report);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (MySqlException ex)
-            {
-                // Handle exception
-                Console.WriteLine("Error: " + ex.Message);
-            }
-        }
-
-    }
-
     public partial class ProductPriceReports : System.Windows.Controls.Page
     {
         private LocalDbConnector localDbConnector = new LocalDbConnector();
@@ -252,6 +161,7 @@ namespace TranQuik.Pages.ChildPage
                 ComboBoxItem selectedProductGroupItem = (ComboBoxItem)selectProductGroup.SelectedItem;
                 ProductGroup = Convert.ToInt32(selectedProductGroupItem.Tag);
             }
+           
 
             // Populate reports
             ReportProductPrice.PopulateReports(localDbConnector, ProductGroup, ProductDept, SaleMode, DatePicker);
@@ -259,10 +169,21 @@ namespace TranQuik.Pages.ChildPage
             foreach (var item in ReportProductPrice.reportProductPrices)
             {
                 indexing ++ ; // Start indexing from 1
+
+                string ProdNames = "";
+                if (SaleMode == 0)
+                {
+                    ProdNames = $"{item.PrefixText} {item.ProductName}";
+                }
+                else
+                {
+                    ProdNames = item.ProductName;
+                }
+
                 productpricereportListView.Items.Add(new
                 {
                     Index = indexing,
-                    ProductName = item.ProductName,
+                    ProductName = ProdNames,
                     ProductPrice = item.ProductPrice.ToString("N0")
                 });
             }
@@ -271,7 +192,8 @@ namespace TranQuik.Pages.ChildPage
 
         private void printReports_Click(object sender, RoutedEventArgs e)
         {
-
+            ThermalPrinter thermalPrinter = new ThermalPrinter();
+            thermalPrinter.TemplateReport("Product Price Report");
         }
     }
 }

@@ -18,10 +18,6 @@ namespace TranQuik.Controller
         private CloudDbConnector cloudDbConnector;
         private Scheduler scheduler;
         private UserSessions userSessions1;
-
-        private static string staffID { get; set; }
-        private static string StaffName { get; set; }
-
         public SyncMethod(Action<int> updateProgress = null)
         {
             dbConnector = new LocalDbConnector();
@@ -36,9 +32,6 @@ namespace TranQuik.Controller
                 // Establish connection to the local database
                 LocalConnection = dbConnector.GetMySqlConnection();
                 await LocalConnection.OpenAsync();
-
-                CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 1);
-
 
                 string deleteSqlQueryShopData = "TRUNCATE TABLE Shop_Data";
                 bool ShopDataSuccess = await DeleteExistingRecordsAsync(deleteSqlQueryShopData);
@@ -91,12 +84,12 @@ namespace TranQuik.Controller
             }
             catch (Exception ex)
             {
+                UpdateSessions(2, 0);
                 Log.ForContext("LogType", "SyncLog").Information("An error occurred", ex);
-                //LogError("An error occurred", ex);
             }
             finally
             {
-                CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 3);
+                UpdateSessions(2, 2);
                 times = 5000;
                 // Close connection to the local database
                 if (LocalConnection != null && LocalConnection.State == System.Data.ConnectionState.Open)
@@ -991,7 +984,7 @@ namespace TranQuik.Controller
             //Log($"Rows updated in LocalDb for ComputerID {computerID}: {rowsAffected}");
         }
 
-        public async Task<bool> CheckUserSessions(UserSessions userSessions)
+        public async Task<(bool isOpen, bool isNew)> CheckUserSessions(UserSessions userSessions)
         {
             try
             {
@@ -1000,11 +993,11 @@ namespace TranQuik.Controller
 
                 // Define your SQL query to find the close session with the maximum session ID for a given computer ID
                 string query = @"
-                    SELECT OpenStaffID 
-                    FROM session 
-                    WHERE OpenStaffID = @OpenStaffID AND CloseStaffID = 0
-                    ORDER BY SessionID DESC 
-                    LIMIT 1";
+                SELECT OpenStaffID, ComputerID
+                FROM session 
+                WHERE OpenStaffID = @OpenStaffID AND CloseStaffID = 0
+                ORDER BY SessionID DESC 
+                LIMIT 1";
 
                 using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
                 {
@@ -1014,21 +1007,36 @@ namespace TranQuik.Controller
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
                         // Add parameters to the command
-                        command.Parameters.AddWithValue("@OpenStaffID", userSessions.StaffID.ToString());
-
+                        command.Parameters.AddWithValue("@OpenStaffID", UserSessions.Current_StaffID.ToString());
+                        bool isNew;
                         // Execute the query and get the result
-                        object result = await command.ExecuteScalarAsync();
-                        // Check if a result is returned
-                        if (result != null && result.ToString() == userSessions.StaffID.ToString())
+                        using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
                         {
-                            Console.WriteLine("Close session datetime: " + DateTime.Now);
-                            return true;
-                        }
-                        else
-                        {
-                            // No close session datetime found
-                            Console.WriteLine("No close session datetime found for the given computer ID.");
-                            return false;
+                            if (await reader.ReadAsync())
+                            {
+                                int computerID = reader.GetInt32("ComputerID");
+
+                                // Compare the computerID with the expectedComputerID
+                                if (computerID == Properties.Settings.Default._ComputerID)
+                                {
+                                    Console.WriteLine("Computer ID matches the expected value. Setting result to false.");
+                                    isNew = false;
+                                    return (false,isNew );
+                                }
+                                else
+                                {
+                                    isNew = false;
+                                    Console.WriteLine("Computer ID does not match the expected value. Setting result to true.");
+                                    return (true, isNew);
+                                }
+                            }
+                            else
+                            {
+                                // No result found
+                                Console.WriteLine("No session found for the given OpenStaffID with CloseStaffID = 0.");
+                                isNew = true;
+                                return (false, isNew);
+                            }
                         }
                     }
                 }
@@ -1037,7 +1045,8 @@ namespace TranQuik.Controller
             {
                 // Handle any exceptions
                 Console.WriteLine("Error: " + ex.Message);
-                return false;
+                
+                return (false, false);
             }
         }
 
@@ -1048,7 +1057,6 @@ namespace TranQuik.Controller
             {
                 userSessions1 = userSessions;
             }
-
             if (Sessions == 1)
             {
                 await NewSessions();
@@ -1057,28 +1065,10 @@ namespace TranQuik.Controller
             {
                 await CloseSessions();
             } 
-            else if (Sessions == 3)
-            {
-               await UpdateSessions();
-            }
         }
 
         public async Task NewSessions()
         {
-            
-            string StaffID = userSessions1 != null ? userSessions1.StaffID.ToString() : "0";
-            string StaffRoleID = userSessions1 != null ? userSessions1.StaffRoleID.ToString() : "2";
-            string StaffFirstName = userSessions1 != null ? userSessions1.StaffFirstName.ToString() : "DefaultUpdateAdministrator";
-            string StaffLastName = userSessions1 != null ? userSessions1.StaffLastName.ToString() : "DefaultUpdateAdministrator";
-
-            if (userSessions1 != null)
-            {
-                userSessions1.SetSessions();
-            }
-
-            staffID = StaffID;
-            StaffName = StaffFirstName;
-
             try
             {
                 string getLastSessionIdQuery = "SELECT MAX(SessionID) FROM session";
@@ -1117,8 +1107,8 @@ namespace TranQuik.Controller
                         command.Parameters.AddWithValue("@ComputerID", Properties.Settings.Default._ComputerID);
                         command.Parameters.AddWithValue("@SessionKey", $"{newSessionID}:{Properties.Settings.Default._ComputerID}"); // Default value
                         command.Parameters.AddWithValue("@ComputerName", ComName); // Default value
-                        command.Parameters.AddWithValue("@OpenStaffID", StaffID); // Default value
-                        command.Parameters.AddWithValue("@OpenStaff", StaffFirstName); // Default value
+                        command.Parameters.AddWithValue("@OpenStaffID", UserSessions.Current_StaffID); // Default value
+                        command.Parameters.AddWithValue("@OpenStaff", UserSessions.Current_StaffFirstName); // Default value
                         command.Parameters.AddWithValue("@CloseStaffID", 0); // Default value
                         command.Parameters.AddWithValue("@CloseStaff", string.Empty); // Default value
                         command.Parameters.AddWithValue("@OpenSessionDateTime", DateTime.Now);
@@ -1158,7 +1148,7 @@ namespace TranQuik.Controller
             {
                 int computerID = Properties.Settings.Default._ComputerID;
 
-                string getLastSessionIdQuery = "SELECT MAX(SessionID) FROM session WHERE ComputerID = @ComputerID";
+                string getLastSessionIdQuery = "SELECT MAX(SessionID) FROM session WHERE ComputerID = @ComputerID AND OpenStaffID =  @StaffID";
                 int newSessionID = 0;
                 string ComName = Properties.Settings.Default._ComputerName;
 
@@ -1169,6 +1159,7 @@ namespace TranQuik.Controller
                     using (MySqlCommand getLastSessionIdCommand = new MySqlCommand(getLastSessionIdQuery, connection))
                     {
                         getLastSessionIdCommand.Parameters.AddWithValue("@ComputerID", computerID);
+                        getLastSessionIdCommand.Parameters.AddWithValue("@StaffID", UserSessions.Current_StaffID);
                         object result = await getLastSessionIdCommand.ExecuteScalarAsync();
                         newSessionID = result != DBNull.Value ? Convert.ToInt32(result) : 0;
                     }
@@ -1185,8 +1176,8 @@ namespace TranQuik.Controller
                     using (MySqlCommand command = new MySqlCommand(CloseSessionsQuery, connection))
                     {
                         command.Parameters.AddWithValue("@CloseSessionDateTime", DateTime.Now); // Set close session time to null
-                        command.Parameters.AddWithValue("@CloseStaffID", staffID.ToString()) ; // Set close session time to null
-                        command.Parameters.AddWithValue("@CloseStaff", StaffName.ToString()) ; // Set close session time to null
+                        command.Parameters.AddWithValue("@CloseStaffID", UserSessions.Current_StaffID.ToString()) ; // Set close session time to null
+                        command.Parameters.AddWithValue("@CloseStaff", UserSessions.Current_StaffFirstName.ToString()) ; // Set close session time to null
                         command.Parameters.AddWithValue("@SessionID", newSessionID);
 
                         int rowsAffected = await command.ExecuteNonQueryAsync();
@@ -1206,56 +1197,48 @@ namespace TranQuik.Controller
             }
         }
 
-        public async Task UpdateSessions()
+        public async Task UpdateSessions(int ExportImport, int SyncTypeID)
         {
             try
             {
+                string shopID = Properties.Settings.Default._AppID;
                 int computerID = Properties.Settings.Default._ComputerID;
-
-                string getLastSessionIdQuery = "SELECT MAX(SessionID) FROM session WHERE ComputerID = @ComputerID";
-                int newSessionID = 0;
-                string ComName = Properties.Settings.Default._ComputerName;
+                int exportImport = ExportImport;
+                int syncTypeID = SyncTypeID;
+                // Define your SQL query to insert into log_lastsync
+                string UpdateSessionsQuery = @"
+                INSERT INTO log_lastsync 
+                (ShopID, ComputerID, ExportImport, SyncTypeID, SyncLastUpdate) 
+                VALUES 
+                (@ShopID, @ComputerID, @ExportImport, @SyncTypeID, @SyncLastUpdate)";
 
                 using (MySqlConnection connection = dbConnector.GetMySqlConnection())
                 {
                     await connection.OpenAsync();
 
-                    using (MySqlCommand getLastSessionIdCommand = new MySqlCommand(getLastSessionIdQuery, connection))
+                    using (MySqlCommand command = new MySqlCommand(UpdateSessionsQuery, connection))
                     {
-                        getLastSessionIdCommand.Parameters.AddWithValue("@ComputerID", computerID);
-                        object result = await getLastSessionIdCommand.ExecuteScalarAsync();
-                        newSessionID = result != DBNull.Value ? Convert.ToInt32(result) : 0;
-                    }
-                }
-
-                string CloseSessionsQuery = @"
-                UPDATE session 
-                SET CloseSessionDateTime = @CloseSessionDateTime, SessionUpdateDate = @SessionUpdateDate
-                WHERE SessionID = @SessionID";
-                using (MySqlConnection connection = dbConnector.GetMySqlConnection())
-                {
-                    await connection.OpenAsync();
-
-                    using (MySqlCommand command = new MySqlCommand(CloseSessionsQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@CloseSessionDateTime", DateTime.Now); // Set close session time to null
-                        command.Parameters.AddWithValue("@SessionUpdateDate", DateTime.Now); // Set close session time to null
-                        command.Parameters.AddWithValue("@SessionID", newSessionID);
+                        // Add parameters to the command
+                        command.Parameters.AddWithValue("@ShopID", shopID);
+                        command.Parameters.AddWithValue("@ComputerID", computerID);
+                        command.Parameters.AddWithValue("@ExportImport", exportImport);
+                        command.Parameters.AddWithValue("@SyncTypeID", syncTypeID);
+                        command.Parameters.AddWithValue("@SyncLastUpdate", DateTime.Now);
 
                         int rowsAffected = await command.ExecuteNonQueryAsync();
-                        Log.ForContext("LogType", "SyncLog").Information($"Update session created with SessionID {newSessionID} and ComputerID {computerID}. Rows affected: {rowsAffected}");
+                        Log.ForContext("LogType", "SyncLog").Information($"Update session created with ShopID {shopID} and ComputerID {computerID}. Rows affected: {rowsAffected}");
                     }
                 }
             }
             catch (MySqlException ex)
             {
-                // Handle MySQL exceptions
                 Console.WriteLine("MySQL Error: " + ex.Message);
+                Log.ForContext("LogType", "SyncLog").Error("MySQL Error: {0}", ex.Message);
             }
             catch (Exception ex)
             {
-                // Handle any other exceptions
                 Console.WriteLine("Error: " + ex.Message);
+                Log.ForContext("LogType", "SyncLog").Error("Error: {0}", ex.Message);
             }
         }
 

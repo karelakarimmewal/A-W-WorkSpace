@@ -363,6 +363,9 @@
     <Compile Include="Controller\SessionMethod.cs" />
     <Compile Include="Controller\SyncMethod.cs" />
     <Compile Include="Model\ModelProcessing.cs" />
+    <Compile Include="Pages\AuthWin.xaml.cs">
+      <DependentUpon>AuthWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ChildPage\EndDayReports.xaml.cs">
       <DependentUpon>EndDayReports.xaml</DependentUpon>
     </Compile>
@@ -417,6 +420,9 @@
     <Compile Include="Pages\TransactionStatus.xaml.cs">
       <DependentUpon>TransactionStatus.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\UtilityPage.xaml.cs">
+      <DependentUpon>UtilityPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SaleModePop.xaml.cs">
       <DependentUpon>SaleModePop.xaml</DependentUpon>
     </Compile>
@@ -435,6 +441,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\AuthWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\ChildPage\EndDayReports.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -504,6 +514,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\TransactionStatus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UtilityPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

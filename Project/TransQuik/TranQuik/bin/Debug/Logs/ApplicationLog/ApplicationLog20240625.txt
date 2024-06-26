@@ -125,3 +125,7 @@
 2024-06-25 17:23:40.185 +07:00 [INF] Application Started
 2024-06-25 17:24:37.715 +07:00 [INF] Application Started
 2024-06-25 17:25:18.883 +07:00 [INF] Application Started
+2024-06-25 17:31:44.325 +07:00 [INF] Application Started
+2024-06-25 17:32:33.058 +07:00 [INF] Application Stopped
+2024-06-25 17:32:44.331 +07:00 [INF] Application Started
+2024-06-25 17:32:56.424 +07:00 [INF] Hold Button Clicked

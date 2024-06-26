@@ -1,30 +1,81 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TranQuik.Configuration;
 using TranQuik.Controller;
+using TranQuik.Model;
 
 namespace TranQuik.Pages
 {
     public partial class StartUpSelector : Window
     {
+        private LocalDbConnector dbConnector = new LocalDbConnector();
         public StartUpSelector()
         {
             InitializeComponent();
-            InitializeApplication();
+            InitializeApplicationAsync();
         }
 
-        private void InitializeApplication()
+        private async Task InitializeApplicationAsync()
         {
             Config.LoadAppSettings();
-            UpdateLastSyncTime();
+            await UpdateLastSyncTimeAsync();
             ConfigureAutoSyncSettings();
+            UpdatingModel();
         }
 
-        private void UpdateLastSyncTime()
+        private void UpdatingModel()
         {
-            LastSync.Text = Properties.Settings.Default._LastSync.ToString();
+            StaffRoleManager.SetStaffRoleManager(dbConnector);
+        }
+
+        private async Task UpdateLastSyncTimeAsync()
+        {
+            try
+            {
+                // Create a new instance of LocalDbConnector to get a MySqlConnection
+                LocalDbConnector localDbConnector = new LocalDbConnector();
+
+                // Define your SQL query to get the most recent SyncLastUpdate
+                string query = @"
+            SELECT SyncLastUpdate 
+            FROM log_lastsync 
+            ORDER BY SyncLastUpdate DESC 
+            LIMIT 1";
+
+                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+                {
+                    await connection.OpenAsync();
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        // Execute the query and get the result
+                        object result = await command.ExecuteScalarAsync();
+
+                        if (result != null)
+                        {
+                            DateTime lastSyncTime = Convert.ToDateTime(result);
+                            LastSync.Text = lastSyncTime.ToString("G"); // Use the desired date-time format here
+
+                            // Optionally, you can update the Properties.Settings as well
+                            Properties.Settings.Default._LastSync = lastSyncTime;
+                            Properties.Settings.Default.Save();
+                        }
+                        else
+                        {
+                            LastSync.Text = "No sync record found.";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions
+                Console.WriteLine("Error: " + ex.Message);
+                LastSync.Text = "Error retrieving sync time.";
+            }
         }
 
         private void ConfigureAutoSyncSettings()
@@ -96,7 +147,7 @@ namespace TranQuik.Pages
         {
             SyncMethod syncMethod = new SyncMethod(UpdateProgress);
             await syncMethod.SyncDataAsync();
-            UpdateLastSyncTime();
+            UpdateLastSyncTimeAsync();
             ShowNotification("Data synchronization complete!");
         }
 
@@ -113,14 +164,53 @@ namespace TranQuik.Pages
 
         private void Reports_Click(object sender, RoutedEventArgs e)
         {
-            ReportPage reportPage = new ReportPage();
-            reportPage.ShowDialog();
+            UserSessions userSessions = new UserSessions();
+
+            AuthWin authWin = new AuthWin(userSessions);
+            authWin.ShowDialog();
+
+            bool iscan = IsCan(userSessions.Authentication_StaffRoleID);
+
+            if (iscan)
+            {
+                ReportPage reportPage = new ReportPage();
+                reportPage.ShowDialog();
+            } else
+            {
+                Notification.NotificationNotPermitted();
+            }
+            
         }
 
         private void Utility_Click(object sender, RoutedEventArgs e)
         {
-            NotificationPopup notificationPopup = new NotificationPopup("NOT AVAILABLE RIGHT NOW", false);
-            notificationPopup.ShowDialog();
+            UserSessions userSessions = new UserSessions();
+
+            AuthWin authWin = new AuthWin(userSessions);
+            authWin.ShowDialog();
+
+            bool iscan = IsCan(userSessions.Authentication_StaffRoleID);
+
+
+            if (iscan)
+            {
+                UtilityPage utilityPage = new UtilityPage();
+                utilityPage.ShowDialog();
+            }
+            else
+            {
+                Notification.NotificationNotPermitted();
+            }
         }
+
+        private bool IsCan(int staffRoleID)
+        {
+            if (staffRoleID == 5 )
+            {
+                return true;
+            }
+            return false; // or false based on your logic
+        }
+
     }
 }

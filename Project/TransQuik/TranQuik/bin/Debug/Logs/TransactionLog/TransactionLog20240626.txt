@@ -1,0 +1,19 @@
+2024-06-26 09:34:49.008 +07:00 [INF] Transaction 0 (DINE IN-1)
+2024-06-26 09:36:12.209 +07:00 [INF] Cart has been held for Order ID: 20 at 26/06/2024 09.34.49
+2024-06-26 09:37:26.034 +07:00 [INF] Cart for Order ID: 0 at 01/01/0001 00.00.00 has been updated.
+2024-06-26 09:41:30.006 +07:00 [INF] Transaction 0 (DINE IN-1)
+2024-06-26 09:42:32.844 +07:00 [INF] Cart for Order ID: 20 Payment Process, Selecting.....
+2024-06-26 09:42:37.136 +07:00 [INF] Cart for Order ID: 20. Insufficient funds. This Come To MultiplePayement.
+2024-06-26 09:42:40.038 +07:00 [INF] Cart for Order ID: 20 Cash transaction Successfully return value is 0
+2024-06-26 09:46:17.475 +07:00 [INF] Transaction 0 (DINE IN-1)
+2024-06-26 10:58:53.810 +07:00 [INF] Transaction 0 (DINE IN-1)
+2024-06-26 10:59:23.875 +07:00 [INF] Transaction 0 (QR To Go-7)
+2024-06-26 11:52:05.778 +07:00 [INF] Transaction 0 (DINE IN-1)
+2024-06-26 11:52:08.940 +07:00 [INF] Cart has been held for Order ID: 1 at 26/06/2024 11.52.05
+2024-06-26 15:41:34.653 +07:00 [INF] Transaction 0 (DINE IN-1)
+2024-06-26 15:41:35.529 +07:00 [INF] Cart for Order ID: 2 Payment Process, Selecting.....
+2024-06-26 15:43:39.423 +07:00 [INF] Transaction 0 (DINE IN-1)
+2024-06-26 15:43:40.329 +07:00 [INF] Cart for Order ID: 2 Payment Process, Selecting.....
+2024-06-26 17:32:50.866 +07:00 [INF] Transaction 0 (DINE IN-1)
+2024-06-26 17:32:56.845 +07:00 [INF] Cart for Order ID: 6 Payment Process, Selecting.....
+2024-06-26 17:33:03.583 +07:00 [INF] Cart for Order ID: 6 Cash transaction Successfully return value is 33800

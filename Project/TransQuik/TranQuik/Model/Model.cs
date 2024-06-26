@@ -13,6 +13,144 @@ namespace TranQuik.Model
 {
     using MySql.Data.MySqlClient;
     using System.Collections.Generic;
+    using System.Drawing.Printing;
+    using System.Linq;
+    using TranQuik.Configuration;
+    using TranQuik.Pages;
+
+    public class ReportProductPrice
+    {
+        public static List<ReportProductPrice> reportProductPrices = new List<ReportProductPrice>();
+
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public decimal ProductPrice { get; set; }
+        public string PrefixText { get; set; }
+        public int SaleMode { get; set; } // Assuming SaleMode is an int
+
+        public ReportProductPrice(int productID,string productName, decimal productPrice, int saleMode, string prefixText)
+        {
+            ProductID = productID;
+            ProductName = productName;
+            ProductPrice = productPrice;
+            SaleMode = saleMode;
+            PrefixText = prefixText;
+        }
+
+        public static void PopulateReports(LocalDbConnector localDbConnector, int ProductGroup, int ProductDept, int SaleMode, string DatePicker)
+        {
+            string baseQuery = "SELECT P.ProductID, P.ProductName, PP.ProductPrice, SM.PrefixText, PP.SaleMode " +
+                "FROM products P " +
+                "JOIN productprice PP ON P.ProductID = PP.ProductID " +
+                "JOIN SaleMode SM ON PP.SaleMode = SM.SaleModeID";
+
+            List<string> conditions = new List<string>();
+
+            if (ProductGroup != 0)
+            {
+                conditions.Add("P.ProductGroupID = @ProductGroupID");
+            }
+            if (ProductDept != 0)
+            {
+                conditions.Add("P.ProductDeptID = @ProductDeptID");
+            }
+            if (SaleMode != 0)
+            {
+                conditions.Add("PP.SaleMode = @SaleMode");
+            }
+            if (DatePicker != "")
+            {
+                conditions.Add("PP.Date >= @DatePicker");
+            }
+
+            if (conditions.Count > 0)
+            {
+                baseQuery += " WHERE " + string.Join(" AND ", conditions);
+            }
+
+            try
+            {
+                baseQuery += " ORDER BY P.ProductName, PP.SaleMode ASC;"; // Ensure space before ORDER
+                reportProductPrices.Clear();
+                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(baseQuery, connection))
+                    {
+                        // Add parameters
+                        if (ProductGroup != 0)
+                            command.Parameters.AddWithValue("@ProductGroupID", ProductGroup);
+                        if (ProductDept != 0)
+                            command.Parameters.AddWithValue("@ProductDeptID", ProductDept);
+                        if (SaleMode != 0)
+                            command.Parameters.AddWithValue("@SaleMode", SaleMode);
+                        if (DatePicker != "")
+                            command.Parameters.AddWithValue("@DatePicker", DatePicker);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int productID = reader.GetInt32("ProductID");
+                                string productName = reader.GetString("ProductName");
+                                decimal productPrice = reader.GetDecimal("ProductPrice");
+                                int saleMode = reader.GetInt32("SaleMode");
+                                string prefixText = reader.GetString("PrefixText");
+
+                                ReportProductPrice report = new ReportProductPrice(productID, productName, productPrice, saleMode, prefixText);
+                                reportProductPrices.Add(report);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                // Handle exception
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+
+    }
+
+    public class Notification
+    {
+        public static void NotificationNotPermitted()
+        {
+            NotificationPopup notificationPopup = new NotificationPopup("USER ROLE NOT PERMITTED", false);
+            notificationPopup.ShowDialog();
+        }
+
+        public static void NotificationLoginSuccess()
+        {
+            NotificationPopup notificationPopup = new NotificationPopup("LOGIN SUCCESSFULL", false);
+            notificationPopup.ShowDialog();
+        }
+
+        public static void NotificationLoginFailed()
+        {
+            NotificationPopup notificationPopup = new NotificationPopup("LOGIN NAME OR PASSWORD IS INVALID", false);
+            notificationPopup.ShowDialog();
+        }
+
+        public static void NotificationLoginAnotherUserIsActivate()
+        {
+            NotificationPopup notificationPopup = new NotificationPopup("CANT LOGIN BECAUSE THIS USER IS USED IN ANOTHER SESSION / NOT CLOSED", false);
+            notificationPopup.ShowDialog();
+        }
+
+        public static void NotificationTransactionMustBeGreaterThanZero()
+        {
+            NotificationPopup notificationPopup = new NotificationPopup("TRANSACTION AMOUNT MUST BE GREATER THAN ZERO", false);
+            notificationPopup.ShowDialog();
+        }
+
+        public static void NotificationFeatureNotAvailable()
+        {
+            NotificationPopup notificationPopup = new NotificationPopup("FOR NOW, THIS FEATURE IS NOT AVAILABLE YET", false);
+            notificationPopup.ShowDialog();
+        }
+    }
 
     public class ShopData
     {
@@ -99,7 +237,6 @@ namespace TranQuik.Model
             }
         }
     }
-
 
     public class ProductGroupPopulate
     {
@@ -264,34 +401,98 @@ namespace TranQuik.Model
         public static int SessionIDs { get; set; }
     }
 
-    public class UserSessions
+    public class UserAuth
     {
-        public int StaffID { get; set; } = 0;
-        public int StaffRoleID { get; set; } = 2;
-        public string StaffFirstName { get; set; } = "DefaultForUpdate";
-        public  string StaffLastName { get; set; } = "DefaultForUpdate";
+        private readonly LocalDbConnector dbConnector;
 
-        public void SetSessions()
+        public UserAuth()
         {
-            CurrentSessions.SetNow(StaffID, StaffRoleID, StaffFirstName, StaffLastName);
+            dbConnector = new LocalDbConnector();
         }
 
+        public async Task<(bool isLogged, int staffID, int staffRoleID, string staffFirstName, string staffLastName)> AuthenticateUserAsync(string userName, string userPassword)
+        {
+            try
+            {
+                // SQL query to authenticate the user and retrieve their details
+                string query = @"
+                SELECT StaffID, StaffRoleID, StaffFirstName, StaffLastName 
+                FROM staffs 
+                WHERE StaffLogin = @StaffLogin ";
+
+                using (MySqlConnection connection = dbConnector.GetMySqlConnection())
+                {
+                    await connection.OpenAsync();
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        // Add parameters to prevent SQL injection
+                        command.Parameters.AddWithValue("@StaffLogin", userName);
+                        //command.Parameters.AddWithValue("@StaffPassword", userPassword);
+
+                        using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                return (
+                                    isLogged: true,
+                                    staffID: reader.GetInt32("StaffID"),
+                                    staffRoleID: reader.GetInt32("StaffRoleID"),
+                                    staffFirstName: reader.GetString("StaffFirstName"),
+                                    staffLastName: reader.GetString("StaffLastName")
+                                );
+                            }
+                            else
+                            {
+                                // If no user is found, return a tuple with false and default values
+                                return (isLogged: false, staffID: 0, staffRoleID: 0, staffFirstName: null, staffLastName: null);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions
+                Console.WriteLine("Error: " + ex.Message);
+                return (isLogged: false, staffID: 0, staffRoleID: 0, staffFirstName: null, staffLastName: null);
+            }
+        }
     }
 
-    public class CurrentSessions
+    public class UserSessions
     {
-        public static int StaffID { get; set; }
-        public static int StaffRoleID { get; set; }
-        public static string StaffFirstName { get; set; }
-        public static string StaffLastName { get; set; }
+        public int Authentication_StaffID { get; set; }
+        public int Authentication_StaffRoleID { get; set; }
+        public string Authentication_StaffFirstName { get; set; }
+        public string Authentication_StaffLastName { get; set; }
+        public DateTime Authentication_OpenSessionDate { get; set; }
 
-        public static void SetNow(int staffID, int staffRoleID, string staffFirstName, string staffLastName)
+
+        public static int Current_StaffID{ get; set; }
+        public static int Current_StaffRoleID { get; set; }
+        public static string Current_StaffFirstName { get; set; } 
+        public static string Current_StaffLastName { get; set; }
+        public static DateTime Current_OpenSessionDate { get; set; }
+
+        public void CurrentSession(int StaffID, int StaffRoleID,string StaffFirstName, string StaffLastName, DateTime OpenSessionDate)
         {
-            StaffID = staffID;
-            StaffRoleID = staffRoleID;
-            StaffFirstName = staffFirstName;
-            StaffLastName = staffLastName;
+            Current_StaffID = StaffID;
+            Current_StaffRoleID = StaffRoleID;
+            Current_StaffFirstName = StaffFirstName;
+            Current_StaffLastName = StaffLastName;
+            Current_OpenSessionDate = OpenSessionDate;
         }
+
+        public void AuthenticationSession(int StaffID, int StaffRoleID, string StaffFirstName, string StaffLastName)
+        {
+            Authentication_StaffID = StaffID;
+            Authentication_StaffRoleID = StaffRoleID;
+            Authentication_StaffFirstName = StaffFirstName;
+            Authentication_StaffLastName = StaffLastName;
+            Authentication_OpenSessionDate = DateTime.Now;
+        }
+
     }
 
     public class ComputerAccessData
@@ -456,6 +657,23 @@ namespace TranQuik.Model
         }
     }
 
+    public static class UtilityManager
+    {
+        public static Dictionary<string, PackIconKind> GetUtilityManagerItem()
+        {
+            return new Dictionary<string, PackIconKind>
+        {
+            { "Edit Initial Cash", PackIconKind.HandCoin },
+            { "Manual Drop Cash", PackIconKind.CashChargeback },
+            { "Open Cash Drawer", PackIconKind.SlotMachine },
+            { "Void Receipt", PackIconKind.FileAlert},
+            { "Cash Drawer", PackIconKind.SlotMachineOutline},
+            { "Import Master Data", PackIconKind.DatabaseAdd },
+            { "Clear Sales Data", PackIconKind.TrashEmpty },
+        };
+        }
+    }
+
     public class Customer
     {
         public int CustomerId { get; private set; }
@@ -601,6 +819,18 @@ namespace TranQuik.Model
         {
             NeedToPay = needToPay;
             TaxAmount = taxAmount;
+        }
+    }
+
+    public class CustomerTransactionDetail
+    {
+        public static int PaymentID { get; private set; }
+        public static decimal CustomerPayAmount { get; private set; }
+
+        public static void setCustomerTransactionID(int paymentID, decimal customerPayAmount)
+        {
+            paymentID = paymentID;
+            CustomerPayAmount = customerPayAmount;
         }
     }
 
@@ -1058,5 +1288,214 @@ namespace TranQuik.Model
             }
         }
     }
+
+    public class StaffRoleManager
+    {
+        public static List <StaffRoleManager> staffRoleManagers = new List <StaffRoleManager> ();
+        public static int StaffRoleID { get; private set; }
+        public static int PermissionItemID { get; private set; }
+        public static int PermissionItemNameID { get; private set; }
+        public static string PermissionItemName { get; private set; }
+
+        public StaffRoleManager(int staffRoleID, int permissionItemID, int permissionItemNameID, string permissionItemName)
+        {
+            StaffRoleID = staffRoleID;
+            PermissionItemID = permissionItemID;
+            PermissionItemNameID = permissionItemNameID;
+            PermissionItemName = permissionItemName;
+        }
+
+        public static void SetStaffRoleManager(LocalDbConnector localDbConnector)
+        {
+            string rolemanagerquery = "SELECT SP.StaffRoleID, SP.PermissionItemID, PIN.PermissionItemNameID, PIN.PermissionItemName FROM staffpermission SP " +
+                "JOIN permissionitemname PIN " +
+                "ON SP.`PermissionItemID` = PIN.`PermissionItemID` " +
+                "WHERE LangID = 1 " +
+                "ORDER BY StaffRoleID, SP.PermissionItemID ASC";
+            try
+            {
+                staffRoleManagers.Clear();
+                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(rolemanagerquery, connection))
+                    {
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int staffRoleID = reader.GetInt32("staffRoleID");
+                                int permissionItemID = reader.GetInt32("permissionItemID");
+                                int permissionItemNameID = reader.GetInt32("permissionItemNameID");
+                                string permissionItemName = reader.GetString("permissionItemName");
+
+                                StaffRoleManager staffRoleManager = new StaffRoleManager(staffRoleID, permissionItemID, permissionItemNameID, permissionItemName);
+                                staffRoleManagers.Add(staffRoleManager);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                // Handle exception
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+    }
+
+    public class ThermalPrinter
+    {
+        private int PaperWidth { get; set; }
+        private int PaperHeight { get; set; } // New property for dynamic paper height
+
+        private List<ReportProductPrice> reportProductPrices; // Updated to instance variable
+
+        public ThermalPrinter()
+        {
+            PaperWidth = 576;
+            PaperHeight = 0; // Initialize with zero height
+            reportProductPrices = ReportProductPrice.reportProductPrices; // Initialize the list
+        }
+
+        public void TemplateReceipt(string receiptNumber)
+        {
+            var doc = new PrintDocument();
+            PrintController printController = new StandardPrintController();
+            doc.PrintController = printController;
+
+            doc.PrintPage += (sender, e) =>
+            {
+                StringBuilder sb = new StringBuilder();
+                PaperHeight = ProvideReceiptContent(sb, receiptNumber);
+                DrawContent(e.Graphics, sb.ToString());
+            };
+
+            if (Properties.Settings.Default._PrinterDevMode)
+            {
+                // Create a PrintPreviewDialog
+                var printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+                printPreviewDialog.Document = doc;
+
+                //// Show the print preview dialog
+                printPreviewDialog.ShowDialog();
+            }
+            else
+            {
+                doc.Print();
+            }
+        }
+
+        public void TemplateReport(string reportTitle)
+        {
+            var doc = new PrintDocument();
+            PrintController printController = new StandardPrintController();
+            doc.PrintController = printController;
+
+            doc.PrintPage += (sender, e) =>
+            {
+                StringBuilder sb = new StringBuilder();
+                PaperHeight = ProvideReportContent(sb, reportTitle);
+                DrawContent(e.Graphics, sb.ToString());
+            };
+
+            if (Properties.Settings.Default._PrinterDevMode)
+            {
+                // Create a PrintPreviewDialog
+                var printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+                printPreviewDialog.Document = doc;
+
+                //// Show the print preview dialog
+                printPreviewDialog.ShowDialog();
+            }
+            else
+            {
+                doc.Print();
+            }
+        }
+
+        private int ProvideReceiptContent(StringBuilder sb, string receiptNumber)
+        {
+            var settings = Config.LoadPrinterSettings();
+            string businessAddress = settings.ContainsKey("BusinessAddress") ? settings["BusinessAddress"] : "Default Address";
+            string businessPhone = settings.ContainsKey("BusinessPhone") ? settings["BusinessPhone"] : "Default Phone";
+
+            sb.AppendLine($"{"=".PadRight(PaperWidth / 12, '=')}");
+            sb.AppendLine($"Receipt Number : {receiptNumber}");
+            sb.AppendLine($"Date           : {DateTime.Now}");
+            sb.AppendLine($"Cashier        : {UserSessions.Current_StaffFirstName} {UserSessions.Current_StaffLastName}");
+            sb.AppendLine($"Shop Name      : {Properties.Settings.Default._ShopName}");
+            sb.AppendLine($"=".PadRight(PaperWidth / 12, '='));
+            sb.AppendLine();
+
+            AddReceiptItems(sb);
+
+            sb.AppendLine($"=".PadRight(PaperWidth / 12, '='));
+            sb.AppendLine($"{"Total:".PadRight(20)}{CalculateTotal().ToString("C")}");
+
+            // Calculate height based on number of lines
+            int numLines = sb.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None).Length;
+            return numLines * 14; // Assuming 14 pixels per line height
+        }
+
+        private void AddReceiptItems(StringBuilder sb)
+        {
+            const int FIRST_COL_WIDTH = 22;
+            const int SECOND_COL_WIDTH = 2;
+            const int FOURTH_COL_WIDTH = 15;
+
+            foreach (var item in reportProductPrices)
+            {
+                string itemName = item.ProductName.Length > FIRST_COL_WIDTH + SECOND_COL_WIDTH ? item.ProductName.Substring(0, FIRST_COL_WIDTH + SECOND_COL_WIDTH - 1) : item.ProductName;
+                sb.AppendLine($"{itemName.PadRight(FIRST_COL_WIDTH + SECOND_COL_WIDTH)}{item.ProductPrice.ToString("C").PadLeft(FOURTH_COL_WIDTH)}");
+            }
+        }
+
+        private decimal CalculateTotal()
+        {
+            return reportProductPrices.Sum(item => item.ProductPrice);
+        }
+
+        private int ProvideReportContent(StringBuilder sb, string reportTitle)
+        {
+            sb.AppendLine($"{"=".PadRight(PaperWidth / 12, '=')}");
+            sb.AppendLine($"Report         : {reportTitle}");
+            sb.AppendLine($"Date           : {DateTime.Now}");
+            sb.AppendLine($"Session        : {UserSessions.Current_StaffFirstName} {UserSessions.Current_StaffLastName}");
+            sb.AppendLine($"Shop Name      : {Properties.Settings.Default._ShopName}");
+            sb.AppendLine($"=".PadRight(PaperWidth / 12, '='));
+            sb.AppendLine();
+
+            AddReportItems(sb);
+
+            sb.AppendLine($"=".PadRight(PaperWidth / 12, '='));
+
+            // Calculate height based on number of lines
+            int numLines = sb.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None).Length;
+            return numLines * 14; // Assuming 14 pixels per line height
+        }
+
+        private void AddReportItems(StringBuilder sb)
+        {
+            const int FIRST_COL_WIDTH = 22;
+            const int FOURTH_COL_WIDTH = 15;
+
+            foreach (var item in reportProductPrices)
+            {
+                sb.AppendLine($"{item.ProductName.PadRight(FIRST_COL_WIDTH)}{item.ProductPrice.ToString("C").PadLeft(FOURTH_COL_WIDTH)}");
+            }
+        }
+
+        private void DrawContent(System.Drawing.Graphics graphics, string content)
+        {
+            using (var stringFormat = new System.Drawing.StringFormat())
+            {
+                System.Drawing.RectangleF rect = new System.Drawing.RectangleF(0, 0, PaperWidth, PaperHeight);
+                graphics.DrawString(content, new System.Drawing.Font(System.Drawing.FontFamily.GenericMonospace, 8, System.Drawing.FontStyle.Bold),
+                                    new System.Drawing.SolidBrush(System.Drawing.Color.Black), rect, stringFormat);
+            }
+        }
+    }
+
 
 }

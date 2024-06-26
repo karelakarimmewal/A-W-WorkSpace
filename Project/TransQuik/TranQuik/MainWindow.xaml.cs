@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web.ModelBinding;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -194,23 +193,18 @@ namespace TranQuik
         private async Task UpdateChecker()
         {
 
-            if (Properties.Settings.Default._ComputerName != "POS1")
+            DateTime openSession = SessionMethod.CheckThisOpenSession();
+            bool isFound = false;
+            while (!isFound)
             {
-                DateTime openSession = await sessionMethod.CheckThisOpenSession();
-
-                bool isFound = false;
-                while (!isFound)
+                bool notifyNeeded = await sessionMethod.CheckSessionConditionAsync(openSession);
+                if (notifyNeeded)
                 {
-                    bool notifyNeeded = await sessionMethod.CheckSessionConditionAsync(openSession);
-                    if (notifyNeeded)
-                    {
-                        NotificationPopup notificationPopup = new NotificationPopup("THERE ANY UPDATE IN DATABASE, PLEASE REOPEN, THIS TRANSACTION WILL BE IN HOLD CART !!!", false, this, true);
-                        await syncMethod.CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 2);
-                        notificationPopup.Topmost = true;
-                        notificationPopup.ShowDialog();
-                    }
+                    NotificationPopup notificationPopup = new NotificationPopup("THERE ANY UPDATE IN DATABASE, PLEASE REOPEN, THIS TRANSACTION WILL BE IN HOLD CART !!!", false, this, true);
+                    await syncMethod.CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 2);
+                    notificationPopup.Topmost = true;
+                    notificationPopup.ShowDialog();
                 }
-
             }
         }
 
@@ -946,6 +940,10 @@ namespace TranQuik
                         paymentTypeWindow = new PaymentTypeWindow(this, total.Text, payTypeID, displayName);
                         paymentTypeWindow.ShowDialog();
                     }
+                    else
+                    {
+                        Notification.NotificationFeatureNotAvailable();
+                    }
                     //MessageBox.Show($"Waiting For Payment Using: {displayName}\nPayTypeID: {payTypeID}");
                 }
                 else
@@ -1141,7 +1139,7 @@ namespace TranQuik
         private void Enter_Click(object sender, RoutedEventArgs e)
         {
             string inputText = displayText.Text;
-
+            
             // Parse the entered text into a double value
             if (double.TryParse(inputText, out double enteredAmount))
             {
@@ -1154,14 +1152,8 @@ namespace TranQuik
                     {
                         if (grandTotalValue > 0 && enteredAmount == 0)
                         {
-                            NotificationPopup notificationPopup = new NotificationPopup("Pay Transaction is Can't Be Less Than 1", false);
-                            notificationPopup.Topmost = true;
-                            notificationPopup.ShowDialog();
-
-                            if (notificationPopup.IsConfirmed)
-                            {
-                                return;
-                            }
+                            Notification.NotificationTransactionMustBeGreaterThanZero();
+                            return;
                         }
                         Log.ForContext("LogType", "TransactionLog").Information($"Cart for Order ID: {OrderID}. Insufficient funds. This Come To MultiplePayement.");
                         modelProcessing.MultiplePaymentProcess(1);
@@ -1408,9 +1400,7 @@ namespace TranQuik
             string LogoName = Properties.Settings.Default._PrinterLogo;
             // Load the image
             System.Drawing.Bitmap image = new System.Drawing.Bitmap($"Resource/Logo/{LogoName}");
-            // Calculate the number of spaces needed to center the image
             int spacesCount = Math.Max(0, (paperWidth / 12 - image.Width) / 2);
-            // Calculate the scaling factor based on the paper width and the image width
             float scalingFactor = (float)paperWidth / image.Width;
 
             // Calculate the scaled image dimensions
@@ -1433,7 +1423,7 @@ namespace TranQuik
             sb.AppendLine(new string('=', paperWidth / 12));
             sb.AppendLine($"Receipt Number : {receiptNumber}");
             sb.AppendLine($"Date           : {DateTime.Now}");
-            sb.AppendLine($"Cashier        : {CurrentSessions.StaffFirstName} {CurrentSessions.StaffLastName}");
+            sb.AppendLine($"Cashier        : {UserSessions.Current_StaffFirstName} {UserSessions.Current_StaffLastName}");
             sb.AppendLine(new string('=', paperWidth / 12));
             sb.AppendLine(businessAddress);
             sb.AppendLine($"Vat Reg. No. : {VatNumber.Text}");
@@ -1851,7 +1841,5 @@ namespace TranQuik
                 MessageBox.Show("No payment selected.");
             }
         }
-
-
     }
 }

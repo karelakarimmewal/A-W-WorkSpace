@@ -209,21 +209,25 @@ namespace TranQuik.Pages
             framingItems.Content = null;
             framingItems.Content = ReceiptReports;
         }
+
         private void DisplayProductHourlyReportsPage()
         {
             framingItems.Content = null;
             framingItems.Content = PorductHourlyReports;
         }
+
         private void DisplaySalesByProductReportsPage()
         {
             framingItems.Content = null;
             framingItems.Content = SalesByProductReports;
         }
+
         private void DiplayProductPriceReportsPage()
         {
             framingItems.Content = null;
             framingItems.Content = ProductPriceReports;
         }
+
         private void DisplaySalesTypeReportsPage()
         {
             framingItems.Content = null;

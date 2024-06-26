@@ -6,3 +6,8 @@
 2024-06-25 12:23:19.133 +07:00 [INF] Cart for Order ID: 17 Cash transaction Successfully return value is 0
 2024-06-25 12:23:27.419 +07:00 [INF] Cart for Order ID: 17 Payment Process, Selecting.....
 2024-06-25 12:23:30.877 +07:00 [INF] Cart for Order ID: 17 Cash transaction Successfully return value is 3700
+2024-06-25 17:32:22.483 +07:00 [INF] Transaction 0 (DINE IN-1)
+2024-06-25 17:32:28.723 +07:00 [INF] Cart for Order ID: 19 Payment Process, Selecting.....
+2024-06-25 17:32:29.808 +07:00 [INF] Cart for Order ID: 19 Cash transaction Successfully return value is 67000
+2024-06-25 17:32:56.425 +07:00 [INF] Cart for Order ID: 0 at 01/01/0001 00.00.00 has been updated.
+2024-06-25 17:32:57.669 +07:00 [INF] Transaction 0 (DINE IN-1)

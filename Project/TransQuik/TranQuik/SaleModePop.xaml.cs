@@ -140,7 +140,7 @@ namespace TranQuik
                 }
 
                 // Determine the MaterialIconKind based on SaleModeID using SaleModeIconMapper
-                MaterialIconKind iconKind = iconMapper.GetIconForSaleMode(saleMode.SaleModeID);
+                MaterialIconKind iconKind =  iconMapper.GetIconForSaleMode(saleMode.SaleModeID);
 
                 // Determine the background color based on SaleModeID using SaleModeIconMapper
                 Brush backgroundColor = iconMapper.GetColorForSaleMode(saleMode.SaleModeID);

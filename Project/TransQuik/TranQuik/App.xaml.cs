@@ -45,8 +45,6 @@ namespace TranQuik
 
         private void MyEventHandler(object sender, TouchEventArgs e)
         {
-            // Your event handling logic here
-            // For example, you can log the touch event
             Log.Information($"Touch event occurred on element: {sender}");
         }
 
@@ -63,7 +61,7 @@ namespace TranQuik
         {
             try
             {
-                if (!string.IsNullOrEmpty(CurrentSessions.StaffID.ToString()))
+                if (!string.IsNullOrEmpty(UserSessions.Current_StaffID.ToString()))
                 {
                     SyncMethod syncMethod = new SyncMethod();
                     await syncMethod.CreateNewSessionInLocalDatabaseAsync(TranQuik.Properties.Settings.Default._ComputerID, TranQuik.Properties.Settings.Default._AppID, 2);
@@ -92,7 +90,7 @@ namespace TranQuik
             // Release the mutex on exit
             singleInstanceMutex?.Close();
             base.OnExit(e);
-            _ = PerformCleanupAsync();
+            PerformCleanupAsync();
         }
     }
 }
