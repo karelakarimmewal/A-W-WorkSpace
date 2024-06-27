@@ -44,16 +44,30 @@ namespace TranQuik.Model
         public static List<CurrentComponentGroupItem> CPGI = new List<CurrentComponentGroupItem>();
 
         public int CurrentSetGroupNo { get; private set; }
+        public string CurrentSetGroupName { get; private set; }
+        public int CurrentPGroupID {  get; private set; }
+        public int CurrentProductID { get; private set; }
         public int CurrentSetGroupReq { get; private set; }
         public int CurrentSetGroupMinQty { get; private set; }
         public int CurrentSetGroupMaxQty { get; private set; }
 
-        public CurrentComponentGroupItem(int currentSetGroupNo,int currentSetGroupReq,int currentSetGroupMinQty,int currentSetGroupMaxQty)
+        public CurrentComponentGroupItem(int currentSetGroupNo, string currentSetGroupName, int currentPGroupID, int currentProductID, int currentSetGroupReq, int currentSetGroupMinQty,int currentSetGroupMaxQty)
         {
             CurrentSetGroupNo = currentSetGroupNo;
+
+            CurrentSetGroupName = currentSetGroupName;
+
+            CurrentPGroupID = currentPGroupID;
+
+            CurrentProductID = currentProductID;
+
             CurrentSetGroupReq = currentSetGroupReq;
+
             CurrentSetGroupMinQty = currentSetGroupMinQty;
-            CurrentSetGroupMinQty = currentSetGroupMaxQty;
+
+            CurrentSetGroupMaxQty = currentSetGroupMaxQty;
+
+            CPGI.Add(this);
         }
 
     }
@@ -75,6 +89,23 @@ namespace TranQuik.Model
             CurrentComponentName = currentComponentName;
             CurrentComponentPrice = currentComponentPrice;
             CurrentComponentQuantity = currentComponentQuantity;
+            SCI.Add(this);
+        }
+    }
+
+    public class CurrentPackageComponentValidation
+    {
+        public static List<CurrentPackageComponentValidation> currentPackageComponentValidations = new List<CurrentPackageComponentValidation>();
+        public int SetGroupNoItemSelected { get; private set; }
+        public int SetGroupNeedQuantityItemSelected { get; private set; }
+
+        public CurrentPackageComponentValidation(int setGroupNoItemSelected, int setGroupNeedQuantityItemSelected)
+        {
+            SetGroupNoItemSelected = setGroupNoItemSelected;
+
+            SetGroupNeedQuantityItemSelected = setGroupNeedQuantityItemSelected;
+
+            currentPackageComponentValidations.Add(this);         
         }
     }
 
@@ -177,7 +208,7 @@ namespace TranQuik.Model
     {
         public static void NotificationNotPermitted()
         {
-            NotificationPopup notificationPopup = new NotificationPopup("USER ROLE NOT PERMITTED", false);
+            NotificationPopup notificationPopup = new NotificationPopup("THIS NOT PERMITTED", false);
             notificationPopup.ShowDialog();
         }
 
@@ -208,6 +239,12 @@ namespace TranQuik.Model
         public static void NotificationFeatureNotAvailable()
         {
             NotificationPopup notificationPopup = new NotificationPopup("FOR NOW, THIS FEATURE IS NOT AVAILABLE YET", false);
+            notificationPopup.ShowDialog();
+        }
+
+        public static void NotificationMoreThanMaximum()
+        {
+            NotificationPopup notificationPopup = new NotificationPopup("QUANTITY WILL BE MAXED", false);
             notificationPopup.ShowDialog();
         }
     }
@@ -667,36 +704,32 @@ namespace TranQuik.Model
         }
     }
 
-    public class ProductComponentGroup
-    {
-        public int PGroupID { get; set; }
-        public int ProductID { get; set; }
-        public string SaleMode { get; set; }
-        public string SetGroupName { get; set; }
-        public int SetGroupNo { get; set; }
-        public int RequireAddAmountForProduct { get; set; }
-        public int MinQty { get; set; }
-        public int MaxQty { get; set; }
-    }
-
-    public class ProductComponentSelectedItems
-    {
-        public int ID { get ; set ; }
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public int SetGroupNo { get; set; }
-        public int Quantity { get; set; }
-    }
-
     public class ProductComponentProduct
     {
+        // Static list to store all instances of ProductComponentProduct
+        public static List<ProductComponentProduct> productComponentProducts = new List<ProductComponentProduct>();
+
+        // Properties of the ProductComponentProduct class
         public int ProductComponentProductPGroupID { get; set; }
         public int ProductComponentProductID { get; set; }
         public string ProductComponentProductName { get; set; }
         public decimal ProductComponentProductPrice { get; set; }
         public int ProductComponentProductSetGroupNo { get; set; }
-        public int ProductComponentProductQuantity { get; set; } = 0;
+        public int ProductComponentProductQuantity { get; set; }
 
+        // Constructor to initialize the properties and add the instance to the list
+        public ProductComponentProduct(int productComponentProductPGroupID, int productComponentProductID, string productComponentProductName, decimal productComponentProductPrice, int productComponentProductSetGroupNo, int productComponentProductQuantity)
+        {
+            ProductComponentProductPGroupID = productComponentProductPGroupID;
+            ProductComponentProductID = productComponentProductID;
+            ProductComponentProductName = productComponentProductName;
+            ProductComponentProductPrice = productComponentProductPrice;
+            ProductComponentProductSetGroupNo = productComponentProductSetGroupNo;
+            ProductComponentProductQuantity = productComponentProductQuantity;
+
+            // Add the new instance to the static list
+            productComponentProducts.Add(this);
+        }
     }
 
     public static class ReportManager

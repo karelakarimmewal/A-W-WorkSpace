@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\model\\modelprocessing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:model\\modelprocessing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\pages\\productcomponent.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:pages\\productcomponent.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\model\\model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:model\\model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\pages\\productcomponent.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:pages\\productcomponent.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,21 +18,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ModelProcessing.cs",
-              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Model\\ModelProcessing.cs",
-              "RelativeDocumentMoniker": "Model\\ModelProcessing.cs",
-              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Model\\ModelProcessing.cs",
-              "RelativeToolTip": "Model\\ModelProcessing.cs",
-              "ViewState": "AQIAAIgCAAAAAAAAAIA4wK0CAAAnAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-27T07:29:17.252Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -45,21 +28,22 @@
               "RelativeDocumentMoniker": "Model\\Model.cs",
               "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Model\\Model.cs",
               "RelativeToolTip": "Model\\Model.cs",
-              "ViewState": "AQIAADIAAAAAAAAAAAA2wE8AAAAAAAAA",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAAF8AAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-27T07:10:02.525Z",
+              "WhenOpened": "2024-06-27T10:32:47.277Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ProductComponent.xaml",
-              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\ProductComponent.xaml",
-              "RelativeDocumentMoniker": "Pages\\ProductComponent.xaml",
-              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\ProductComponent.xaml",
-              "RelativeToolTip": "Pages\\ProductComponent.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-06-27T06:45:55.613Z",
+              "DocumentIndex": 0,
+              "Title": "ProductComponent.xaml.cs",
+              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\ProductComponent.xaml.cs",
+              "RelativeDocumentMoniker": "Pages\\ProductComponent.xaml.cs",
+              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\ProductComponent.xaml.cs",
+              "RelativeToolTip": "Pages\\ProductComponent.xaml.cs",
+              "ViewState": "AQIAAFMCAAAAAAAAAAAzwJsCAABZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-27T07:31:09.196Z",
               "EditorCaption": ""
             }
           ]

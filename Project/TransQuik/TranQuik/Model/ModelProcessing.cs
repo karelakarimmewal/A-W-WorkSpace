@@ -31,7 +31,6 @@ namespace TranQuik.Model
         // Fields related to cart products
         public Dictionary<int, Product> cartProducts = new Dictionary<int, Product>();
         private List<Button> productButtons = new List<Button>();
-        public List<ProductComponentGroup> componentGroups = new List<ProductComponentGroup>();
         public Dictionary<int, PaymentDetails> multiplePaymentList = new Dictionary<int, PaymentDetails> ();
 
         // Fields related to product VAT and payment
@@ -680,8 +679,7 @@ namespace TranQuik.Model
                 // Increment the CartIndex to get a unique index for the new product
                 CartIndex++;
 
-                // Clear component groups (assuming this is necessary based on your logic)
-                componentGroups.Clear();
+                CurrentComponentGroupItem.CPGI.Clear();
 
                 int ComponentLevel = 1;
                 // Set the desired status for the new product
@@ -705,8 +703,8 @@ namespace TranQuik.Model
 
         private void ShowProductComponentIfNeeded(int cartIndex, Product product)
         {
-            CheckProductComponent(product, out componentGroups);
-            if (componentGroups.Count > 1)
+            CheckProductComponent(product);
+            if (CurrentComponentGroupItem.CPGI.Count > 1)
             {
                 product.ProductComponentLevel = 2;
                 ProductComponent productComponent = new ProductComponent(this, product, mainWindow, mainWindow.SaleMode, cartIndex, false);
@@ -722,12 +720,10 @@ namespace TranQuik.Model
             }
         }
 
-        public void CheckProductComponent(Product product, out List<ProductComponentGroup> componentGroups)
+        public void CheckProductComponent(Product product)
         {
 
             int productID = product.ProductId;
-            componentGroups = new List<ProductComponentGroup>();
-            componentGroups.Clear();
             string query = "SELECT PGroupID, ProductID, SaleMode, SetGroupName, SetGroupNo, RequireAddAmountForProduct, MinQty, MaxQty FROM productcomponentgroup WHERE ProductID = @ProductID AND SaleMode = @SaleMode ORDER BY SetGroupNo ASC";
 
             using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
@@ -743,19 +739,15 @@ namespace TranQuik.Model
 
                     while (reader.Read())
                     {
-                        ProductComponentGroup group = new ProductComponentGroup
-                        {
-                            PGroupID = Convert.ToInt32(reader["PGroupID"].ToString()),
-                            ProductID = Convert.ToInt32(reader["ProductID"].ToString()),
-                            SaleMode = reader["SaleMode"].ToString(),
-                            SetGroupName = reader["SetGroupName"].ToString(),
-                            SetGroupNo = Convert.ToInt32(reader["SetGroupNo"].ToString()),
-                            RequireAddAmountForProduct = Convert.ToInt32(reader["RequireAddAmountForProduct"].ToString()),
-                            MinQty = Convert.ToInt32(reader["MinQty"].ToString()),
-                            MaxQty = Convert.ToInt32(reader["MaxQty"].ToString())
-                        };
+                        int PGroupID = Convert.ToInt32(reader["PGroupID"].ToString());
+                        int ProductID = Convert.ToInt32(reader["ProductID"].ToString());
+                        string SetGroupName = reader["SetGroupName"].ToString();
+                        int SetGroupNo = Convert.ToInt32(reader["SetGroupNo"].ToString());
+                        int RequireAddAmountForProduct = Convert.ToInt32(reader["RequireAddAmountForProduct"].ToString());
+                        int MinQty = Convert.ToInt32(reader["MinQty"].ToString());
+                        int MaxQty = Convert.ToInt32(reader["MaxQty"].ToString());
 
-                        componentGroups.Add(group);
+                        CurrentComponentGroupItem currentComponentGroupItem = new CurrentComponentGroupItem(SetGroupNo, SetGroupName, PGroupID, ProductID, RequireAddAmountForProduct * product.Quantity, MinQty * product.Quantity, MaxQty * product.Quantity);
                     }
                     reader.Close();
                 }

@@ -136,7 +136,8 @@
 
                     <!-- Buttons for numbers 0-9 and backspace -->
                     <Border Grid.Column="0" Background="LightYellow" BorderBrush="{StaticResource FontColor}" BorderThickness="1"   />
-                    <TextBox x:Name="quantityDisplay" Text="1" Grid.Column="0" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}" Background="LightYellow" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" TextChanged="quantityDisplay_TextChanged"/>
+                    <TextBox x:Name="quantityDisplay" Text="1" Grid.Column="0" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}" Background="LightYellow" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" 
+                             TextChanged="productQuantitySelectorText_TextChanged"/>
                     <Button Content="0" Grid.Column="1" Background="Azure" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}" Click="NumberButton_Click" />
                     <Button Content="1" Grid.Column="2" Background="Azure" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}" Click="NumberButton_Click" />
                     <Button Content="2" Grid.Column="3" Background="Azure" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}" Click="NumberButton_Click" />

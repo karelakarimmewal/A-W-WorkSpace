@@ -536,8 +536,8 @@ namespace TranQuik
                                 Product backupProduct = selectedProductst;
                                 List<ChildItem> backupChild = new List<ChildItem>(childItemsSelected);
 
-                                modelProcessing.CheckProductComponent(selectedProductst, out modelProcessing.componentGroups);
-                                if (modelProcessing.componentGroups.Count > 1)
+                                modelProcessing.CheckProductComponent(selectedProductst);
+                                if (CurrentComponentGroupItem.CPGI.Count > 1)
                                 {
                                     string messageNotify = "Are You Sure To Reselect Product Package?";
                                     NotificationPopup notificationPopup = new NotificationPopup(messageNotify, true);

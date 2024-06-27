@@ -414,10 +414,10 @@ namespace TranQuik.Pages
 
         private void NextComponentGroup_Click(object sender, RoutedEventArgs e)
         {
-            if (ProductComponentGroupButtonStartIndex + ProductComponentGroupButtonTot < modelProcessing.componentGroups.Count)
+            if (ProductComponentGroupButtonStartIndex + ProductComponentGroupButtonTot < CurrentComponentGroupItem.CPGI.Count)
             {
                 // Increment productButtonStartIndex by ProductButtonShiftAmount to shift the visible range downwards
-                ProductComponentGroupButtonStartIndex = Math.Min(modelProcessing.componentGroups.Count - ProductComponentGroupButtonTot, ProductComponentButtonStartIndex + ProductComponentGroupButtonShiftAmount);
+                ProductComponentGroupButtonStartIndex = Math.Min(CurrentComponentGroupItem.CPGI.Count - ProductComponentGroupButtonTot, ProductComponentButtonStartIndex + ProductComponentGroupButtonShiftAmount);
                 UpdateVisibleProductGroupButtons();
             }
 

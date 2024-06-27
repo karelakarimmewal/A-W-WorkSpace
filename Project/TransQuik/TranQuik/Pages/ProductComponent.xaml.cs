@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Syncfusion.Compression.Zip;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,12 +23,10 @@ namespace TranQuik.Pages
 
         private List<Button> productComponentGroups = new List<Button>();
         private List<Button> productComponents = new List<Button>();
-        private Dictionary<int, int> groupQuantities = new Dictionary<int, int>();
-        private Dictionary<int, List<ProductComponentSelectedItems>> selectedItemsByProductComponentGroups = new Dictionary<int, List<ProductComponentSelectedItems>>();
 
         private int ProductIDSelected;
-        private int ProductComponentGroupSelected;
-        private int ProductComponenetGroupNoSelected;
+        private int CurrentProductComponentGroupSelected;
+        private int CurrentSetGroupNoSelected;
         private int CartIndex;
 
         private int ProductComponentBtn;
@@ -42,7 +41,6 @@ namespace TranQuik.Pages
         private int ProductComponentButtonStartIndex = 0;
         private int ProductComponentButtonEndtIndex = 0;
 
-        private int setGroupNos;
         private bool reOpen;
 
         private int saleMode;
@@ -58,32 +56,43 @@ namespace TranQuik.Pages
             this.CartIndex = cartIndex;
             this.reOpen = reOpen;
             clear();
-
             ProductComponentGroup();
-            ProductComponentGroup minNonZeroSetGroup = modelProcessing.componentGroups
-            .Where(cg => cg.SetGroupNo != 0)
-            .OrderBy(cg => cg.SetGroupNo)
-            .FirstOrDefault();
-
-            // Check if a valid group was found
-            if (minNonZeroSetGroup != null)
-            {
-                groupQuantities.Clear();
-                foreach (var group in modelProcessing.componentGroups)
-                {
-                    groupQuantities[group.SetGroupNo] = 0;
-                }
-                int pGroupID = minNonZeroSetGroup.PGroupID;
-                int RequiredAmount = minNonZeroSetGroup.RequireAddAmountForProduct;
-                int MinAmount = minNonZeroSetGroup.MinQty;
-                int MaxAmount = minNonZeroSetGroup.MaxQty;
-                ProductComponenetGroupNoSelected = minNonZeroSetGroup.SetGroupNo;
-                setGroupNos = minNonZeroSetGroup.SetGroupNo;
-                // Call LoadProductComponent with the found PGroupID
-                LoadProductComponent(pGroupID, ProductComponenetGroupNoSelected, RequiredAmount, MinAmount, MaxAmount);
-            }
+            DefineSetGroup();
             CartIndex = cartIndex;
         }
+
+        private void DefineSetGroup()
+        {
+            // Get the first non-zero set group item
+            CurrentComponentGroupItem firstNonZeroSetGroupItem = CurrentComponentGroupItem.CPGI
+                .Where(cg => cg.CurrentSetGroupNo != 0)
+                .OrderBy(cg => cg.CurrentSetGroupNo)
+                .FirstOrDefault();
+
+            // Check if a valid group was found
+            if (firstNonZeroSetGroupItem != null)
+            {
+                CurrentPackageComponentValidation.currentPackageComponentValidations.Clear();
+
+                foreach (var group in CurrentComponentGroupItem.CPGI)
+                {
+                    CurrentPackageComponentValidation currentPackageComponentValidation = new CurrentPackageComponentValidation(group.CurrentSetGroupNo, 0);
+                }
+
+                // Extract the necessary information from the first non-zero set group item
+                int CurrentPGroupID = firstNonZeroSetGroupItem.CurrentPGroupID;
+                int CurrentRequiredAmount = firstNonZeroSetGroupItem.CurrentSetGroupReq;
+                int CurrentMinAmount = firstNonZeroSetGroupItem.CurrentSetGroupMinQty;
+                int CurrentMaxAmount = firstNonZeroSetGroupItem.CurrentSetGroupMaxQty;
+                CurrentSetGroupNoSelected = firstNonZeroSetGroupItem.CurrentSetGroupNo;
+
+
+
+                // Call LoadProductComponent with the found PGroupID and other details
+                LoadProductComponent(CurrentPGroupID, CurrentSetGroupNoSelected, CurrentRequiredAmount, CurrentMinAmount, CurrentMaxAmount);
+            }
+        }
+
 
         private void clear()
         {
@@ -102,17 +111,17 @@ namespace TranQuik.Pages
             int totalButtonCount = ProductComponentGroupButtonTot;
 
             // Create buttons for each component group
-            for (int i = 0; i < modelProcessing.componentGroups.Count; i++)
+            for (int i = 0; i < CurrentComponentGroupItem.CPGI.Count; i++)
             {
-                ProductComponentGroup group = modelProcessing.componentGroups[i];
-                if (group.SetGroupNo == 0)
+                CurrentComponentGroupItem group = CurrentComponentGroupItem.CPGI[i];
+                if (group.CurrentSetGroupNo == 0)
                 {
                     continue;
                 }
 
                 TextBlock textBlock = new TextBlock
                 {
-                    Text = group.SetGroupName,
+                    Text = group.CurrentSetGroupName,
                     TextWrapping = TextWrapping.Wrap,
                     TextAlignment = TextAlignment.Center, // Center-align the text
                     VerticalAlignment = VerticalAlignment.Center, // Center-align vertically
@@ -124,7 +133,7 @@ namespace TranQuik.Pages
                 // Create a new TextBlock for displaying additional information
                 TextBlock additionalInfoTextBlock = new TextBlock
                 {
-                    Text = $"Req: {group.RequireAddAmountForProduct} ; Min: {group.MinQty} ; Max: {group.MaxQty}",
+                    Text = $"Req: {group.CurrentSetGroupReq} ; Min: {group.CurrentSetGroupMinQty} ; Max: {group.CurrentSetGroupMaxQty}",
                     TextWrapping = TextWrapping.Wrap,
                     TextAlignment = TextAlignment.Center, // Center-align the text
                     VerticalAlignment = VerticalAlignment.Center, // Center-align vertically
@@ -150,7 +159,7 @@ namespace TranQuik.Pages
                     Style = (System.Windows.Style)Application.Current.FindResource("ButtonStyle"),
                 };
 
-                string ItemNeeded = group.RequireAddAmountForProduct == 0 ? $"({group.MinQty} - {group.MaxQty}) : 0" : $"{group.RequireAddAmountForProduct.ToString()} - 0";
+                string ItemNeeded = group.CurrentSetGroupReq == 0 ? $"({group.CurrentSetGroupMinQty} - {group.CurrentSetGroupMaxQty}) : 0" : $"{group.CurrentSetGroupReq.ToString()} - 0";
 
                 switch (i)
                 {
@@ -167,7 +176,6 @@ namespace TranQuik.Pages
                         SetGroupNo4.Text = ItemNeeded;
                         break;
                     default:
-                       
                         break;
                 }
 
@@ -184,20 +192,21 @@ namespace TranQuik.Pages
                 productComponentGroups.Add(ProductComponentGroupButtons);
             }
 
-            for (int i = productComponentGroups.Count + 1; i < GroupInformationTextBlock.Children.Count; i++)
+            // Clear the remaining SetGroupNo text blocks
+            for (int i = CurrentComponentGroupItem.CPGI.Count; i < 4; i++)
             {
                 switch (i)
                 {
-                    case 1:
+                    case 0:
                         SetGroupNo1.Text = string.Empty;
                         break;
-                    case 2:
+                    case 1:
                         SetGroupNo2.Text = string.Empty;
                         break;
-                    case 3:
+                    case 2:
                         SetGroupNo3.Text = string.Empty;
                         break;
-                    case 4:
+                    case 3:
                         SetGroupNo4.Text = string.Empty;
                         break;
                 }
@@ -205,9 +214,6 @@ namespace TranQuik.Pages
 
             UpdateVisibleProductComponentGroupButtons();
         }
-
-
-
 
         private void ProductComponentGroupButtonsClicked(object sender, RoutedEventArgs e)
         {
@@ -217,53 +223,25 @@ namespace TranQuik.Pages
 
             // Handle button click event
             Button clickedButton = (Button)sender;
-            ProductComponentGroup group = (ProductComponentGroup)clickedButton.Tag;
-            int PgGroupID = group.PGroupID;
-            int RequiredAmount = group.RequireAddAmountForProduct;
-            int MinAmount = group.MinQty;
-            int MaxAmount = group.MaxQty;
-            int setGroupNo = group.SetGroupNo;
-            ProductComponentGroupSelected = PgGroupID;
+            CurrentComponentGroupItem group = (CurrentComponentGroupItem)clickedButton.Tag;
 
-            setGroupNos = setGroupNo;
+            int CurrentClickedPGroupID = group.CurrentPGroupID;
+            int CurrentClickedRequiredAmount = group.CurrentSetGroupReq;
+            int CurrentClickedMinAmount = group.CurrentSetGroupMinQty;
+            int CurrentClickedMaxAmount = group.CurrentSetGroupMaxQty;
+            int CurrentClickedsetGroupNo = group.CurrentSetGroupNo;
+
+            CurrentProductComponentGroupSelected = CurrentClickedPGroupID;
+            CurrentSetGroupNoSelected = CurrentClickedsetGroupNo;
 
             // Load products for the clicked group
-            LoadProductComponent(PgGroupID, setGroupNo, RequiredAmount, MinAmount, MaxAmount);
-
-            // Check if there are any existing selected items for the clicked Product Group ID
-            if (selectedItemsByProductComponentGroups.ContainsKey(PgGroupID))
-            {
-                List<ProductComponentSelectedItems> selectedItems = selectedItemsByProductComponentGroups[PgGroupID];
-
-                // Update the visual state of the buttons to reflect the selected items
-                foreach (var child in ProductComponentButtonGrid.Children)
-                {
-                    if (child is Button button)
-                    {
-                        Product product = button.Tag as Product;
-                        if (product != null)
-                        {
-                            var selectedItem = selectedItems.FirstOrDefault(item =>
-                                item.Name == product.ProductName &&
-                                item.Price == product.ProductPrice);
-
-                            if (selectedItem != null)
-                            {
-                                // Update the button content to reflect the selected item quantity
-                                UpdateButtonVisualState(button, true, selectedItem.Quantity, false, PgGroupID, RequiredAmount, MaxAmount, modelProcessing.cartProducts.Values.FirstOrDefault(item => item.ProductId == ProductIDSelected)?.Quantity ?? 0);
-
-                            }
-                        }
-                    }
-                }
-            }
+            LoadProductComponent(CurrentClickedPGroupID, CurrentClickedsetGroupNo, CurrentClickedRequiredAmount, CurrentClickedMinAmount, CurrentClickedMaxAmount);
         }
 
         public void LoadProductComponent(int pGroupID, int SetGroupNo, int RequiredAmount, int MinAmount, int MaxAmount)
         {
 
             // Clear existing product buttons
-            ProductComponenetGroupNoSelected = SetGroupNo;
             List<ProductComponentProduct> productComponentProducts = new List<ProductComponentProduct>();
 
             ProductComponentButtonGrid.Children.Clear();
@@ -290,14 +268,15 @@ namespace TranQuik.Pages
 
                 while (reader.Read())
                 {
-                    ProductComponentProduct productComponentProduct = new ProductComponentProduct();
-                    productComponentProduct.ProductComponentProductPGroupID = Convert.ToInt32(reader["PGroupID"]);
-                    productComponentProduct.ProductComponentProductID = Convert.ToInt32(reader["ChildProductID"]);
-                    productComponentProduct.ProductComponentProductName = reader["ProductName"].ToString();
-                    productComponentProduct.ProductComponentProductPrice = Convert.ToDecimal(reader["ProductPrice"]);
-                    productComponentProduct.ProductComponentProductSetGroupNo = SetGroupNo;
-                    productComponentProduct.ProductComponentProductQuantity++;
-                    productComponentProducts.Add(productComponentProduct);
+                    int ProductComponentProductPGroupID = Convert.ToInt32(reader["PGroupID"]);
+                    int ProductComponentProductID = Convert.ToInt32(reader["ChildProductID"]);
+                    string ProductComponentProductName = reader["ProductName"].ToString();
+                    decimal ProductComponentProductPrice = Convert.ToDecimal(reader["ProductPrice"]);
+                    int ProductComponentProductSetGroupNo = SetGroupNo;
+                    int ProductComponentProductQuantity = 1;
+
+                    ProductComponentProduct productComponentProduct = new ProductComponentProduct(ProductComponentProductPGroupID, ProductComponentProductID, ProductComponentProductName,
+                        ProductComponentProductPrice, ProductComponentProductSetGroupNo, ProductComponentProductQuantity);
 
                     string productName = reader["ProductName"].ToString();
                     int productId = Convert.ToInt32(reader["ProductID"]);
@@ -337,6 +316,7 @@ namespace TranQuik.Pages
         {
             int currentQuantity = 0;
             bool isNext = false;
+            int GivenQuantity = int.Parse(packageItemQuantity.Text) == 0 ? 1 : int.Parse(packageItemQuantity.Text);
 
             int ProductQty = modelProcessing.cartProducts.Values
                                 .Where(product => product.ProductId == ProductIDSelected)
@@ -345,243 +325,138 @@ namespace TranQuik.Pages
                                 .Max();
 
             // Get the list of selected items for the current product group ID, or create a new list if it doesn't exist
-            List<ProductComponentSelectedItems> selectedItems = new List<ProductComponentSelectedItems>();
+            List<SelectedComponentItems> selectedItems = SelectedComponentItems.SCI;
 
             // Check if the selected item already exists in the list
-            ProductComponentSelectedItems existingItem = selectedItems.FirstOrDefault(item =>
-            item.Name == productComponentProduct.ProductComponentProductName &&
-            item.Price == productComponentProduct.ProductComponentProductPrice && item.SetGroupNo == productComponentProduct.ProductComponentProductSetGroupNo );
+            SelectedComponentItems existingItem = selectedItems.FirstOrDefault(item =>
+                item.CurrentComponentName == productComponentProduct.ProductComponentProductName &&
+                item.CurrentComponentPrice == productComponentProduct.ProductComponentProductPrice &&
+                item.CurrentComponentSetGroupNo == productComponentProduct.ProductComponentProductSetGroupNo);
 
             if (existingItem != null)
             {
                 // Increment the quantity of the existing item
-                existingItem.Quantity++;
-            }
+                existingItem.CurrentComponentQuantity++;
+                currentQuantity = existingItem.CurrentComponentQuantity;
+
+                if( Math.Max(RequiredAmount, MaxAmount) < currentQuantity)
+                {
+                    existingItem.CurrentComponentQuantity = Math.Max(RequiredAmount, MaxAmount);
+                    currentQuantity = Math.Max(RequiredAmount, MaxAmount);
+                }
+            } 
             else if (Math.Max(RequiredAmount, MaxAmount) > 0)
             {
-                existingItem = new ProductComponentSelectedItems
+                int quantity = MinAmount > 0 ? MinAmount : GivenQuantity;
+                currentQuantity = quantity;
+
+                if (GivenQuantity > Math.Max(RequiredAmount, MaxAmount))
                 {
-                    ID = productComponentProduct.ProductComponentProductID,
-                    Name = productComponentProduct.ProductComponentProductName,
-                    Price = productComponentProduct.ProductComponentProductPrice,
-                    SetGroupNo = productComponentProduct.ProductComponentProductSetGroupNo,
-                    Quantity = MinAmount > 0 ? MinAmount : 1 // Initialize with MinQuantity if greater than 0, else 1
-                };
+                    int maximumIs = 0;
+                    Notification.NotificationMoreThanMaximum();
+                    CalculateTotalComponent();
 
-                selectedItems.Add(existingItem);
-                selectedItemsByProductComponentGroups[PGroupID] = selectedItems;
+                    CurrentPackageComponentValidation currentPackageComponentValidation = CurrentPackageComponentValidation.currentPackageComponentValidations
+                        .Find(v => v.SetGroupNoItemSelected == productComponentProduct.ProductComponentProductSetGroupNo);
+                    CurrentComponentGroupItem currentComponentGroupItem = CurrentComponentGroupItem.CPGI
+                    .Find(CG => CG.CurrentSetGroupNo == productComponentProduct.ProductComponentProductSetGroupNo);
 
-                mainWindow.childItemsSelected.Add(new ChildItem(
+                    if (currentPackageComponentValidation != null)
+                    {
+                        maximumIs = Math.Max(currentComponentGroupItem.CurrentSetGroupMaxQty, currentComponentGroupItem.CurrentSetGroupReq) - currentPackageComponentValidation.SetGroupNeedQuantityItemSelected;
+                    }
+                    else
+                    {
+                        maximumIs = Math.Max(currentComponentGroupItem.CurrentSetGroupMaxQty, currentComponentGroupItem.CurrentSetGroupReq);
+                    }
+                    quantity = maximumIs > 0 ? maximumIs : 1;
+                    currentQuantity = quantity;
+                }
+
+
+                SelectedComponentItems addNew = new SelectedComponentItems(
+                    productComponentProduct.ProductComponentProductSetGroupNo,
                     productComponentProduct.ProductComponentProductID,
                     productComponentProduct.ProductComponentProductName,
                     productComponentProduct.ProductComponentProductPrice,
-                    currentQuantity,
-                    true,
-                    productComponentProduct.ProductComponentProductSetGroupNo,
-                    productComponentProduct.ProductComponentProductPGroupID
-                ));
+                    quantity
+                    );
+                
             }
 
-            if (RequiredAmount > 0)
-            {
-                if (groupQuantities.ContainsKey(setGroupNos))
+            CalculateTotalComponent();
+
+            UpdateTextBlocks();
+            packageItemQuantity.Text = "0";
+        }
+
+        public void CalculateTotalComponent()
+        {
+            // Group selected items by set group number and sum their quantities
+            var groupedItems = SelectedComponentItems.SCI
+                .GroupBy(item => item.CurrentComponentSetGroupNo)
+                .Select(group => new
                 {
-                    groupQuantities[setGroupNos]++;
+                    SetGroupNo = group.Key,
+                    TotalQuantity = group.Sum(item => item.CurrentComponentQuantity)
+                });
 
-                }
-                else
+            // Clear existing validations
+            CurrentPackageComponentValidation.currentPackageComponentValidations.Clear();
+
+            // Update validations based on grouped items
+            foreach (var group in groupedItems)
+            {
+                CurrentPackageComponentValidation currentPackageComponentValidation = new CurrentPackageComponentValidation(group.SetGroupNo, group.TotalQuantity);
+            }
+
+            // Optionally print the current state of validations for debugging
+            foreach (var validation in CurrentPackageComponentValidation.currentPackageComponentValidations)
+            {
+                var maxGroupValue = CurrentComponentGroupItem.CPGI
+                    .Where(item => item.CurrentSetGroupNo == validation.SetGroupNoItemSelected)
+                    .Select(item => Math.Max(item.CurrentSetGroupMaxQty, item.CurrentSetGroupReq))
+                    .Max();
+
+                if (validation.SetGroupNeedQuantityItemSelected == maxGroupValue)
                 {
-                    groupQuantities[setGroupNos]++;
+                    UpdateVisible(validation.SetGroupNoItemSelected);
                 }
-            }
 
-            // Update the selected item quantity if needed
-            if (existingItem != null)
-            {
-                int maxAllowedQuantity = Math.Max(RequiredAmount, MaxAmount);
-                if (existingItem.Quantity >= maxAllowedQuantity || groupQuantities[setGroupNos] >= maxAllowedQuantity)
-                {
-                    foreach (UIElement child in ProductComponentButtonGrid.Children)
-                    {
-                        child.IsEnabled = false;
-                        isNext = true;
-                    }
-                }
-            }
-
-            // Set the current quantity
-            currentQuantity = existingItem?.Quantity ?? 0;
-
-            // Check if an item with the same name and price already exists in childItemsSelected
-
-            bool itemExists = mainWindow.childItemsSelected.Any(item =>
-            item.ChildName == productComponentProduct.ProductComponentProductName &&
-            item.ChildPrice == productComponentProduct.ProductComponentProductPrice);
-
-            if (!itemExists)
-            {
-                // Add the selected item to the mainWindow's childItemsSelected collection
-                mainWindow.childItemsSelected.Add(new ChildItem(
-                    productComponentProduct.ProductComponentProductID,
-                    productComponentProduct.ProductComponentProductName,
-                    productComponentProduct.ProductComponentProductPrice,
-                    currentQuantity,
-                    true,
-                    productComponentProduct.ProductComponentProductSetGroupNo,
-                    productComponentProduct.ProductComponentProductPGroupID
-                ));
-            }
-            else
-            {
-                // Find the existing item
-                var existingItems = mainWindow.childItemsSelected.FirstOrDefault(item =>
-                    item.ChildName == productComponentProduct.ProductComponentProductName &&
-                    item.ChildPrice == productComponentProduct.ProductComponentProductPrice);
-
-                // Add the selected item only if the quantity of the existing item is less than or equal to the quantity of the selected item
-                if (existingItems != null && existingItems.ChildQuantity <= productComponentProduct.ProductComponentProductQuantity)
-                {
-                    existingItems.ChildQuantity = currentQuantity;
-                }
-            }
-
-            // Update the visual state of the button to reflect selection
-            UpdateButtonVisualState(sender as Button, true, currentQuantity, isNext, PGroupID, RequiredAmount, MaxAmount, ProductQty);
-
-            if (isNext)
-            {
-                NextGroup();
+                Console.WriteLine($"SetGroupNo: {validation.SetGroupNoItemSelected}, Quantity: {validation.SetGroupNeedQuantityItemSelected}");
             }
         }
 
-        private bool ValidateSetGroups(List<ProductComponentGroup> componentGroups)
+
+        private void UpdateTextBlocks()
         {
-            foreach (var group in groupQuantities)
+            foreach (var items in CurrentPackageComponentValidation.currentPackageComponentValidations)
             {
-                Console.WriteLine($"============== START =============");
-                Console.WriteLine($"{group.Key} Dengan Selected Item Size: {group.Value}");
-                bool groupFound = false;
+                string textBlockName = $"SetGroupNo{items.SetGroupNoItemSelected}";
 
-                foreach (var item in componentGroups)
+                CurrentComponentGroupItem currentComponentGroupItem = CurrentComponentGroupItem.CPGI
+                    .Find(CG => CG.CurrentSetGroupNo == items.SetGroupNoItemSelected);
+
+                TextBlock targetTextBlock = GetTextBlockByName(textBlockName);
+                if (targetTextBlock != null && currentComponentGroupItem != null)
                 {
-                    Console.WriteLine($"Checking Item with SetGroupNo: {item.SetGroupNo}");
-
-                    if (item.SetGroupNo == group.Key)
-                    {
-                        Console.WriteLine($"Match found: {item.SetGroupName}");
-                        Console.WriteLine($"Details: RequireAddAmountForProduct = {item.RequireAddAmountForProduct}, Group Value = {group.Value}");
-                        groupFound = true;
-                        if (item.RequireAddAmountForProduct != group.Value)
-                        {
-                            Console.WriteLine("Validation failed: Required amount does not match.");
-                            return false; // Validation failed
-                        }
-                    }
-                }
-
-                if (!groupFound)
-                {
-                    Console.WriteLine($"Validation failed: No matching SetGroupNo found for {group.Key}");
-                    return false; // Validation failed
-                }
-            }
-            Console.WriteLine($"============== END =============");
-
-            return true; // All validations passed
-        }
-
-        private void UpdateButtonVisualState(Button button, bool isSelected, int quantity, bool isNext, int PGroupID, int RequiredAmount, int MaxAmount, int ProductQty)
-        {
-            // Update button appearance based on selection state
-            if (isSelected)
-            {
-                button.Background = Brushes.LightSkyBlue;
-            }
-            else
-            {
-                button.Background = Brushes.Azure;
-            }
-
-            // Get the product from the button's Tag property
-            Product product = button.Tag as Product;
-
-            if (product != null)
-            {
-                // Use the ProductName from the Product object
-                string buttonText = product.ProductName;
-
-                // Find the position of "x" in the button content
-                int indexOfX = buttonText.LastIndexOf("x");
-
-                if (indexOfX != -1)
-                {
-                    // If "x" is found, remove the previous quantity and update with the new one
-                    buttonText = buttonText.Substring(0, indexOfX + 1) + "" + quantity;
-                }
-                else
-                {
-                    // If "x" is not found, append the quantity
-                    buttonText += $" x{quantity}";
-                }
-
-                // Update the button content
-                button.Content = buttonText;
-
-                // Disable the button if the sum quantity of items in PGroupID >= Math.Max(RequiredAmount, MaxAmount)
-                int sumQuantity = 0;
-                if (selectedItemsByProductComponentGroups.ContainsKey(PGroupID))
-                {
-                    sumQuantity = selectedItemsByProductComponentGroups[PGroupID].Sum(item => item.Quantity);
-                }
-
-                if (sumQuantity >= Math.Max(RequiredAmount, MaxAmount) * ProductQty)
-                {
-                    foreach (UIElement child in ProductComponentButtonGrid.Children)
-                    {
-                        child.IsEnabled = false;
-                    }
-                }
-                else
-                {
-                    button.IsEnabled = true;
+                    targetTextBlock.Text = currentComponentGroupItem.CurrentSetGroupReq == 0 ?
+                        $"({currentComponentGroupItem.CurrentSetGroupMaxQty} - {currentComponentGroupItem.CurrentSetGroupMaxQty})" :
+                        $"{currentComponentGroupItem.CurrentSetGroupReq.ToString()} - {items.SetGroupNeedQuantityItemSelected}";
                 }
             }
         }
 
-        private void NextGroup()
+        private void UpdateVisible(int SetGroupNo)
         {
+            string textBlockName = $"SetGroupNo{SetGroupNo}";
+            TextBlock targetTextBlock = GetTextBlockByName(textBlockName);
+            targetTextBlock.Background = (Brush)Application.Current.FindResource("ErrorColor");
+        }
 
-            var Check = modelProcessing.componentGroups
-                                .Where(g => g.ProductID == ProductIDSelected && g.SetGroupNo == ProductComponenetGroupNoSelected)
-                                .FirstOrDefault();
-            if (Check.RequireAddAmountForProduct == groupQuantities[setGroupNos])
-            {
-                foreach (Button button in ProductComponentGroupButtonGrid.Children)
-                {
-                    ProductComponentGroup group = button.Tag as ProductComponentGroup;
-                    if (group != null && group.SetGroupNo == Check.SetGroupNo)
-                    {
-                        // Change the background color of the button
-                        button.Background = (Brush)Application.Current.FindResource("SuccessColor"); // Change to your desired color
-                        break; // No need to continue looping once the button is found
-                    }
-                }
-            }
-
-            var nextGroup = modelProcessing.componentGroups
-            .Where(g => g.ProductID == ProductIDSelected && g.SetGroupNo > ProductComponenetGroupNoSelected)
-            .FirstOrDefault();
-
-            if (nextGroup != null)
-            {
-                // Logic to handle the selection of the next group
-                setGroupNos = nextGroup.SetGroupNo;
-                LoadProductComponent(nextGroup.PGroupID, nextGroup.SetGroupNo, nextGroup.RequireAddAmountForProduct, nextGroup.MinQty, nextGroup.MaxQty);
-            }
-            else
-            {
-                Console.WriteLine("No next component group found.");
-            }
+        private TextBlock GetTextBlockByName(string name)
+        {
+            return this.FindName(name) as TextBlock;
         }
 
         private Button CreateComponentProductButton(Product product, string imagePath)
@@ -660,43 +535,6 @@ namespace TranQuik.Pages
             modelProcessing.UpdateVisibleProductButtons(ProductComponentButtonGrid, ProductComponentButtonStartIndex, ProductComponentButtonShiftAmount, NextComponentButton, col);
         }
 
-        private void quantityDisplay_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (modelProcessing == null)
-            {
-                Console.WriteLine("Error: modelProcessing is null.");
-                return;
-            }
-
-            // Retrieve the product details using the productID
-            Product selectedProduct = modelProcessing.cartProducts.Values.FirstOrDefault(p => p.ProductId == ProductIDSelected);
-
-            if (selectedProduct != null)
-            {
-                if (int.TryParse(quantityDisplay.Text, out int newQuantity))
-                {
-                    if (newQuantity >= 1)
-                    {
-                        selectedProduct.Quantity = newQuantity;
-
-                        // Update the RequireAddAmountForProduct, MinQty, and MaxQty properties of each ProductComponentGroup
-                        foreach (var group in modelProcessing.componentGroups)
-                        {
-                            group.RequireAddAmountForProduct *= newQuantity;
-                            group.MinQty *= newQuantity;
-                            group.MaxQty *= newQuantity;
-                        }
-                    }
-                    else
-                    {
-                        // If the new quantity is less than 1, reset to the last valid quantity
-                        quantityDisplay.Text = "1";
-                        selectedProduct.Quantity = 1;
-                    }
-                }
-            }
-        }
-
         private void NumberButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
@@ -735,10 +573,10 @@ namespace TranQuik.Pages
 
         private void NextComponentGroup_Click(object sender, RoutedEventArgs e)
         {
-            if (ProductComponentGroupButtonStartIndex + ProductComponentGroupButtonTot < modelProcessing.componentGroups.Count)
+            if (ProductComponentGroupButtonStartIndex + ProductComponentGroupButtonTot < CurrentComponentGroupItem.CPGI.Count)
             {
                 // Increment productButtonStartIndex by ProductButtonShiftAmount to shift the visible range downwards
-                ProductComponentGroupButtonStartIndex = Math.Min(modelProcessing.componentGroups.Count - ProductComponentGroupButtonTot, ProductComponentButtonStartIndex + ProductComponentGroupButtonShiftAmount);
+                ProductComponentGroupButtonStartIndex = Math.Min(CurrentComponentGroupItem.CPGI.Count - ProductComponentGroupButtonTot, ProductComponentButtonStartIndex + ProductComponentGroupButtonShiftAmount);
                 UpdateVisibleProductComponentGroupButtons();
             }
 
@@ -779,56 +617,6 @@ namespace TranQuik.Pages
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            if (mainWindow.childItemsSelected != null && mainWindow.childItemsSelected.Any())
-            {
-                if (modelProcessing.cartProducts.ContainsKey(CartIndex))
-                {
-                    Product selectedProduct = modelProcessing.cartProducts[CartIndex];
-
-                    foreach (var childItem in mainWindow.childItemsSelected)
-                    {
-                        selectedProduct.ChildItems.Add(childItem);
-                    }
-
-                    bool isValid = ValidateSetGroups(modelProcessing.componentGroups);
-
-                    if (!isValid)
-                    {
-                        string NotificationText = "Need Required Amount, Please Add Quantity ! ! !";
-                        NotificationPopup notificationPopup = new NotificationPopup(NotificationText, true);
-
-                        notificationPopup.ShowDialog();
-
-                        return;
-                    }
-
-                    IsConfirmed = true; // Mark as confirmed
-                    modelProcessing.UpdateCartUI();
-                }
-                else
-                {
-                    // Handle the case where product is not found
-                    Console.WriteLine("Error: Product with ID {0} not found in cart.", ProductIDSelected);
-                }
-            }
-            else
-            {
-                bool isValid = ValidateSetGroups(modelProcessing.componentGroups);
-
-                if (!isValid)
-                {
-                    string NotificationText = "Need Required Amount, Please Add Quantity ! ! !";
-                    NotificationPopup notificationPopup = new NotificationPopup(NotificationText, true);
-
-                    notificationPopup.ShowDialog();
-
-                    return;
-                }
-            }
-            isReopenComponent(reOpen);
-            IsConfirmed = true; // Mark as confirmed
-            modelProcessing.UpdateCartUI();
-            this.Close();
         }
 
         public void isReopenComponent(bool reOpen)
@@ -838,7 +626,6 @@ namespace TranQuik.Pages
                 mainWindow.childItemsSelected.Clear();
             }
         }
-
 
         private void Number_Click(object sender, RoutedEventArgs e)
         {
@@ -868,12 +655,18 @@ namespace TranQuik.Pages
         {
             IsConfirmed = false; // Mark as not confirmed
             mainWindow.childItemsSelected.Clear();
+            CurrentComponentGroupItem.CPGI.Clear();
+            SelectedComponentItems.SCI.Clear();
+            CurrentPackageComponentValidation.currentPackageComponentValidations.Clear();
             this.Close();
         }
 
         private void Enter_Click(object sender, RoutedEventArgs e)
         {
-
+            CurrentComponentGroupItem.CPGI.Clear();
+            SelectedComponentItems.SCI.Clear();
+            CurrentPackageComponentValidation.currentPackageComponentValidations.Clear();
+            this.Close();
         }
 
         private void Backspace_Click(object sender, RoutedEventArgs e)
@@ -910,6 +703,8 @@ namespace TranQuik.Pages
 
         }
 
-        
+        private void productQuantitySelectorText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
     }
 }
