@@ -16,7 +16,8 @@
             <Grid Margin="4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
-                    <RowDefinition Height="140"/>
+                    <RowDefinition Height="100"/>
+
                     <RowDefinition/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
@@ -25,6 +26,7 @@
                     <TextBlock Text="PACKAGE MENU" FontSize="24" FontWeight="SemiBold" FontFamily="arial" Foreground="{StaticResource FontColor}"/>
                 </Grid>
                 <!--THIS IS FOR HEADER-->
+                
                 <!--THIS IS FOR PRODUCT COMPONENT GROUP ROUTE-->
                 <Border Grid.Row="1" BorderBrush="{StaticResource FontColor}" BorderThickness="0,3">
                     <Grid>
@@ -33,12 +35,6 @@
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="120"/>
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-                        <Border BorderThickness="0,0,3,3" BorderBrush="{StaticResource FontColor}"/>
-                        <Border Grid.Row="1" BorderThickness="0,0,3,0" BorderBrush="{StaticResource FontColor}"/>
                         <!--THIS IS FOR PRODUCT COMPONENT BUTTON-->
                         <Grid x:Name="ProductComponentGroupButtonGrid" Grid.Column="0" ShowGridLines="False">
                             <Grid.ColumnDefinitions>
@@ -51,7 +47,7 @@
                         <!--THIS IS FOR PRODUCT COMPONENT BUTTON-->
 
                         <!--THIS IS FOR NAVIGATION BUTTON -->
-                        <Grid Grid.Column="1" Grid.RowSpan="2">
+                        <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
@@ -67,7 +63,7 @@
                                 </StackPanel>
                             </Button>
                         </Grid>
-                        <Grid Grid.Column="2" Grid.RowSpan="2">
+                        <Grid Grid.Column="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
@@ -84,33 +80,6 @@
                             </Button>
                         </Grid>
                         <!--THIS IS FOR NAVIGATION BUTTON -->
-
-                        <!--THIS IS FOR HEADER INFORMATION -->
-                        <Grid Grid.Row="1" x:Name="GroupInformationTextBlock" Grid.Column="0" Margin="3,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" BorderThickness="0,1,1,1" Background="{StaticResource AccentColor}">
-                                <TextBlock Grid.Column="0" x:Name="SetGroupNo1" Text="()" Foreground="{StaticResource PrimaryBackgroundColor}" VerticalAlignment="Center" 
-                                           HorizontalAlignment="Center" Background="{x:Null}" FontFamily="arial" FontSize="10" FontWeight="SemiBold"/>
-                            </Border>
-                            <Border Grid.Column="1" BorderThickness="1" Background="{StaticResource AccentColor}">
-                                <TextBlock Grid.Column="1" x:Name="SetGroupNo2" Text="()" VerticalAlignment="Center" 
-                                           HorizontalAlignment="Center" Background="{x:Null}" Foreground="{StaticResource PrimaryBackgroundColor}" FontFamily="arial" FontSize="10" FontWeight="SemiBold"/>
-                            </Border>
-                            <Border Grid.Column="2" BorderThickness="1" Background="{StaticResource AccentColor}" >
-                                <TextBlock Grid.Column="2" x:Name="SetGroupNo3" Text="()" VerticalAlignment="Center" 
-                                           HorizontalAlignment="Center" Background="{x:Null}" Foreground="{StaticResource PrimaryBackgroundColor}" FontFamily="arial" FontSize="10" FontWeight="SemiBold"/>
-                            </Border>
-                            <Border Grid.Column="3" BorderThickness="1,1,1,1" Background="{StaticResource AccentColor}">
-                                <TextBlock Grid.Column="3" x:Name="SetGroupNo4" Text="()" VerticalAlignment="Center" 
-                                           HorizontalAlignment="Center" Background="{x:Null}" Foreground="{StaticResource PrimaryBackgroundColor}" FontFamily="arial" FontSize="10" FontWeight="SemiBold"/>
-                            </Border>
-                        </Grid>
-                        <!--THIS IS FOR HEADER INFORMATION -->
                     </Grid>
                 </Border>
                 <!--THIS IS FOR PRODUCT COMPONENT GROUP ROUTE-->
@@ -157,78 +126,19 @@
                 <!--THIS IS FOR QTTY BUTTON-->
                 <!--THIS IS FOR PRODUCT COMPONENT BUTTON-->
                 <Border BorderBrush="{StaticResource FontColor}" BorderThickness="0,0" Grid.Row="2">
-                    <Grid>
+                    <Grid x:Name="ProductComponentButtonGrid" Margin="0,1" ShowGridLines="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
-                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" BorderThickness="0,0,3,0" BorderBrush="{StaticResource FontColor}"/>
-                        <Grid x:Name="ProductComponentButtonGrid" Margin="0,1" Grid.Column="0" ShowGridLines="False">
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                        </Grid>
-                        <Grid Grid.Column="1" Margin="2,2,0,2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="100"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Border Grid.ColumnSpan="4" Background="{StaticResource WarningColor}"/>
-                            <TextBox x:Name="packageItemQuantity" BorderThickness="0" Grid.Column="0" Grid.ColumnSpan="4" Background="{x:Null}" Text="0" FontFamily="arial" FontWeight="Bold" 
-                                     FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <!-- Row 1 -->
-                            <Button Grid.Row="1" Grid.Column="0" Content="7" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-                            <Button Grid.Row="1" Grid.Column="1" Content="8" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-                            <Button Grid.Row="1" Grid.Column="2" Content="9" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-
-
-                            <!-- Row 2 -->
-                            <Button Grid.Row="2" Grid.Column="0" Content="4" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-                            <Button Grid.Row="2" Grid.Column="1" Content="5" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-                            <Button Grid.Row="2" Grid.Column="2" Content="6" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-
-
-                            <!-- Row 3 -->
-                            <Button Grid.Row="3" Grid.Column="0" Content="1" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-                            <Button Grid.Row="3" Grid.Column="1" Content="2" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-                            <Button Grid.Row="3" Grid.Column="2" Content="3" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-
-                            <!-- Row 4 -->
-                            <Button Grid.Row="4" Grid.Column="0"  Content="0" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}"  Click="Number_Click"/>
-                            <Button Grid.Row="4" Grid.Column="1"  Content="MAX" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}"  Click="Max_Click"/>
-                            <Button Grid.Row="4" Grid.Column="2"  Content="MIN" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}"  Click="Min_Click"/>
-                            <Button Grid.Row="1" Grid.Column="3" FontSize="18" FontFamily="Arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" 
-                                Foreground="{StaticResource ErrorColor}" Click="Backspace_Click">
-                                <materialIcons:MaterialIcon Kind="Backspace" Width="24" Height="24"/>
-                            </Button>
-                            <Button Grid.Row="2" Grid.Column="3" FontSize="18" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" 
-                                    Foreground="{StaticResource WarningColor}" Click="Clear_Click">
-                                <materialIcons:MaterialIcon Kind="AlphaCBoxOutline" Height="24" Width="24"/>
-                            </Button>
-                            <Button Grid.Row="3" Grid.Column="3" Grid.RowSpan="3" FontSize="18" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" 
-                                    Foreground="{StaticResource FontColor}" FontWeight="Bold" Click="Enter_Click">
-                                <materialIcons:MaterialIcon Kind="LoginVariant" Height="24" Width="24" Foreground="{StaticResource ButtonEnabledColor1}"/>
-                            </Button>
-                        </Grid>
                     </Grid>
                 </Border>
                 <!--THIS IS FOR PRODUCT COMPONENT BUTTON-->

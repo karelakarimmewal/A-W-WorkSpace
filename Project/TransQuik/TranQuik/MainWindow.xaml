@@ -347,21 +347,17 @@
                                 <TextBlock Text="Hold" FontSize="10"  VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <!--<Button Height="72" 
-                Width="90"
-                Margin="0,1"
-                Style="{StaticResource ButtonStyle}" 
-                Effect="{StaticResource DropShadowEffect}"
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Center"
-                Background="{StaticResource PrimaryButtonColor}" Click="payCashButton">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <materialIcons:MaterialIcon Kind="HandCoin" Width="28" Height="30" VerticalAlignment="Center"/>
-                                <TextBlock Text="PayCash" FontSize="10"  VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>-->
                     </StackPanel>
                 </Grid>
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 <Border Grid.Row="1" Grid.Column="2" BorderBrush="LightGray" BorderThickness="1,0,0,0">
                     <Grid x:Name="MainGrid" >
                         <Grid>
@@ -370,6 +366,7 @@
                                 <RowDefinition Height="36"/>
                                 <RowDefinition Height="100"/>
                                 <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <Grid x:Name="TopMainContent" Grid.Row="0">
                                 <Grid.ColumnDefinitions>
@@ -457,13 +454,6 @@
                                         <TextBlock Text="Fav" Margin="5,0,0,0"  VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Button>
-                                <!--Search Button-->
-                                <!--<Button x:Name="SearchButton" Grid.Column="2"  Style="{StaticResource ButtonStyle}" Foreground="{StaticResource FontColor}" Background="SlateGray" Height="36"  VerticalAlignment="Center">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <materialIcons:MaterialIcon Kind="Search" Width="24" Height="24" VerticalAlignment="Center"/>
-                                        <TextBlock Text="Search" Margin="5,0,0,0"  VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </Button>-->
                                 <!--Promotion Button-->
                                 <Button x:Name="PromotionButton" Grid.Column="2"  Style="{StaticResource ButtonStyle}" Foreground="{StaticResource FontColor}" Background="SlateGray" Height="36" VerticalAlignment="Center">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -703,11 +693,11 @@
                                     </Grid>
                                 </Grid>
                                 <Grid Grid.Row="1">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="50"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid x:Name="PaymentMethod" Grid.Row="0" ShowGridLines="False">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="50"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid x:Name="PaymentMethod" Grid.Column="0" ShowGridLines="False">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -720,13 +710,62 @@
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
                                     </Grid>
-                                    <Grid x:Name="PaymentMethodNav" Grid.Row="1" ShowGridLines="False">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
+                                    <Grid x:Name="PaymentMethodNav" Grid.Column="1" ShowGridLines="False">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
                                     </Grid>
                                 </Grid>
+                            </Grid>
+                            <Grid x:Name="quantitySelector" Grid.Row="4" Height="50">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Buttons for numbers 0-9 and backspace -->
+                                <Border Grid.Column="0" Background="{StaticResource WarningColor}" BorderBrush="{StaticResource FontColor}" BorderThickness="1" />
+                                <TextBox x:Name="productQuantitySelectorText" IsEnabled="False" TextChanged="productQuantitySelectorText_TextChanged"  
+                                         Background="{StaticResource WarningColor}" BorderThickness="0" Width="50" Height="40" Padding="0,7"  
+                                         TextAlignment="Center"  Text="0" Grid.Column="0" FontSize="18" FontWeight="Bold" Foreground="Black" 
+                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Button Content="0" Grid.Column="1" Background="DarkGray" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}"  Click="NumberQTY_Click" />
+                                <Button Content="1" Grid.Column="2" Background="DarkGray" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}"  Click="NumberQTY_Click"/>
+                                <Button Content="2" Grid.Column="3" Background="DarkGray" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}"  Click="NumberQTY_Click"/>
+                                <Button Content="3" Grid.Column="4" Background="DarkGray" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}"  Click="NumberQTY_Click"/>
+                                <Button Content="4" Grid.Column="5" Background="DarkGray" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}"  Click="NumberQTY_Click"/>
+                                <Button Content="5" Grid.Column="6" Background="DarkGray" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}"  Click="NumberQTY_Click"/>
+                                <Button Content="6" Grid.Column="7" Background="DarkGray" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}"  Click="NumberQTY_Click"/>
+                                <Button Content="7" Grid.Column="8" Background="DarkGray" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}"  Click="NumberQTY_Click"/>
+                                <Button Content="8" Grid.Column="9" Background="DarkGray" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}"  Click="NumberQTY_Click"/>
+                                <Button Content="9" Grid.Column="10" Background="DarkGray" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FontColor}"  Click="NumberQTY_Click"/>
+                                <Button Grid.Column="12" Background="DarkGray" FontWeight="SemiBold" Foreground="{StaticResource ErrorColor}"  Click="BackspaceQTY_Click">
+                                    <Viewbox Width="20" Height="24" Effect="{StaticResource DropShadowEffect}">
+                                        <!-- Adjust width and height as needed -->
+                                        <ContentControl Content="{materialIcons:MaterialIconExt Kind=Backspace}" FontSize="14" />
+                                    </Viewbox>
+                                </Button>
+                                <Button Grid.Column="11" Background="DarkGray" FontWeight="SemiBold" Foreground="{StaticResource WarningColor}"  Click="ClearQTY_Click">
+                                    <Viewbox Width="20" Height="24" Effect="{StaticResource DropShadowEffect}">
+                                        <!-- Adjust width and height as needed -->
+                                        <ContentControl Content="{materialIcons:MaterialIconExt Kind=AlphaCBox}" FontSize="18" />
+                                    </Viewbox>
+                                </Button>
                             </Grid>
 
                             <Border Grid.Row="3" BorderBrush="DimGray" BorderThickness="0.2"/>
@@ -794,6 +833,9 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
+                            </Grid>
+                            <Grid>
+                                
                             </Grid>
                         </Grid>
                     </Grid>

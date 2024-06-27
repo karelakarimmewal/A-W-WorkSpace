@@ -405,6 +405,9 @@
     <Compile Include="Pages\ProductModifier.xaml.cs">
       <DependentUpon>ProductModifier.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\QuantitySelector.xaml.cs">
+      <DependentUpon>QuantitySelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ReportPage.xaml.cs">
       <DependentUpon>ReportPage.xaml</DependentUpon>
     </Compile>
@@ -494,6 +497,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ProductModifier.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\QuantitySelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

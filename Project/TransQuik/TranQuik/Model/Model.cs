@@ -11,12 +11,72 @@ using System.Windows.Media;
 
 namespace TranQuik.Model
 {
+    using Grpc.Core;
     using MySql.Data.MySqlClient;
     using System.Collections.Generic;
     using System.Drawing.Printing;
     using System.Linq;
     using TranQuik.Configuration;
     using TranQuik.Pages;
+
+    public class ProductQuantityClass
+    {
+        private MainWindow mainWindow;
+        public static int ProductQTY { get; private set; }
+
+        public static void ProductQuantityGetted(MainWindow mainWindow)
+        {
+            mainWindow = mainWindow;
+            int totalQuantity = int.Parse(mainWindow.productQuantitySelectorText.Text);
+            if (totalQuantity <= 0)
+            {
+                ProductQTY = 1;
+            }
+            else
+            {
+                ProductQTY = totalQuantity;
+            }
+        }
+    }
+
+    public class CurrentComponentGroupItem
+    {
+        public static List<CurrentComponentGroupItem> CPGI = new List<CurrentComponentGroupItem>();
+
+        public int CurrentSetGroupNo { get; private set; }
+        public int CurrentSetGroupReq { get; private set; }
+        public int CurrentSetGroupMinQty { get; private set; }
+        public int CurrentSetGroupMaxQty { get; private set; }
+
+        public CurrentComponentGroupItem(int currentSetGroupNo,int currentSetGroupReq,int currentSetGroupMinQty,int currentSetGroupMaxQty)
+        {
+            CurrentSetGroupNo = currentSetGroupNo;
+            CurrentSetGroupReq = currentSetGroupReq;
+            CurrentSetGroupMinQty = currentSetGroupMinQty;
+            CurrentSetGroupMinQty = currentSetGroupMaxQty;
+        }
+
+    }
+
+    public class SelectedComponentItems
+    {
+        public static List<SelectedComponentItems> SCI = new List<SelectedComponentItems>();
+
+        public int CurrentComponentSetGroupNo { get; set; }
+        public int  CurrentComponentID { get; set; }
+        public string CurrentComponentName { get; set; }
+        public decimal CurrentComponentPrice { get; set; }
+        public int CurrentComponentQuantity { get; set; }
+
+        public SelectedComponentItems(int currentComponentSetGroupNo, int currentComponentID, string currentComponentName, decimal currentComponentPrice, int currentComponentQuantity)
+        {
+            CurrentComponentSetGroupNo = currentComponentSetGroupNo;
+            CurrentComponentID = currentComponentID;
+            CurrentComponentName = currentComponentName;
+            CurrentComponentPrice = currentComponentPrice;
+            CurrentComponentQuantity = currentComponentQuantity;
+        }
+    }
 
     public class ReportProductPrice
     {
@@ -848,6 +908,15 @@ namespace TranQuik.Model
             PaymentAmount = paymentAmount;
             PaymentIsAcitve = paymentIsActive;
             PaymentPayRemarks = paymentPayRemarks;
+        }
+    }
+
+    public class SettQuantity
+    {
+        public static void SettQuantityCTOR(Product product)
+        {
+            QuantitySelector quantitySelector = new QuantitySelector(product);
+            quantitySelector.ShowDialog();
         }
     }
 

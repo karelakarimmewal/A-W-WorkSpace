@@ -100,7 +100,6 @@ namespace TranQuik.Pages
 
             // Define the total number of buttons required
             int totalButtonCount = ProductComponentGroupButtonTot;
-
             // Create buttons for each component group
             for (int i = 0; i < modelProcessing.componentGroups.Count; i++)
             {
@@ -144,70 +143,25 @@ namespace TranQuik.Pages
                     FontWeight = FontWeights.Bold,
                     Margin = new Thickness(1),
                     BorderThickness = new Thickness(2),
-                    Tag = group, // Use the group as the tag
+                    Tag = group, // Use the PGroupID as the tag
                     Background = (Brush)Application.Current.FindResource("PrimaryButtonColor"),
                     Effect = (System.Windows.Media.Effects.Effect)Application.Current.FindResource("DropShadowEffect"),
                     Style = (System.Windows.Style)Application.Current.FindResource("ButtonStyle"),
                 };
-
-                string ItemNeeded = group.RequireAddAmountForProduct == 0 ? $"({group.MinQty} - {group.MaxQty}) : 0" : $"{group.RequireAddAmountForProduct.ToString()} - 0";
-
-                switch (i)
-                {
-                    case 1:
-                        SetGroupNo1.Text = ItemNeeded;
-                        break;
-                    case 2:
-                        SetGroupNo2.Text = ItemNeeded;
-                        break;
-                    case 3:
-                        SetGroupNo3.Text = ItemNeeded;
-                        break;
-                    case 4:
-                        SetGroupNo4.Text = ItemNeeded;
-                        break;
-                    default:
-                       
-                        break;
-                }
 
                 ProductComponentGroupButtons.Click += ProductComponentGroupButtonsClicked;
 
                 // Calculate the row and column index for the grid
                 int row = i / 4;
                 int column = i % 4;
-
                 Grid.SetRow(ProductComponentGroupButtons, row);
                 Grid.SetColumn(ProductComponentGroupButtons, column);
 
                 ProductComponentGroupButtonGrid.Children.Add(ProductComponentGroupButtons);
                 productComponentGroups.Add(ProductComponentGroupButtons);
             }
-
-            for (int i = productComponentGroups.Count + 1; i < GroupInformationTextBlock.Children.Count; i++)
-            {
-                switch (i)
-                {
-                    case 1:
-                        SetGroupNo1.Text = string.Empty;
-                        break;
-                    case 2:
-                        SetGroupNo2.Text = string.Empty;
-                        break;
-                    case 3:
-                        SetGroupNo3.Text = string.Empty;
-                        break;
-                    case 4:
-                        SetGroupNo4.Text = string.Empty;
-                        break;
-                }
-            }
-
             UpdateVisibleProductComponentGroupButtons();
         }
-
-
-
 
         private void ProductComponentGroupButtonsClicked(object sender, RoutedEventArgs e)
         {
@@ -345,7 +299,7 @@ namespace TranQuik.Pages
                                 .Max();
 
             // Get the list of selected items for the current product group ID, or create a new list if it doesn't exist
-            List<ProductComponentSelectedItems> selectedItems = new List<ProductComponentSelectedItems>();
+            List<ProductComponentSelectedItems> selectedItems = selectedItemsByProductComponentGroups.ContainsKey(PGroupID) ? selectedItemsByProductComponentGroups[PGroupID] : new List<ProductComponentSelectedItems>();
 
             // Check if the selected item already exists in the list
             ProductComponentSelectedItems existingItem = selectedItems.FirstOrDefault(item =>
@@ -839,77 +793,11 @@ namespace TranQuik.Pages
             }
         }
 
-
-        private void Number_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button)
-            {
-                string buttonText = button.Content.ToString();
-                string currentText = packageItemQuantity.Text;
-
-                if (currentText == "0")
-                {
-                    // Replace the current "0" with the new number
-                    packageItemQuantity.Text = buttonText;
-                }
-                else if (currentText.Length > 0 && buttonText == "0" && currentText[0] == '0')
-                {
-                    // Do nothing, we don't want to allow numbers with leading zero
-                    return;
-                }
-                else
-                {
-                    packageItemQuantity.Text += buttonText;
-                }
-            }
-        }
-
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             IsConfirmed = false; // Mark as not confirmed
             mainWindow.childItemsSelected.Clear();
             this.Close();
         }
-
-        private void Enter_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Backspace_Click(object sender, RoutedEventArgs e)
-        {
-            string currentText = packageItemQuantity.Text;
-
-            if (currentText.Length > 0)
-            {
-                currentText = currentText.Substring(0, currentText.Length - 1);
-
-                if (currentText.Length == 0)
-                {
-                    packageItemQuantity.Text = "0";
-                }
-                else
-                {
-                    packageItemQuantity.Text = currentText;
-                }
-            }
-        }
-
-        private void Clear_Click(object sender, RoutedEventArgs e)
-        {
-            packageItemQuantity.Text = "0";
-        }
-
-        private void Min_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Max_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        
     }
 }

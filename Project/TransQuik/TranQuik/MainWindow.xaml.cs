@@ -380,6 +380,7 @@ namespace TranQuik
             {
                 productButtonStartIndex = 0;
                 int productGroupId = Convert.ToInt32(button.Tag);
+                quantitySelector.Visibility = Visibility.Visible;
                 MainContentProduct.Visibility = Visibility.Visible;
                 PayementProcess.Visibility = Visibility.Collapsed;
                 modelProcessing.LoadProductDetails(productGroupId);
@@ -856,7 +857,7 @@ namespace TranQuik
                 IsEnabled = currentIndex > 0 // Enable only if there are previous items
             };
             prevButton.Click += PrevButton_Click;
-            Grid.SetRow(prevButton, 3); // Adjust to fit layout
+            Grid.SetRow(prevButton, 0); // Adjust to fit layout
             Grid.SetColumn(prevButton, 0); // First column
             PaymentMethodNav.Children.Add(prevButton);
 
@@ -874,7 +875,7 @@ namespace TranQuik
             };
             nextButton.Effect = FindResource("DropShadowEffect") as DropShadowEffect;
             nextButton.Click += NextButton_Click;
-            Grid.SetRow(nextButton, 3); // Adjust to fit layout
+            Grid.SetRow(nextButton, 2); // Adjust to fit layout
             Grid.SetColumn(nextButton, 4); // Last column
             PaymentMethodNav.Children.Add(nextButton);
         }
@@ -1650,6 +1651,7 @@ namespace TranQuik
 
         private void ShowFavoriteProductUI()
         {
+            quantitySelector.Visibility = Visibility.Visible;
             ProductGroupName.Visibility = Visibility.Visible;
             MainContentProduct.Visibility = Visibility.Visible;
         }
@@ -1663,6 +1665,7 @@ namespace TranQuik
 
         private void ShowMenuRelatedUI()
         {
+            quantitySelector.Visibility = Visibility.Visible;
             MenuGroupButton.Visibility = Visibility.Visible;
             MenuSubCategoryContentProduct.Visibility = Visibility.Visible;
             MenuSubCategoryContent.Visibility = Visibility.Visible;
@@ -1732,6 +1735,7 @@ namespace TranQuik
         private void ProcessPayment(string paymentType)
         {
             MainContentProduct.Children.Clear();
+            quantitySelector.Visibility = Visibility.Collapsed;
             MenuSubCategoryContentProduct.Visibility = Visibility.Collapsed;
             MenuSubCategoryContent.Visibility = Visibility.Collapsed;
             MenuBorder.Visibility = Visibility.Collapsed;
@@ -1840,6 +1844,59 @@ namespace TranQuik
             {
                 MessageBox.Show("No payment selected.");
             }
+        }
+
+        private void NumberQTY_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                string buttonText = button.Content.ToString();
+                string currentText = productQuantitySelectorText.Text;
+
+                if (currentText == "0")
+                {
+                    // Replace the current "0" with the new number
+                    productQuantitySelectorText.Text = buttonText;
+                }
+                else if (currentText.Length > 0 && buttonText == "0" && currentText[0] == '0')
+                {
+                    // Do nothing, we don't want to allow numbers with leading zero
+                    return;
+                }
+                else
+                {
+                    productQuantitySelectorText.Text += buttonText;
+                }
+            }
+        }
+
+        private void ClearQTY_Click(object sender, RoutedEventArgs e)
+        {
+            productQuantitySelectorText.Text = "0";
+        }
+
+        private void BackspaceQTY_Click(object sender, RoutedEventArgs e)
+        {
+            string currentText = productQuantitySelectorText.Text;
+
+            if (currentText.Length > 0)
+            {
+                currentText = currentText.Substring(0, currentText.Length - 1);
+
+                if (currentText.Length == 0)
+                {
+                    productQuantitySelectorText.Text = "0";
+                }
+                else
+                {
+                    productQuantitySelectorText.Text = currentText;
+                }
+            }
+        }
+
+        private void productQuantitySelectorText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ProductQuantityClass.ProductQuantityGetted(this);
         }
     }
 }

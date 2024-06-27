@@ -661,21 +661,42 @@ namespace TranQuik.Model
 
         private void AddToCart(Product product)
         {
-            // Increment the CartIndex to get a unique index for the new product
-            CartIndex++;
+            // Check if the product with the same ProductId already exists in the cart
+            bool productExists = false;
+            if (cartProducts.Count > 0)
+            {
+                var lastEntry = cartProducts.Last();
+                if (lastEntry.Value.ProductId == product.ProductId)
+                {
+                    // Last product exists and matches the product ID, update the quantity
+                    lastEntry.Value.Quantity ++;
+                    productExists = true;
+                }
+            }
 
-            // Clear component groups (assuming this is necessary based on your logic)
-            componentGroups.Clear();
+            // If the product does not exist, add it as a new product
+            if (!productExists)
+            {
+                // Increment the CartIndex to get a unique index for the new product
+                CartIndex++;
 
-            int ComponentLevel = 1;
-            // Set the desired status for the new 
-            Product newProduct = new Product(product.ProductId, product.ProductName, product.ProductPrice, product.ProductButtonColor, ComponentLevel);
-            newProduct.Status = true;
-            // Add the new product to the cart at the new CartIndex
-            cartProducts.Add(CartIndex, newProduct);
+                // Clear component groups (assuming this is necessary based on your logic)
+                componentGroups.Clear();
 
-            // Show product component dialog if necessary
-            ShowProductComponentIfNeeded(CartIndex, newProduct);
+                int ComponentLevel = 1;
+                // Set the desired status for the new product
+
+                Product newProduct = new Product(product.ProductId, product.ProductName, product.ProductPrice, product.ProductButtonColor, ComponentLevel);
+                newProduct.Status = true;
+                newProduct.Quantity = ProductQuantityClass.ProductQTY;
+                mainWindow.productQuantitySelectorText.Text = "0";
+                //SettQuantity.SettQuantityCTOR(newProduct);
+                // Add the new product to the cart at the new CartIndex
+                cartProducts.Add(CartIndex, newProduct);
+
+                // Show product component dialog if necessary
+                ShowProductComponentIfNeeded(CartIndex, newProduct);
+            }
 
             // Update cart UI
             UpdateCartUI();

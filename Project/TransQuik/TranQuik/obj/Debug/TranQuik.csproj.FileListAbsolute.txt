@@ -378,3 +378,5 @@ D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\UtilityPage.g.cs
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\UtilityPage.baml
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\AuthWin.g.cs
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\AuthWin.baml
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\QuantitySelector.g.cs
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\QuantitySelector.baml
