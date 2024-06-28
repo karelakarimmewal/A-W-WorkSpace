@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Practice WPF\Project\TransQuik\TranQuik\App.xaml
-231583335186
+23-1554402884
 4-697703326
-43785878436
+43820127674
 195-1027145957
-MainWindow.xaml;Pages\AuthWin.xaml;Pages\ChildPage\EndDayReports.xaml;Pages\ChildPage\PorductHourlyReports.xaml;Pages\ChildPage\ProductPriceReports.xaml;Pages\ChildPage\ReceiptReports.xaml;Pages\ChildPage\SalesByProductReports.xaml;Pages\ChildPage\SalesTypeReports.xaml;Pages\ChildPage\SessionReports.xaml;Pages\LoginPage.xaml;Pages\MenuModifier.xaml;Pages\NotificationPopup.xaml;Pages\PaymentTypeWindow.xaml;Pages\ProductComponent.xaml;Pages\ProductModifier.xaml;Pages\QuantitySelector.xaml;Pages\ReportPage.xaml;Pages\SecondaryMonitor.xaml;Pages\ShutDownPopup.xaml;Pages\StartUpSelector.xaml;Pages\TransactionStatus.xaml;Pages\UtilityPage.xaml;SaleModePop.xaml;
+MainWindow.xaml;Pages\AuthWin.xaml;Pages\BudgetSetter.xaml;Pages\ChildPage\EndDayReports.xaml;Pages\ChildPage\PorductHourlyReports.xaml;Pages\ChildPage\ProductPriceReports.xaml;Pages\ChildPage\ReceiptReports.xaml;Pages\ChildPage\SalesByProductReports.xaml;Pages\ChildPage\SalesTypeReports.xaml;Pages\ChildPage\SessionReports.xaml;Pages\LoginPage.xaml;Pages\MenuModifier.xaml;Pages\NotificationPopup.xaml;Pages\PaymentTypeWindow.xaml;Pages\ProductComponent.xaml;Pages\ProductModifier.xaml;Pages\ReportPage.xaml;Pages\SecondaryMonitor.xaml;Pages\ShutDownPopup.xaml;Pages\StartUpSelector.xaml;Pages\TransactionStatus.xaml;Pages\UtilityPage.xaml;SaleModePop.xaml;
 
 False
 

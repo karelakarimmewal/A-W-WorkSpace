@@ -4,13 +4,19 @@ using TranQuik.Model;
 
 namespace TranQuik.Pages
 {
-    public partial class QuantitySelector : Window
+    public partial class BudgetSetter : Window
     {
-        private Product product;
-        public QuantitySelector(Product product)
+        private int OpenClose;
+        public BudgetSetter(int WhatsTypeSetter)
         {
             InitializeComponent();
-            this.product = product;
+            BudgetTypeSetter(WhatsTypeSetter);
+        }
+
+        private void BudgetTypeSetter(int WhatsTypeSetter)
+        {
+            OpenClose = WhatsTypeSetter;
+            BudgetSetterNameText.Text = WhatsTypeSetter == 0 ? "INITIAL OPEN SESSION CASH" : "INITIAL CLOSE SESSION CASH" ;
         }
 
         private void Number_Click(object sender, RoutedEventArgs e)
@@ -33,33 +39,6 @@ namespace TranQuik.Pages
                 else
                 {
                     ProductQuantityTextBlock.Text += buttonText;
-                }
-            }
-        }
-
-        private void FastNumber_Click (object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button)
-            {
-                string buttonText = button.Content.ToString();
-                string currentText = ProductQuantityTextBlock.Text;
-
-                if (currentText == "0")
-                {
-                    // Replace the current "0" with the new number
-                    ProductQuantityTextBlock.Text = buttonText;
-                }
-                else if (currentText.Length > 0 && buttonText == "0" && currentText[0] == '0')
-                {
-                    // Do nothing, we don't want to allow numbers with leading zero
-                    return;
-                }
-                else
-                {
-                    int QtyBefore = int.Parse(ProductQuantityTextBlock.Text);
-                    int Adding = int.Parse(buttonText);
-                    int QtyAfter = QtyBefore + Adding;
-                    ProductQuantityTextBlock.Text = QtyAfter.ToString();
                 }
             }
         }
@@ -97,14 +76,21 @@ namespace TranQuik.Pages
             int finQuantity;
             bool isValidNumber = int.TryParse(ProductQuantityTextBlock.Text, out finQuantity);
 
-            if (!isValidNumber || finQuantity <= 0)
+            if (!isValidNumber || finQuantity < 0)
             {
-                finQuantity = 1;
+                finQuantity = 0;
             }
 
-            product.Quantity = finQuantity;
+            if (OpenClose == 0)
+            {
+                PosSession.POS_SESSION_OPENCASH = finQuantity;
+            }
+            else
+            {
+                PosSession.POS_SESSION_CLOSECASH = finQuantity;
+            }
+
             this.Close();
         }
-
     }
 }

@@ -366,6 +366,9 @@
     <Compile Include="Pages\AuthWin.xaml.cs">
       <DependentUpon>AuthWin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\BudgetSetter.xaml.cs">
+      <DependentUpon>BudgetSetter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ChildPage\EndDayReports.xaml.cs">
       <DependentUpon>EndDayReports.xaml</DependentUpon>
     </Compile>
@@ -405,9 +408,6 @@
     <Compile Include="Pages\ProductModifier.xaml.cs">
       <DependentUpon>ProductModifier.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\QuantitySelector.xaml.cs">
-      <DependentUpon>QuantitySelector.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\ReportPage.xaml.cs">
       <DependentUpon>ReportPage.xaml</DependentUpon>
     </Compile>
@@ -445,6 +445,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\AuthWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\BudgetSetter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -497,10 +501,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ProductModifier.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\QuantitySelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

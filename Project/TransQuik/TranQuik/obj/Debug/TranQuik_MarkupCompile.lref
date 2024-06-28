@@ -2,6 +2,7 @@
 
 FD:\Practice WPF\Project\TransQuik\TranQuik\MainWindow.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\AuthWin.xaml;;
+FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\BudgetSetter.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ChildPage\EndDayReports.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ChildPage\PorductHourlyReports.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ChildPage\ProductPriceReports.xaml;;
@@ -15,7 +16,6 @@ FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\NotificationPopup.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\PaymentTypeWindow.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ProductComponent.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ProductModifier.xaml;;
-FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\QuantitySelector.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ReportPage.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\ShutDownPopup.xaml;;
 FD:\Practice WPF\Project\TransQuik\TranQuik\Pages\StartUpSelector.xaml;;

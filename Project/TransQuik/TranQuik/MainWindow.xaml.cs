@@ -539,7 +539,7 @@ namespace TranQuik
                                 modelProcessing.CheckProductComponent(selectedProductst);
                                 if (CurrentComponentGroupItem.CPGI.Count > 1)
                                 {
-                                    string messageNotify = "Are You Sure To Reselect Product Package?";
+                                    string messageNotify = "ARE YOU SURE TO RESELECT PRODUCT PACKAGE ?";
                                     NotificationPopup notificationPopup = new NotificationPopup(messageNotify, true);
                                     notificationPopup.ShowDialog();
 
@@ -549,9 +549,14 @@ namespace TranQuik
                                         {
                                             selectedProductst.ChildItems.Clear(); // Clear child items of selectedProductst
                                             childItemsSelected.Clear(); // Clear child items of childItemsSelected
+                                            foreach(var ItemsRecover in backupChild)
+                                            {
+                                                SelectedComponentItems selectedComponentItems = new SelectedComponentItems(ItemsRecover.ChildSetGroupNo, ItemsRecover.ChildId, ItemsRecover.ChildName, ItemsRecover.ChildPrice, ItemsRecover.ChildQuantity);
+                                            }
                                             Product ForComponent = new Product(selectedProductst.ProductId, productName, productPrice, string.Empty);
                                             ProductComponent productComponent = new ProductComponent(modelProcessing, ForComponent, this, SaleMode, selectedIndex, true);
                                             productComponent.ShowDialog();
+
                                             if (!productComponent.IsConfirmed)
                                             {
                                                 // Restore the original values if the operation is not confirmed

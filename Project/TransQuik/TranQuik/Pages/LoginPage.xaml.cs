@@ -129,7 +129,6 @@ namespace TranQuik.Pages
                                 if (isOpen)
                                 {
                                     Notification.NotificationLoginAnotherUserIsActivate();
-
                                     UsernameTextBox.Clear();
                                     PasswordBox.Clear();
                                     return;
@@ -146,8 +145,11 @@ namespace TranQuik.Pages
 
                                 var mainWindow = new MainWindow();
 
+                                BudgetSetter budgetSetter = new BudgetSetter(0);
+
                                 if (isNew)
                                 {
+                                    budgetSetter.ShowDialog();
                                     await syncMethod.CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 1, userSessions);
                                 }
                                 else

@@ -19,6 +19,30 @@ namespace TranQuik.Model
     using TranQuik.Configuration;
     using TranQuik.Pages;
 
+    public class PosSession
+    {
+        public static int POS_SESSION_ID ;
+        
+        public static decimal POS_SESSION_OPENCASH ;
+
+        public static decimal POS_SESSION_CLOSECASH ;
+        public PosSession(int PosID, decimal OpenCash, decimal CloseCash)
+        {
+            POS_SESSION_ID = PosID ;
+
+            if (OpenCash != 0)
+            {
+                POS_SESSION_OPENCASH = OpenCash;
+            }
+
+            if (CloseCash != 0)
+            {
+                POS_SESSION_CLOSECASH = CloseCash;
+            }
+            
+        }
+    }
+
     public class ProductQuantityClass
     {
         private MainWindow mainWindow;
@@ -97,7 +121,7 @@ namespace TranQuik.Model
     {
         public static List<CurrentPackageComponentValidation> currentPackageComponentValidations = new List<CurrentPackageComponentValidation>();
         public int SetGroupNoItemSelected { get; private set; }
-        public int SetGroupNeedQuantityItemSelected { get; private set; }
+        public int SetGroupNeedQuantityItemSelected { get; set; }
 
         public CurrentPackageComponentValidation(int setGroupNoItemSelected, int setGroupNeedQuantityItemSelected)
         {
@@ -244,7 +268,19 @@ namespace TranQuik.Model
 
         public static void NotificationMoreThanMaximum()
         {
-            NotificationPopup notificationPopup = new NotificationPopup("QUANTITY WILL BE MAXED", false);
+            NotificationPopup notificationPopup = new NotificationPopup("QUANTITY IS SETTED TO MAX", false);
+            notificationPopup.ShowDialog();
+        }
+
+        public static void NotificationLimitReached()
+        {
+            NotificationPopup notificationPopup = new NotificationPopup("THE LIMIT HAS BEEN REACHED", false);
+            notificationPopup.ShowDialog();
+        }
+
+        public static void NotificationNeedRequirement()
+        {
+            NotificationPopup notificationPopup = new NotificationPopup("CAN'T PROCCED, NEED TO FULLFILL ALL THE REQUIREMENT", false);
             notificationPopup.ShowDialog();
         }
     }
@@ -944,15 +980,6 @@ namespace TranQuik.Model
         }
     }
 
-    public class SettQuantity
-    {
-        public static void SettQuantityCTOR(Product product)
-        {
-            QuantitySelector quantitySelector = new QuantitySelector(product);
-            quantitySelector.ShowDialog();
-        }
-    }
-
     public class Product
     {
         public int ProductId { get; set; }
@@ -988,6 +1015,7 @@ namespace TranQuik.Model
 
     public class ChildItem
     {
+        public static List <ChildItem> SelectedChildItems = new List <ChildItem> ();
         public int ChildId { get; set; } 
         public string ChildName { get; set; }
         public decimal ChildPrice { get; set; }

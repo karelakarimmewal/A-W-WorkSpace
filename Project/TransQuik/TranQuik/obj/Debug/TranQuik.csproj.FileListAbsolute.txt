@@ -336,7 +336,6 @@ D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\NotificationPopup.g.c
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\PaymentTypeWindow.g.cs
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ProductComponent.g.cs
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ProductModifier.g.cs
-D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\QuantitySelector.g.cs
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ReportPage.g.cs
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\SecondaryMonitor.g.cs
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ShutDownPopup.g.cs
@@ -363,7 +362,6 @@ D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\NotificationPopup.bam
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\PaymentTypeWindow.baml
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ProductComponent.baml
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ProductModifier.baml
-D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\QuantitySelector.baml
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ReportPage.baml
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\ShutDownPopup.baml
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\StartUpSelector.baml
@@ -380,3 +378,5 @@ D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\TranQuik.application
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\TranQuik.csproj.Up2Date
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\TranQuik.exe
 D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\TranQuik.pdb
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\BudgetSetter.g.cs
+D:\Practice WPF\Project\TransQuik\TranQuik\obj\Debug\Pages\BudgetSetter.baml

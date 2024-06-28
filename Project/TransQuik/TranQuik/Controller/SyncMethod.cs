@@ -993,9 +993,9 @@ namespace TranQuik.Controller
 
                 // Define your SQL query to find the close session with the maximum session ID for a given computer ID
                 string query = @"
-                SELECT OpenStaffID, ComputerID
+                SELECT SessionID, OpenStaffID, ComputerID
                 FROM session 
-                WHERE OpenStaffID = @OpenStaffID AND CloseStaffID = 0
+                WHERE ComputerID = @ComputerID AND CloseStaffID = 0
                 ORDER BY SessionID DESC 
                 LIMIT 1";
 
@@ -1007,7 +1007,7 @@ namespace TranQuik.Controller
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
                         // Add parameters to the command
-                        command.Parameters.AddWithValue("@OpenStaffID", UserSessions.Current_StaffID.ToString());
+                        command.Parameters.AddWithValue("@ComputerID", Properties.Settings.Default._ComputerID);
                         bool isNew;
                         // Execute the query and get the result
                         using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
@@ -1015,13 +1015,16 @@ namespace TranQuik.Controller
                             if (await reader.ReadAsync())
                             {
                                 int computerID = reader.GetInt32("ComputerID");
+                                int SessionIDss = reader.GetInt32("SessionID");
 
+                                SessionsID.SessionIDs = SessionIDss;
+                                
                                 // Compare the computerID with the expectedComputerID
                                 if (computerID == Properties.Settings.Default._ComputerID)
                                 {
                                     Console.WriteLine("Computer ID matches the expected value. Setting result to false.");
                                     isNew = false;
-                                    return (false,isNew );
+                                    return (false, isNew );
                                 }
                                 else
                                 {
@@ -1114,7 +1117,7 @@ namespace TranQuik.Controller
                         command.Parameters.AddWithValue("@OpenSessionDateTime", DateTime.Now);
                         command.Parameters.AddWithValue("@CloseSessionDateTime", null); // Set close session time to null
                         command.Parameters.AddWithValue("@SessionDate", DateTime.Now); // Default to current date
-                        command.Parameters.AddWithValue("@OpenSessionAmount", 0.0m); // Default value
+                        command.Parameters.AddWithValue("@OpenSessionAmount", PosSession.POS_SESSION_OPENCASH); // Default value
                         command.Parameters.AddWithValue("@CashAmount", 0.0m); // Default value
                         command.Parameters.AddWithValue("@CashInAmount", 0.0m); // Default value
                         command.Parameters.AddWithValue("@CashOutAmount", 0.0m); // Default value
@@ -1148,7 +1151,7 @@ namespace TranQuik.Controller
             {
                 int computerID = Properties.Settings.Default._ComputerID;
 
-                string getLastSessionIdQuery = "SELECT MAX(SessionID) FROM session WHERE ComputerID = @ComputerID AND OpenStaffID =  @StaffID";
+                string getLastSessionIdQuery = "SELECT MAX(SessionID) FROM session WHERE ComputerID = @ComputerID AND CloseStaffID = 0";
                 int newSessionID = 0;
                 string ComName = Properties.Settings.Default._ComputerName;
 
@@ -1159,7 +1162,6 @@ namespace TranQuik.Controller
                     using (MySqlCommand getLastSessionIdCommand = new MySqlCommand(getLastSessionIdQuery, connection))
                     {
                         getLastSessionIdCommand.Parameters.AddWithValue("@ComputerID", computerID);
-                        getLastSessionIdCommand.Parameters.AddWithValue("@StaffID", UserSessions.Current_StaffID);
                         object result = await getLastSessionIdCommand.ExecuteScalarAsync();
                         newSessionID = result != DBNull.Value ? Convert.ToInt32(result) : 0;
                     }
@@ -1167,7 +1169,7 @@ namespace TranQuik.Controller
 
                 string CloseSessionsQuery = @"
                 UPDATE session 
-                SET CloseSessionDateTime = @CloseSessionDateTime,  CloseStaffID = @CloseStaffID, CloseStaff = @CloseStaff
+                SET CloseSessionAmount = @CloseSessionAmount, CloseSessionDateTime = @CloseSessionDateTime,  CloseStaffID = @CloseStaffID, CloseStaff = @CloseStaff
                 WHERE SessionID = @SessionID";
                 using (MySqlConnection connection = dbConnector.GetMySqlConnection())
                 {
@@ -1175,6 +1177,7 @@ namespace TranQuik.Controller
 
                     using (MySqlCommand command = new MySqlCommand(CloseSessionsQuery, connection))
                     {
+                        command.Parameters.AddWithValue("@CloseSessionAmount", PosSession.POS_SESSION_CLOSECASH);
                         command.Parameters.AddWithValue("@CloseSessionDateTime", DateTime.Now); // Set close session time to null
                         command.Parameters.AddWithValue("@CloseStaffID", UserSessions.Current_StaffID.ToString()) ; // Set close session time to null
                         command.Parameters.AddWithValue("@CloseStaff", UserSessions.Current_StaffFirstName.ToString()) ; // Set close session time to null

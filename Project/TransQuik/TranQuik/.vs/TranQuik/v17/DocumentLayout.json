@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\pages\\productcomponent.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:pages\\productcomponent.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\controller\\syncmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:controller\\syncmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\model\\model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:model\\model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\pages\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:pages\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|d:\\practice wpf\\project\\transquik\\tranquik\\pages\\shutdownpopup.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0BBD0013-9791-412C-9904-E4F811983E2F}|TranQuik.csproj|solutionrelative:pages\\shutdownpopup.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,27 +27,40 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Model.cs",
-              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Model\\Model.cs",
-              "RelativeDocumentMoniker": "Model\\Model.cs",
-              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Model\\Model.cs",
-              "RelativeToolTip": "Model\\Model.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAAF8AAAAyAAAA",
+              "Title": "LoginPage.xaml.cs",
+              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\LoginPage.xaml.cs",
+              "RelativeDocumentMoniker": "Pages\\LoginPage.xaml.cs",
+              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\LoginPage.xaml.cs",
+              "RelativeToolTip": "Pages\\LoginPage.xaml.cs",
+              "ViewState": "AQIAAHEAAAAAAAAAAAAAwH4AAABeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-27T10:32:47.277Z",
+              "WhenOpened": "2024-06-28T10:11:39.355Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ShutDownPopup.xaml.cs",
+              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\ShutDownPopup.xaml.cs",
+              "RelativeDocumentMoniker": "Pages\\ShutDownPopup.xaml.cs",
+              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\ShutDownPopup.xaml.cs",
+              "RelativeToolTip": "Pages\\ShutDownPopup.xaml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-28T10:05:24.891Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ProductComponent.xaml.cs",
-              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\ProductComponent.xaml.cs",
-              "RelativeDocumentMoniker": "Pages\\ProductComponent.xaml.cs",
-              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Pages\\ProductComponent.xaml.cs",
-              "RelativeToolTip": "Pages\\ProductComponent.xaml.cs",
-              "ViewState": "AQIAAFMCAAAAAAAAAAAzwJsCAABZAAAA",
+              "Title": "SyncMethod.cs",
+              "DocumentMoniker": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Controller\\SyncMethod.cs",
+              "RelativeDocumentMoniker": "Controller\\SyncMethod.cs",
+              "ToolTip": "D:\\Practice WPF\\Project\\TransQuik\\TranQuik\\Controller\\SyncMethod.cs",
+              "RelativeToolTip": "Controller\\SyncMethod.cs",
+              "ViewState": "AQIAAHoEAAAAAAAAAAAlwJEEAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-27T07:31:09.196Z",
+              "WhenOpened": "2024-06-28T09:52:08.462Z",
               "EditorCaption": ""
             }
           ]

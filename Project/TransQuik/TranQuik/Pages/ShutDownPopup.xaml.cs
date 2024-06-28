@@ -12,6 +12,7 @@ namespace TranQuik.Pages
         public ShutDownPopup()
         {
             InitializeComponent();
+            this.ShowInTaskbar = false;
             syncMethod = new SyncMethod();
         }
 
@@ -20,33 +21,27 @@ namespace TranQuik.Pages
             // Log that the application is stopping
             Log.ForContext("LogType", "ApplicationLog").Information("Application Stopped");
 
-            // Close any secondary monitor processes if they are running
-            CloseSecondaryMonitorProcess();
+            NotificationPopup notificationPopup = new NotificationPopup("DO CLOSE SESSION OR NOT", true);
+            notificationPopup.ShowInTaskbar = false;
+            notificationPopup.Topmost = true;
+            this.Hide();
+            notificationPopup.ShowDialog();
 
-            // Create a new session in the local database
-            await syncMethod.CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 2);
+            if (notificationPopup.IsConfirmed)
+            {
+                notificationPopup.Hide();
+                BudgetSetter budgetSetter = new BudgetSetter(1);
+                budgetSetter.Topmost = true;
+                budgetSetter.ShowDialog();
+                await syncMethod.CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 2);
+                // Forcefully exit the application
+                Environment.Exit(0);
+            }
+            
 
             // Forcefully exit the application
             Environment.Exit(0);
         }
-
-
-        private void CloseSecondaryMonitorProcess()
-        {
-            try
-            {
-                Process[] processes = Process.GetProcessesByName("TranQuikSecondaryMonitor");
-                foreach (Process process in processes)
-                {
-                    process.Kill();
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.ForContext("LogType", "ErrorLog").Error(ex, "Error occurred while trying to close the secondary monitor process.");
-            }
-        }
-
         private void CancelButton(object sender, RoutedEventArgs e)
         {
             Close();

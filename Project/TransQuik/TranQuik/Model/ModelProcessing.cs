@@ -665,7 +665,7 @@ namespace TranQuik.Model
             if (cartProducts.Count > 0)
             {
                 var lastEntry = cartProducts.Last();
-                if (lastEntry.Value.ProductId == product.ProductId)
+                if (lastEntry.Value.ProductId == product.ProductId && lastEntry.Value.Status)
                 {
                     // Last product exists and matches the product ID, update the quantity
                     lastEntry.Value.Quantity ++;

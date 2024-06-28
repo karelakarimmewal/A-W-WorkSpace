@@ -1,22 +1,19 @@
-﻿<Window x:Class="TranQuik.Pages.QuantitySelector"
+﻿<Window x:Class="TranQuik.Pages.BudgetSetter"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TranQuik.Pages"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+        xmlns:local="clr-namespace:TranQuik.Pages"
         mc:Ignorable="d"
-        Title="QuantitySelector" 
+        Title="BudgetSetter" 
         WindowState="Normal"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         Height="400"
-        Width="350"
+        Width="300"
         Background="{x:Null}"
-        AllowsTransparency="True"
-        
-
-        >
+        AllowsTransparency="True">
     <Border Background="{StaticResource FontColor}" CornerRadius="10" BorderThickness="0" Effect="{StaticResource DropShadowEffect}">
         <Grid Name="QuantitySelectorMainGrid" Margin="10">
             <Grid.RowDefinitions>
@@ -28,40 +25,18 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="2"  Background="{StaticResource PrimaryBackgroundColor}"/>
-            <TextBlock Grid.ColumnSpan="2" Text="QUANTITY PRODUCT MENU" VerticalAlignment="Center" HorizontalAlignment="Center"  
-                       Foreground="{StaticResource FontColor}" FontSize="16" FontWeight="Bold" FontFamily="arial"/>
+            <TextBlock x:Name="BudgetSetterNameText" Grid.ColumnSpan="2" Text="INITIAL CASH OPEN SESSION" VerticalAlignment="Center" HorizontalAlignment="Center"  
+                   Foreground="{StaticResource FontColor}" FontSize="16" FontWeight="Bold" FontFamily="arial"/>
             <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                 <Border Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,2" BorderBrush="{StaticResource AccentColor}"/>
                 <Border Background="LightYellow" Grid.Column="1" Margin="0,2"/>
                 <TextBlock x:Name="ProductQuantityTextBlock" Grid.Column="1" Text="0" Margin="10,0" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" FontFamily="arial"
-                           Foreground="{StaticResource FontColor}" HorizontalAlignment="Center" />
+                       Foreground="{StaticResource FontColor}" HorizontalAlignment="Center" />
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Button Grid.Row="0" Content="2" Background="{StaticResource AccentColor}" BorderThickness="0" Effect="{StaticResource DropShadowEffect}" 
-                            FontFamily="arial" FontWeight="Regular" Foreground="{StaticResource PrimaryBackgroundColor}" FontSize="24" Click="FastNumber_Click" >
-                    </Button>
-                    <Button Grid.Row="1" Content="3" Background="{StaticResource AccentColor}" BorderThickness="0" Effect="{StaticResource DropShadowEffect}" 
-                            FontFamily="arial" FontWeight="Regular" Foreground="{StaticResource PrimaryBackgroundColor}" FontSize="24" Click="FastNumber_Click" >
-                    </Button>
-                    <Button Grid.Row="2" Content="5" Background="{StaticResource AccentColor}" BorderThickness="0" Effect="{StaticResource DropShadowEffect}" 
-                            FontFamily="arial" FontWeight="Regular" Foreground="{StaticResource PrimaryBackgroundColor}" FontSize="24" Click="FastNumber_Click" >
-                    </Button>
-                    <Button Grid.Row="3" Content="10" Background="{StaticResource AccentColor}" BorderThickness="0" Effect="{StaticResource DropShadowEffect}" 
-                            FontFamily="arial" FontWeight="Regular" Foreground="{StaticResource PrimaryBackgroundColor}" FontSize="24" Click="FastNumber_Click" >
-                    </Button>
-                </Grid>
-                <Border BorderBrush="{StaticResource AccentColor}" BorderThickness="0,0,2,0"/>
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0"/>
@@ -97,15 +72,15 @@
                     <!-- Row 4 -->
                     <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"  Content="0" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}"  Click="Number_Click"/>
                     <Button Grid.Row="1" Grid.Column="3" FontSize="18" FontFamily="Arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" 
-                            Foreground="{StaticResource ErrorColor}" Click="Backspace_Click">
+                        Foreground="{StaticResource ErrorColor}" Click="Backspace_Click">
                         <materialIcons:MaterialIcon Kind="Backspace" Width="24" Height="24"/>
                     </Button>
                     <Button Grid.Row="2" Grid.Column="3" FontSize="18" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" 
-                        Foreground="{StaticResource WarningColor}" Click="Clear_Click">
+                    Foreground="{StaticResource WarningColor}" Click="Clear_Click">
                         <materialIcons:MaterialIcon Kind="ClearBold" Height="24" Width="24"/>
                     </Button>
                     <Button Grid.Row="3" Grid.Column="3" Grid.RowSpan="3" FontSize="18" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" 
-                         Foreground="{StaticResource FontColor}" FontWeight="Bold" Click="Enter_Click">
+                     Foreground="{StaticResource FontColor}" FontWeight="Bold" Click="Enter_Click">
                         <materialIcons:MaterialIcon Kind="LoginVariant" Height="24" Width="24" Foreground="{StaticResource ButtonEnabledColor1}"/>
                     </Button>
                 </Grid>

@@ -94,19 +94,19 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column="0" BorderThickness="0,1,1,1" Background="{StaticResource AccentColor}">
-                                <TextBlock Grid.Column="0" x:Name="SetGroupNo1" Text="()" Foreground="{StaticResource PrimaryBackgroundColor}" VerticalAlignment="Center" 
+                                <TextBlock Grid.Column="0" x:Name="SetGroupNo1" Text="" Foreground="{StaticResource PrimaryBackgroundColor}" VerticalAlignment="Center" 
                                            HorizontalAlignment="Center" Background="{x:Null}" FontFamily="arial" FontSize="10" FontWeight="SemiBold"/>
                             </Border>
                             <Border Grid.Column="1" BorderThickness="1" Background="{StaticResource AccentColor}">
-                                <TextBlock Grid.Column="1" x:Name="SetGroupNo2" Text="()" VerticalAlignment="Center" 
+                                <TextBlock Grid.Column="1" x:Name="SetGroupNo2" Text="" VerticalAlignment="Center" 
                                            HorizontalAlignment="Center" Background="{x:Null}" Foreground="{StaticResource PrimaryBackgroundColor}" FontFamily="arial" FontSize="10" FontWeight="SemiBold"/>
                             </Border>
                             <Border Grid.Column="2" BorderThickness="1" Background="{StaticResource AccentColor}" >
-                                <TextBlock Grid.Column="2" x:Name="SetGroupNo3" Text="()" VerticalAlignment="Center" 
+                                <TextBlock Grid.Column="2" x:Name="SetGroupNo3" Text="" VerticalAlignment="Center" 
                                            HorizontalAlignment="Center" Background="{x:Null}" Foreground="{StaticResource PrimaryBackgroundColor}" FontFamily="arial" FontSize="10" FontWeight="SemiBold"/>
                             </Border>
                             <Border Grid.Column="3" BorderThickness="1,1,1,1" Background="{StaticResource AccentColor}">
-                                <TextBlock Grid.Column="3" x:Name="SetGroupNo4" Text="()" VerticalAlignment="Center" 
+                                <TextBlock Grid.Column="3" x:Name="SetGroupNo4" Text="" VerticalAlignment="Center" 
                                            HorizontalAlignment="Center" Background="{x:Null}" Foreground="{StaticResource PrimaryBackgroundColor}" FontFamily="arial" FontSize="10" FontWeight="SemiBold"/>
                             </Border>
                         </Grid>
@@ -161,7 +161,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
-                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition Width="220"/>
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" BorderThickness="0,0,3,0" BorderBrush="{StaticResource FontColor}"/>
                         <Grid x:Name="ProductComponentButtonGrid" Margin="0,1" Grid.Column="0" ShowGridLines="False">
@@ -178,57 +178,129 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                         </Grid>
+                        
                         <Grid Grid.Column="1" Margin="2,2,0,2">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="100"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition/>
+                                <RowDefinition Height="230"/>
                             </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                            <ListView x:Name="packageItemSelectedListView" IsEnabled="True" Focusable="True"
+                                      Background="{StaticResource PrimaryBackgroundColor}"
+                                      HorizontalAlignment="Center" SelectionChanged="packageItemSelectedListView_SelectionChanged"  VerticalAlignment="Top" Width="auto"
+                                      BorderThickness="1" BorderBrush="Gray" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <ListView.Resources>
+                                    <!-- Style for GridViewColumn headers -->
+                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                        <Setter Property="Background" Value="LightYellow"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                        <Setter Property="Padding" Value="6"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="FontFamily" Value="arial" />
+                                        <Setter Property="FontSize" Value="12" />
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                        <Setter Property="BorderBrush" Value="Gray"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                                                    <Border Background="{TemplateBinding Background}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                    <Style TargetType="{x:Type ListViewItem}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                        <Setter Property="Padding" Value="5"/>
+                                        <Setter Property="BorderThickness" Value="0,1,0,1"/>
+                                        <Setter Property="BorderBrush" Value="LightGray"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                    <Border Background="{TemplateBinding Background}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            Padding="{TemplateBinding Padding}">
+                                                        <GridViewRowPresenter VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.Resources>
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Product" DisplayMemberBinding="{Binding CurrentComponentName}" Width="100"/>
+                                        <GridViewColumn Header="QTY" DisplayMemberBinding="{Binding CurrentComponentQuantity}" Width="50" />
+                                        <GridViewColumn Header="Action" Width="50">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Content="DEL" Style="{StaticResource DeleteButtonStyle}" FontFamily="Arial" FontWeight="SemiBold" Click="DeleteButton_Click" Tag="{Binding}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
 
-                            <Border Grid.ColumnSpan="4" Background="{StaticResource WarningColor}"/>
-                            <TextBox x:Name="packageItemQuantity" BorderThickness="0" Grid.Column="0" Grid.ColumnSpan="4" Background="{x:Null}" Text="0" FontFamily="arial" FontWeight="Bold" 
-                                     FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <!-- Row 1 -->
-                            <Button Grid.Row="1" Grid.Column="0" Content="7" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-                            <Button Grid.Row="1" Grid.Column="1" Content="8" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-                            <Button Grid.Row="1" Grid.Column="2" Content="9" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.ColumnSpan="4" Background="{StaticResource WarningColor}"/>
+                                <TextBox x:Name="packageItemQuantity" BorderThickness="0" Grid.Column="0" Grid.ColumnSpan="4" Background="{x:Null}" Text="0" FontFamily="arial" FontWeight="Bold" 
+                                           FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <!-- Row 1 -->
+                                <Button Grid.Row="1" Grid.Column="0" Content="7" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
+                                <Button Grid.Row="1" Grid.Column="1" Content="8" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
+                                <Button Grid.Row="1" Grid.Column="2" Content="9" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
 
 
-                            <!-- Row 2 -->
-                            <Button Grid.Row="2" Grid.Column="0" Content="4" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-                            <Button Grid.Row="2" Grid.Column="1" Content="5" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-                            <Button Grid.Row="2" Grid.Column="2" Content="6" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
+                                <!-- Row 2 -->
+                                <Button Grid.Row="2" Grid.Column="0" Content="4" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
+                                <Button Grid.Row="2" Grid.Column="1" Content="5" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
+                                <Button Grid.Row="2" Grid.Column="2" Content="6" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
 
 
-                            <!-- Row 3 -->
-                            <Button Grid.Row="3" Grid.Column="0" Content="1" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-                            <Button Grid.Row="3" Grid.Column="1" Content="2" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
-                            <Button Grid.Row="3" Grid.Column="2" Content="3" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
+                                <!-- Row 3 -->
+                                <Button Grid.Row="3" Grid.Column="0" Content="1" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
+                                <Button Grid.Row="3" Grid.Column="1" Content="2" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
+                                <Button Grid.Row="3" Grid.Column="2" Content="3" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}" Click="Number_Click"/>
 
-                            <!-- Row 4 -->
-                            <Button Grid.Row="4" Grid.Column="0"  Content="0" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}"  Click="Number_Click"/>
-                            <Button Grid.Row="4" Grid.Column="1"  Content="MAX" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}"  Click="Max_Click"/>
-                            <Button Grid.Row="4" Grid.Column="2"  Content="MIN" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}"  Click="Min_Click"/>
-                            <Button Grid.Row="1" Grid.Column="3" FontSize="18" FontFamily="Arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" 
-                                Foreground="{StaticResource ErrorColor}" Click="Backspace_Click">
-                                <materialIcons:MaterialIcon Kind="Backspace" Width="24" Height="24"/>
-                            </Button>
-                            <Button Grid.Row="2" Grid.Column="3" FontSize="18" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" 
-                                    Foreground="{StaticResource WarningColor}" Click="Clear_Click">
-                                <materialIcons:MaterialIcon Kind="AlphaCBoxOutline" Height="24" Width="24"/>
-                            </Button>
-                            <Button Grid.Row="3" Grid.Column="3" Grid.RowSpan="3" FontSize="18" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" 
-                                    Foreground="{StaticResource FontColor}" FontWeight="Bold" Click="Enter_Click">
-                                <materialIcons:MaterialIcon Kind="LoginVariant" Height="24" Width="24" Foreground="{StaticResource ButtonEnabledColor1}"/>
-                            </Button>
+                                <!-- Row 4 -->
+                                <Button Grid.Row="4" Grid.Column="0"  Content="0" FontSize="24" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}"  Click="Number_Click"/>
+                                <Button Grid.Row="4" Grid.Column="1"  Content="MAX" FontSize="14" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}"  Click="Max_Click"/>
+                                <Button Grid.Row="4" Grid.Column="2"  Content="MIN" FontSize="14" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" Foreground="{StaticResource PrimaryBackgroundColor}"  Click="Min_Click"/>
+                                <Button Grid.Row="1" Grid.Column="3" FontSize="18" FontFamily="Arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" 
+                                        Foreground="{StaticResource ErrorColor}" Click="Backspace_Click">
+                                    <materialIcons:MaterialIcon Kind="Backspace" Width="24" Height="24"/>
+                                </Button>
+                                <Button Grid.Row="2" Grid.Column="3" FontSize="18" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" 
+                                        Foreground="{StaticResource WarningColor}" Click="Clear_Click">
+                                    <materialIcons:MaterialIcon Kind="AlphaCBoxOutline" Height="24" Width="24"/>
+                                </Button>
+                                <Button x:Name="EditQuantity" Grid.Row="3" Grid.Column="3" Grid.RowSpan="3" FontSize="18" FontFamily="arial" Effect="{StaticResource DropShadowEffect}" Background="{StaticResource FontColor}" 
+                                        Foreground="{StaticResource FontColor}" FontWeight="Bold" Click="Enter_Click">
+                                    <materialIcons:MaterialIcon Kind="EditBox" Height="24" Width="24" Foreground="{StaticResource ButtonEnabledColor1}"/>
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Border>
