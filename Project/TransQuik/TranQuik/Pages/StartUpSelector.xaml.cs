@@ -16,6 +16,7 @@ namespace TranQuik.Pages
         {
             InitializeComponent();
             InitializeApplicationAsync();
+
         }
 
         private async Task InitializeApplicationAsync()
@@ -29,6 +30,8 @@ namespace TranQuik.Pages
         private void UpdatingModel()
         {
             StaffRoleManager.SetStaffRoleManager(dbConnector);
+            ActionDesp.GetActionDespsAsync();
+            OrderDetailStatus.OrderDetailStatusAsync();
         }
 
         private async Task UpdateLastSyncTimeAsync()

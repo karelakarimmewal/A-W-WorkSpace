@@ -14,11 +14,12 @@
         Background="{x:Null}"
         AllowsTransparency="True"
         SizeToContent="Height"
+        ShowInTaskbar="False"
         >
     <Border Background="{StaticResource FontColor}" CornerRadius="5">
         <Grid Margin="10" Background="{StaticResource FontColor}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="70"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock x:Name="MessagePopup" Grid.Row="0"

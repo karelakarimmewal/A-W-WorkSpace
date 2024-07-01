@@ -42,6 +42,7 @@ namespace TranQuik
         public HeldCartManager heldCartManager;
         private SyncMethod syncMethod;
         private PaymentTypeWindow paymentTypeWindow;
+        private HoldBillLoader holdBillLoader;
 
 
         #endregion
@@ -141,6 +142,7 @@ namespace TranQuik
 
         public MainWindow()
         {
+            
             InitializeComponent();
             Closing += MainWindow_Closing; // Attach event handler
             InitializeSettings();
@@ -184,6 +186,7 @@ namespace TranQuik
 
         private void InitializeSettings()
         {
+            
             Config.LoadAppSettings();
             Config.AnyDeskID();
             sessionMethod = new SessionMethod();
@@ -232,9 +235,11 @@ namespace TranQuik
             ReceiptHeader = localDbConnector.ComputerReceiptHeader;
         }
 
-        private void LoadHeldCarts()
+        private async void LoadHeldCarts()
         {
-            heldCarts = heldCartManager.LoadHeldCarts();
+            
+            await HoldBillLoader.HoldBillLoadFromDatabase();
+            await HoldBillLoader.HoldBillShow();
         }
 
         private void SetAnyDeskIDText()
@@ -348,6 +353,8 @@ namespace TranQuik
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
+            holdBillLoader = new HoldBillLoader(this);
+            LoadHeldCarts();
             SaleModeView();
         }
 
@@ -959,40 +966,11 @@ namespace TranQuik
             }
         }
 
-        public void HoldButton_Click(object sender, RoutedEventArgs e)
+        public async void  HoldButton_Click(object sender, RoutedEventArgs e)
         {
             Log.ForContext("LogType", "ApplicationLog").Information($"Hold Button Clicked");
+            await modelProcessing.OrderTransactionFunction(9, "0");
 
-            // Create a deep copy of the current cart products
-            Dictionary<int, Product> currentCartProducts = new Dictionary<int, Product>(modelProcessing.cartProducts);
-
-            if (heldCarts.ContainsKey(CustomerTime))
-            {
-                // Retrieve the existing HeldCart for the given CustomerTime
-                HeldCart existingHeldCart = heldCarts[CustomerTime];
-
-                existingHeldCart.SalesModeName = salesModeText.Text;
-
-                // Update the existing HeldCart with the new products
-                existingHeldCart.CartProducts = currentCartProducts;
-
-                // Notify the user that the cart has been updated
-                Log.ForContext("LogType", "TransactionLog").Information($"Cart for Order ID: {existingHeldCart.CustomerId} at {existingHeldCart.TimeStamp} has been updated.");
-            }
-            else
-            {
-                // Create a new HeldCart instance
-                HeldCart heldCart = new HeldCart(OrderID, CustomerTime, currentCartProducts, SaleMode, salesModeText.Text, PrefixText);
-
-                // Add the held cart to the dictionary with the timestamp as the key
-                heldCarts.Add(CustomerTime, heldCart);
-
-                // Notify the user that the cart has been held
-                Log.ForContext("LogType", "TransactionLog").Information($"Cart has been held for Order ID: {OrderID} at {CustomerTime}");
-            }
-
-            // Reset the UI
-            heldCartManager.SaveHeldCarts(heldCarts);
 
             modelProcessing.ResetUI("Hold");
             DisplayHeldCartsInConsole();

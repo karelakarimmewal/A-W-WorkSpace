@@ -107,12 +107,10 @@ namespace TranQuik.Pages
 
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
-
                             if (reader.Read())
                             {
                                 UserSessions userSessions = new UserSessions();
                                 // Set the properties of UserSessions directly
-                                
                                 int StaffID = reader.GetInt32("StaffID");
                                 int StaffRoleID = reader.GetInt32("StaffRoleID");
                                 string StaffFirstName = reader.GetString("StaffFirstName");
@@ -134,13 +132,16 @@ namespace TranQuik.Pages
                                     return;
                                 }
 
-                                Notification.NotificationLoginSuccess();
+                                if (!StaffLoginLogOutTime.CanLogin)
+                                {
+                                    return;
+                                }
 
+                                Notification.NotificationLoginSuccess();
 
                                 this.Close();
 
                                 string posName = Properties.Settings.Default._ComputerName;
-
                                 int computerID = Properties.Settings.Default._ComputerID;
 
                                 var mainWindow = new MainWindow();
@@ -156,6 +157,7 @@ namespace TranQuik.Pages
                                 {
                                     await syncMethod.CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 0, userSessions);
                                 }
+
                                 mainWindow.SessionNameText.Text = $"ID {UserSessions.Current_StaffRoleID} {UserSessions.Current_StaffFirstName} {UserSessions.Current_StaffLastName}";
                                 mainWindow.ShowDialog();
                             }

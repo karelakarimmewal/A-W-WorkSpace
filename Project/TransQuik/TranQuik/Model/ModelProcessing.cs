@@ -47,7 +47,7 @@ namespace TranQuik.Model
         public int idProduct = 0;
         public decimal multiplePaymentAmount = 0;
 
-        public ModelProcessing(MainWindow mainWindow)
+        public ModelProcessing(MainWindow mainWindow = null)
         {
             this.localDbConnector = new LocalDbConnector(); // Instantiate LocalDbConnector
             this.mainWindow = mainWindow; // Assign the MainWindow instance
@@ -668,7 +668,8 @@ namespace TranQuik.Model
                 if (lastEntry.Value.ProductId == product.ProductId && lastEntry.Value.Status)
                 {
                     // Last product exists and matches the product ID, update the quantity
-                    lastEntry.Value.Quantity ++;
+                    
+                    lastEntry.Value.Quantity += ProductQuantityClass.ProductQTY > 1 ? ProductQuantityClass.ProductQTY : 1;
                     productExists = true;
                 }
             }
@@ -1645,22 +1646,29 @@ namespace TranQuik.Model
             short DisplayOrdering = 1;
             short TemporaryID = 0;
             int orderDetailID = 0;
+
+
+            
             foreach (var items in cartProducts)
             {
+
                 TransactionServiceOrderDetail transactionServiceOrderDetail = new TransactionServiceOrderDetail();
                 TemporaryID = 0;
                 TemporaryID++;
                 orderDetailID += TemporaryID;
                 insertOrderNo = items.Key;
                 int orderStatusID = items.Value.Status ? 2 : 92;
+                (OrderDetailStatus ods, ActionDesp ad) = ChecksTransactionStatus(transactionStatus);
                 int orderEditID = 0;
-                int voidStaffID = orderStatusID == 2 ? 0 : orderTransaction.OpenStaffID;
-                string voidStaff = orderStatusID == 2 ? "" : orderTransaction.OpenStaff;
-                DateTime? voidDateTime = orderStatusID == 2 ? (DateTime?)null : items.Value.dateTime;
-                string voidManualText = orderStatusID == 2 ? "" : "VOID";
-                string voidManualReasonText = orderStatusID == 2 ? "" : "VOID";
 
 
+
+                int voidStaffID = (orderStatusID >= 90 && orderStatusID <= 99) ? orderTransaction.OpenStaffID : 0;
+                string voidStaff = (orderStatusID >= 90 && orderStatusID <= 99) ? orderTransaction.OpenStaff : "";
+                DateTime? voidDateTime = (orderStatusID >= 90 && orderStatusID <= 99) ? items.Value.dateTime : (DateTime?)null;
+                DateTime? submitOrderDate = (ods != null) ? DateTime.Now : (DateTime?)null;
+                string voidManualText = (orderStatusID >= 90 && orderStatusID <= 99) ? ad.ActionDesp_Name : "";
+                string voidManualReasonText = (orderStatusID >= 90 && orderStatusID <= 99) ? ad.ActionDesp_Name : "";
 
                 decimal ProductVat = items.Value.ProductPrice * productVATPercent;
                 decimal ProductNetSale = items.Value.ProductPrice + ProductVat;
@@ -1754,7 +1762,7 @@ namespace TranQuik.Model
                                     null,                        // cancelPrintReason: string
                                     0,                           // processID: int
                                     items.Value.dateTime,                        // insertOrderDateTime: DateTime?
-                                    DateTime.Now,                        // submitOrderDateTime: DateTime?
+                                    submitOrderDate,                        // submitOrderDateTime: DateTime?
                                     null,                        // modifyOrderDateTime: DateTime?
                                     0,                           // modifyStaffID: int
                                     null,                        // comment: string
@@ -1866,7 +1874,7 @@ namespace TranQuik.Model
                                     null,                        // cancelPrintReason: string
                                     0,                           // processID: int
                                     childItems.dateTime,                        // insertOrderDateTime: DateTime?
-                                    DateTime.Now,                        // submitOrderDateTime: DateTime?
+                                    submitOrderDate,                        // submitOrderDateTime: DateTime?
                                     null,                        // modifyOrderDateTime: DateTime?
                                     0,                           // modifyStaffID: int
                                     null,                        // comment: string
@@ -1941,15 +1949,18 @@ namespace TranQuik.Model
                 }
             }
 
+            (OrderDetailStatus ods, ActionDesp ad) = ChecksTransactionStatus(transactionStatus);
+
             decimal TotalPay = CurrentTransaction.NeedToPay + CurrentTransaction.NeedToPay;
             decimal TotalChange = TotalPay - totalPrice;
             string CurrencyCode = "Rp";
             string ReferenceNo = OrderTransaction.NumberGenerator.GenerateNumber(Properties.Settings.Default._ComputerID.ToString(), generatedTransactionID);
             string LogoIMG = Properties.Settings.Default._PrinterLogo;
             string key = $"{orderTransaction.TransactionID}:{ComputerID}";
+            string TransactionName = ad.ActionDesp_ID == 9 ? ad.ActionDesp_Name : "";
             short customerID = (short)mainWindow.OrderID;
-            short TransactionStatus = 2;
-            string receiptNumber = MainWindow.GenerateReceiptNumber(mainWindow.OrderID.ToString());
+            short TransactionStatus = (short)transactionStatus;
+            string receiptNumber = ad != null ? MainWindow.GenerateReceiptNumber(mainWindow.OrderID.ToString()) : "";
             decimal DisctountItem = 0;
             decimal DisctountBill = 0;
             decimal DisctountOther = 0;
@@ -1968,9 +1979,9 @@ namespace TranQuik.Model
             orderTransaction.OpenStaffID = UserSessions.Current_StaffID;
             orderTransaction.OpenStaff = $"{UserSessions.Current_StaffFirstName} {UserSessions.Current_StaffLastName}";
             orderTransaction.PaidTime = now;
-            orderTransaction.PaidStaffID = UserSessions.Current_StaffID;
-            orderTransaction.PaidStaff = $"{UserSessions.Current_StaffFirstName} {UserSessions.Current_StaffLastName}";
-            orderTransaction.PaidComputerID = ComputerID;
+            orderTransaction.PaidStaffID = ad.ActionDesp_ID == 9 ? 0 : UserSessions.Current_StaffID;
+            orderTransaction.PaidStaff = ad.ActionDesp_ID == 9 ? "" : $"{UserSessions.Current_StaffFirstName} {UserSessions.Current_StaffLastName}";
+            orderTransaction.PaidComputerID = ad.ActionDesp_ID == 9 ? 0 : ComputerID;
             orderTransaction.VerifyPaidStaffID = 0;
             orderTransaction.VerifyPaidDateTime = null;
             orderTransaction.BuffetStartTime = null;
@@ -1985,7 +1996,7 @@ namespace TranQuik.Model
             orderTransaction.TotalDiscount = TotalDiscount;
             orderTransaction.TransactionStatusID = TransactionStatus;
             orderTransaction.SaleMode = SaleMode;
-            orderTransaction.TransactionName = string.Empty;
+            orderTransaction.TransactionName = TransactionName;
             orderTransaction.QueueName = string.Empty;
             orderTransaction.NoCustomer = customerID;
             orderTransaction.NoCustomerWhenOpen = 0;
@@ -2058,6 +2069,7 @@ namespace TranQuik.Model
 
             return orderTransaction;
         }
+
 
         public OrderPayDetail CreateOrderPayDetail(OrderTransaction orderTransaction,int payDetailID, string PayTypeID, decimal totalPrice, decimal TotalPay, decimal TotalChange, string payRemark)
         {
@@ -2324,7 +2336,7 @@ namespace TranQuik.Model
             orderDetail.CancelPrintReason = cancelPrintReason;
             orderDetail.ProcessID = processID;
             orderDetail.InsertOrderDateTime = insertOrderDateTime;
-            orderDetail.SubmitOrderDateTime = submitOrderDateTime;
+            orderDetail.SubmitOrderDateTime =  submitOrderDateTime;
             orderDetail.ModifyOrderDateTime = modifyOrderDateTime;
             orderDetail.ModifyStaffID = modifyStaffID;
             orderDetail.Comment = comment;
@@ -2359,6 +2371,16 @@ namespace TranQuik.Model
 
             UpdateMultiplePaymentUI();
             UpdateCartUI();
+        }
+
+        public (OrderDetailStatus ods, ActionDesp ad) ChecksTransactionStatus(int TransactionStatusID)
+        {
+            OrderDetailStatus ods = OrderDetailStatus.ODS
+                .Find(F => F.OrderDetailStatus_ID == TransactionStatusID);
+            ActionDesp ad = ActionDesp.AD
+                .Find(FX => FX.ActionDesp_ID == TransactionStatusID);
+
+            return (ods, ad);
         }
 
     }

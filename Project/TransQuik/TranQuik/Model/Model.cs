@@ -11,12 +11,14 @@ using System.Windows.Media;
 
 namespace TranQuik.Model
 {
+    using Google.Protobuf.WellKnownTypes;
     using Grpc.Core;
     using MySql.Data.MySqlClient;
     using System.Collections.Generic;
     using System.Drawing.Printing;
     using System.Linq;
     using TranQuik.Configuration;
+    using TranQuik.Controller;
     using TranQuik.Pages;
 
     public class PosSession
@@ -615,6 +617,9 @@ namespace TranQuik.Model
             Current_StaffFirstName = StaffFirstName;
             Current_StaffLastName = StaffLastName;
             Current_OpenSessionDate = OpenSessionDate;
+
+            StaffLoginLogOutTime staffLoginLogOutTime = new StaffLoginLogOutTime();
+            staffLoginLogOutTime.CreateStaffSession();
         }
 
         public void AuthenticationSession(int StaffID, int StaffRoleID, string StaffFirstName, string StaffLastName)
@@ -992,7 +997,6 @@ namespace TranQuik.Model
 
         public DateTime dateTime { get; private set; }
 
-
         public List<ChildItem> ChildItems { get; set; } // List of child items for the product
 
         public bool HasChildItems()
@@ -1000,7 +1004,7 @@ namespace TranQuik.Model
             return ChildItems != null && ChildItems.Count > 0;
         }
 
-        public Product(int productId, string productName, decimal productPrice, string productButtonColor, int productComponentLevel = 1)
+        public Product(int productId, string productName, decimal productPrice, string productButtonColor, int productComponentLevel = 1, DateTime? InsertOrderTime = null)
         {
             ProductId = productId;
             ProductName = productName;
@@ -1009,13 +1013,12 @@ namespace TranQuik.Model
             ProductButtonColor = productButtonColor;
             Status = true; // Default status is Active
             ChildItems = new List<ChildItem>(); // Initialize child items list
-            dateTime = DateTime.Now;
+            dateTime = InsertOrderTime ?? DateTime.Now;
         }
     }
 
     public class ChildItem
     {
-        public static List <ChildItem> SelectedChildItems = new List <ChildItem> ();
         public int ChildId { get; set; } 
         public string ChildName { get; set; }
         public decimal ChildPrice { get; set; }
@@ -1024,7 +1027,7 @@ namespace TranQuik.Model
         public int ChildQuantity { get; set; }
         public bool ChildStatus { get; set; }
         public DateTime dateTime { get; set; }
-        public ChildItem(int childID, string childName, decimal childPrice, int childQuantity, bool childStatus, int childSetGroupNo, int childPGroupID)
+        public ChildItem(int childID, string childName, decimal childPrice, int childQuantity, bool childStatus, int childSetGroupNo, int childPGroupID, DateTime? InsertOrderTime = null)
         {
             ChildId = childID;
             ChildName = childName;
@@ -1033,7 +1036,7 @@ namespace TranQuik.Model
             ChildStatus = childStatus;
             ChildSetGroupNo = childSetGroupNo;
             ChildPGroupID = childPGroupID;
-            dateTime = DateTime.Now;
+            dateTime = InsertOrderTime ?? DateTime.Now;
         }
     }
 
@@ -1627,5 +1630,309 @@ namespace TranQuik.Model
         }
     }
 
+    public class ActionDesp
+    {
+        public static List<ActionDesp> AD = new List<ActionDesp>();
+        public int ActionDesp_ID { get; set; }
+        public string ActionDesp_Name { get; set; }
+        public int ActionDesp_PriorityView { get; set; }
+        public bool ActionDesp_Delete { get; set; }
 
+        public static async Task GetActionDespsAsync()
+        {
+            LocalDbConnector localDbConnector = new LocalDbConnector();
+
+            try
+            {
+                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+                {
+                    await connection.OpenAsync();
+
+                    string query = "SELECT ActionID, ActionName, PriorityReview, Deleted FROM log_actiondesp";
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                        {
+                            // Clear the existing list
+                            AD.Clear();
+
+                            while (await reader.ReadAsync())
+                            {
+                                ActionDesp actionDesp = new ActionDesp
+                                {
+                                    ActionDesp_ID = reader.GetInt32("ActionID"),
+                                    ActionDesp_Name = reader.GetString("ActionName"),
+                                    ActionDesp_PriorityView = reader.GetInt32("PriorityReview"),
+                                    ActionDesp_Delete = reader.GetBoolean("Deleted")
+                                };
+
+                                Console.WriteLine($"{actionDesp.ActionDesp_ID} - {actionDesp.ActionDesp_Name}");
+                                AD.Add(actionDesp);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle or log the exception as needed
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+    }
+
+    public class OrderDetailStatus
+    {
+        public static List<OrderDetailStatus> ODS = new List<OrderDetailStatus>();
+        public int OrderDetailStatus_ID { get; set; }
+        public string OrderDetailStatus_Name { get; set; }
+        public int OrderDetailStatus_Sale { get; set; }
+        public short OrderDetailStatus_VoidItems { get; set; }
+        public short OrderDetailStatus_Delete { get; set; }
+
+        public static async Task OrderDetailStatusAsync()
+        {
+            LocalDbConnector localDbConnector = new LocalDbConnector();
+
+            try
+            {
+                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+                {
+                    await connection.OpenAsync();
+
+                    string query = "SELECT OrderStatusID, OrderStatusName, OrderStatusSale, DisplayVoidItem, deleted FROM orderdetail_status";
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                        {
+                            // Clear the existing list
+                            ODS.Clear();
+
+                            while (await reader.ReadAsync())
+                            {
+                                OrderDetailStatus orderDetailStatus = new OrderDetailStatus
+                                {
+                                    OrderDetailStatus_ID = reader.GetInt32("OrderStatusID"),
+                                    OrderDetailStatus_Name = reader.GetString("OrderStatusName"),
+                                    OrderDetailStatus_Sale = reader.GetInt32("OrderStatusSale"),
+                                    OrderDetailStatus_VoidItems = reader.GetInt16("DisplayVoidItem"),
+                                    OrderDetailStatus_Delete = reader.GetInt16("deleted")
+                                };
+
+                                Console.WriteLine($"{orderDetailStatus.OrderDetailStatus_ID} - {orderDetailStatus.OrderDetailStatus_Name}");
+                                ODS.Add(orderDetailStatus);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle or log the exception as needed
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+    }
+
+    public class TemporaryHoldBill
+    {
+        public static Dictionary<int, List<TemporaryHoldBill>> TemporaryHoldBillCarts = new Dictionary<int, List<TemporaryHoldBill>>();
+        public int TemporaryHoldBillSaleMode { get; set; }
+        public int TemporaryHoldBillCustomerID { get; set; }
+        public DateTime TemporaryHoldBillSaleTimeID { get; set; }
+        public int TemporaryHoldBillProductID { get; set; }
+        public string TemporaryHoldBillProductName { get; set; }
+        public decimal TemporaryHoldBillProductQuantity { get; set; }
+        public decimal TemporaryHoldBillProductPrice { get; set; }
+        public int TemporaryHoldBillComponentLevel { get; set; }
+        public int TemporaryHoldBillOrderDetailLinkID { get; set; }
+        public int TemporaryHoldBillIndentLevel { get; set; }
+        public int TemporaryHoldBillPGroupID { get; set; }
+        public int TemporaryHoldBillSetGroupNo { get; set; }
+        public bool TemporaryHoldBillOrderStatusID { get; set; }
+        public DateTime TemporaryHoldBillInsertOrderDateTime { get; set; }
+
+        public TemporaryHoldBill(int saleMode, int temporaryHoldBillCustomerID, DateTime temporaryHoldBillSaleTimeID, int productID, string productName, int componentLevel, int orderDetailLinkID, int indentLevel, int pGroupID, int setGroupNo, bool orderStatusID, decimal temporaryHoldBillProductQuantity, decimal temporaryHoldBillProductPrice, DateTime temporaryHoldBillInsertOrderDateTime)
+        {
+            TemporaryHoldBillSaleMode = saleMode;
+            TemporaryHoldBillCustomerID = temporaryHoldBillCustomerID;
+            TemporaryHoldBillSaleTimeID = temporaryHoldBillSaleTimeID;
+            TemporaryHoldBillProductID = productID;
+            TemporaryHoldBillProductName = productName;
+            TemporaryHoldBillComponentLevel = componentLevel;
+            TemporaryHoldBillOrderDetailLinkID = orderDetailLinkID;
+            TemporaryHoldBillIndentLevel = indentLevel;
+            TemporaryHoldBillPGroupID = pGroupID;
+            TemporaryHoldBillSetGroupNo = setGroupNo;
+            TemporaryHoldBillOrderStatusID = orderStatusID;
+            TemporaryHoldBillProductQuantity = temporaryHoldBillProductQuantity;
+            TemporaryHoldBillProductPrice = temporaryHoldBillProductPrice;
+            TemporaryHoldBillInsertOrderDateTime = temporaryHoldBillInsertOrderDateTime;
+        }
+    }
+
+
+    public class HoldBillLoader
+    {
+        private static MainWindow MainWindowHold;
+
+        public HoldBillLoader(MainWindow mainWindow)
+        {
+            MainWindowHold = mainWindow;
+        }
+
+        public static async Task HoldBillLoadFromDatabase()
+        {
+            LocalDbConnector localDbConnector = new LocalDbConnector();
+
+            try
+            {
+                using (MySqlConnection connection = localDbConnector.GetMySqlConnection())
+                {
+                    await connection.OpenAsync();
+
+                    string query = "SELECT OT.OpenTime, OT.NoCustomer ,OD.TransactionID, OD.SaleMode, OD.ProductID, P.ProductName, OD.ComponentLevel, OD.OrderDetailLinkID, OD.IndentLevel, OD.OrderStatusID, OD.PGroupID, OD.SetGroupNo, OD.TotalQty, OD.ProductVAT, OD.InsertOrderDateTime  " +
+                                   "FROM OrderDetail OD " +
+                                   "JOIN OrderTransaction OT ON OD.TransactionID = OT.TransactionID JOIN products P ON OD.ProductID = P.ProductID " +
+                                   "WHERE OT.TransactionStatusID = 9 " +
+                                   "ORDER BY InsertOrderDateTime, SetGroupNo ASC";
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                        {
+
+                            while (await reader.ReadAsync())
+                            {
+                                int transactionID = reader.GetInt32("TransactionID");
+
+                                // Read data and create TemporaryHoldBill instance
+                                int NoCustomer = reader.GetInt32("NoCustomer");
+                                int saleMode = reader.GetInt32("SaleMode");
+                                int productID = reader.GetInt32("ProductID");
+                                string productName = reader.GetString("ProductName");
+                                int componentLevel = reader.GetByte("ComponentLevel");
+                                int orderDetailLinkID = reader.GetInt32("OrderDetailLinkID");
+                                int indentLevel = reader.GetByte("IndentLevel");
+                                bool orderStatusID = reader.GetBoolean("OrderStatusID");
+                                short pGroupID = reader.GetInt16("PGroupID");
+                                short setGroupNo = reader.GetInt16("SetGroupNo");
+                                decimal ProductQuantity = reader.GetDecimal("TotalQty");
+                                decimal ProductPrice = reader.GetDecimal("ProductVAT");
+                                DateTime OpenTime = reader.GetDateTime("OpenTime");
+                                DateTime InsertOrderTime = reader.GetDateTime("InsertOrderDateTime");
+
+                                TemporaryHoldBill temporaryHoldBill = new TemporaryHoldBill(saleMode, NoCustomer, OpenTime, productID, productName, componentLevel, orderDetailLinkID, indentLevel, pGroupID, setGroupNo, orderStatusID, ProductQuantity, ProductPrice, InsertOrderTime);
+
+                                // Check if transactionID exists in dictionary, if not, initialize a new list
+                                if (!TemporaryHoldBill.TemporaryHoldBillCarts.ContainsKey(transactionID))
+                                {
+                                    TemporaryHoldBill.TemporaryHoldBillCarts[transactionID] = new List<TemporaryHoldBill>();
+                                }
+
+                                // Add the TemporaryHoldBill to the corresponding list
+                                TemporaryHoldBill.TemporaryHoldBillCarts[transactionID].Add(temporaryHoldBill);
+                            }
+
+                            foreach (var kvp in TemporaryHoldBill.TemporaryHoldBillCarts)
+                            {
+                                int transactionID = kvp.Key;
+                                List<TemporaryHoldBill> items = kvp.Value;
+
+                                Console.WriteLine($"TRANSACTION ID {transactionID} => ");
+                                foreach (var item in items)
+                                {
+                                    Console.WriteLine($"Sale Mode: {item.TemporaryHoldBillSaleMode}, Product ID: {item.TemporaryHoldBillProductID}, ...");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle or log the exception as needed
+                Console.WriteLine($"Error loading hold bills from database: {ex.Message}");
+            }
+        }
+
+        public static async Task HoldBillShow()
+        {
+            int CustomerID = 0;
+            DateTime OpenSale = DateTime.Now;
+            Product holdProduct = null;
+
+            foreach (var kvp in TemporaryHoldBill.TemporaryHoldBillCarts)
+            {
+                int transactionID = kvp.Key;
+                List<TemporaryHoldBill> items = kvp.Value;
+
+                int cartIndex = 0;
+                foreach (var item in items)
+                {
+                    CustomerID = item.TemporaryHoldBillCustomerID;
+                    OpenSale = item.TemporaryHoldBillSaleTimeID;
+
+                    if (item.TemporaryHoldBillIndentLevel == 0)
+                    {
+                        cartIndex++;
+                        holdProduct = new Product(
+                            item.TemporaryHoldBillProductID,
+                            item.TemporaryHoldBillProductName,
+                            item.TemporaryHoldBillProductPrice,
+                            null, // Assuming no value for productButtonColor
+                            item.TemporaryHoldBillComponentLevel,
+                            item.TemporaryHoldBillInsertOrderDateTime
+                        );
+
+                        MainWindowHold.modelProcessing.cartProducts.Add(cartIndex, holdProduct);
+                    }
+                    if (item.TemporaryHoldBillIndentLevel != 0)
+                    {
+                        if (MainWindowHold.modelProcessing.cartProducts.TryGetValue(item.TemporaryHoldBillOrderDetailLinkID, out Product parentProduct))
+                        {
+                            ChildItem childItem = new ChildItem(
+                                item.TemporaryHoldBillProductID,
+                                item.TemporaryHoldBillProductName,
+                                item.TemporaryHoldBillProductPrice,
+                                (int)item.TemporaryHoldBillProductQuantity,
+                                item.TemporaryHoldBillOrderStatusID,
+                                item.TemporaryHoldBillSetGroupNo,
+                                item.TemporaryHoldBillPGroupID,
+                                item.TemporaryHoldBillInsertOrderDateTime
+                            );
+
+                            parentProduct.ChildItems.Add(childItem);
+                        }
+                    }
+                }
+                LocalDbConnector localDbConnector = new LocalDbConnector();
+                SaleMode.PopulateSaleMode(localDbConnector);
+
+                var SM = SaleMode.populateSaleModeList
+                    .Find(x => x.SaleModeID == items[0].TemporaryHoldBillSaleMode);
+                // Create and add the held cart
+                HeldCart heldCart = new HeldCart(
+                    CustomerID,
+                    OpenSale,
+                    new Dictionary<int, Product>(MainWindowHold.modelProcessing.cartProducts), // Clone the cart products
+                    items[0].TemporaryHoldBillSaleMode, // Assuming SalesMode from the first item
+                    SM.SaleModeName, // Assuming a static SalesModeName, replace with actual logic if needed
+                    SM.PrefixText // Assuming a static PrefixText, replace with actual logic if needed
+                );
+
+                if (MainWindowHold.heldCarts == null)
+                {
+                    MainWindowHold.heldCarts = new Dictionary<DateTime, HeldCart>();
+                }
+
+                MainWindowHold.heldCarts.Add(OpenSale, heldCart);
+
+                // Clear cartProducts dictionary for the next transaction
+                MainWindowHold.modelProcessing.cartProducts.Clear();
+            }
+        }
+    }
 }

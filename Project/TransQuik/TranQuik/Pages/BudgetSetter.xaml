@@ -13,7 +13,7 @@
         Height="400"
         Width="300"
         Background="{x:Null}"
-        AllowsTransparency="True">
+        AllowsTransparency="True" ShowInTaskbar="False">
     <Border Background="{StaticResource FontColor}" CornerRadius="10" BorderThickness="0" Effect="{StaticResource DropShadowEffect}">
         <Grid Name="QuantitySelectorMainGrid" Margin="10">
             <Grid.RowDefinitions>

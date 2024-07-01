@@ -189,7 +189,7 @@ namespace TranQuik.Configuration
             {
                 // THIS IS FOR APPLICATION
                 { "_ShopKey", "0000-0000-0000-0000" },
-                { "_AppFontSize", "18" },
+                { "_AppFontSize", "12" },
                 { "_AppFontFamily", "Arial" },
                 { "_AppSaleMode", "3" },
                 { "_AppID", "00" },
@@ -217,11 +217,11 @@ namespace TranQuik.Configuration
                 { "_PrinterLogo", "receiptlogo.bmp" },
 
                 // THIS IS FOR DATABASE
-                { "_LocalDbServer", "localhost" },
-                { "_LocalDbPort", "3308" },
-                { "_LocalDbUser", "vtecPOS" },
-                { "_LocalDbPassword", "vtecpwnet" },
-                { "_LocalDbName", "vtectestaw" },
+                { "_LocalDbServer", "" },
+                { "_LocalDbPort", "" },
+                { "_LocalDbUser", "" },
+                { "_LocalDbPassword", "" },
+                { "_LocalDbName", "" },
                 { "_CloudDbServer", "" },
                 { "_CloudDbPort", "0" },
                 { "_CloudDbUser", "" },

@@ -356,7 +356,31 @@ namespace TranQuik.Pages
                 {
                     if (GivenQuantity > 1)
                     {
-                        existingItem.CurrentComponentQuantity += GivenQuantity;
+                        
+                        // Calculate the total quantity for the selected group
+                        var setGroupMain = CurrentComponentGroupItem.CPGI
+                            .Where(x => x.CurrentSetGroupNo == CurrentSetGroupNoSelected)
+                            .Select(x => Math.Max(x.CurrentSetGroupMaxQty, x.CurrentSetGroupReq))
+                            .Sum();
+
+                        // Calculate the total validated quantity for the selected group
+                        var validationGroup = CurrentPackageComponentValidation.currentPackageComponentValidations
+                            .Where(y => y.SetGroupNoItemSelected == CurrentSetGroupNoSelected)
+                            .Select(y => y.SetGroupNeedQuantityItemSelected)
+                            .Sum();
+
+                        // Calculate the available quantity
+                        int availableQuantity = setGroupMain - validationGroup;
+
+                        if (GivenQuantity > availableQuantity)
+                        {
+                            existingItem.CurrentComponentQuantity += availableQuantity;
+                        }
+                        else
+                        {
+                            existingItem.CurrentComponentQuantity += GivenQuantity;
+                        }
+                            
                     }
                     else
                     {

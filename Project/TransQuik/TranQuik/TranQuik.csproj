@@ -362,6 +362,7 @@
     <Compile Include="Controller\RelayCommand.cs" />
     <Compile Include="Controller\SessionMethod.cs" />
     <Compile Include="Controller\SyncMethod.cs" />
+    <Compile Include="Controller\UserSessionSync.cs" />
     <Compile Include="Model\ModelProcessing.cs" />
     <Compile Include="Pages\AuthWin.xaml.cs">
       <DependentUpon>AuthWin.xaml</DependentUpon>

@@ -26,7 +26,8 @@ namespace TranQuik.Pages
             notificationPopup.Topmost = true;
             this.Hide();
             notificationPopup.ShowDialog();
-
+            StaffLoginLogOutTime staffLoginLogOutTime = new StaffLoginLogOutTime();
+            staffLoginLogOutTime.CloseStaffSession();
             if (notificationPopup.IsConfirmed)
             {
                 notificationPopup.Hide();
@@ -34,6 +35,7 @@ namespace TranQuik.Pages
                 budgetSetter.Topmost = true;
                 budgetSetter.ShowDialog();
                 await syncMethod.CreateNewSessionInLocalDatabaseAsync(Properties.Settings.Default._ComputerID, Properties.Settings.Default._AppID, 2);
+
                 // Forcefully exit the application
                 Environment.Exit(0);
             }
